@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Duval Plomberie - Votre plombier de confiance à Toulouse depuis 2008. Dépannage rapide, devis gratuit, intervention en 30 minutes.">
+<meta name="robots" content="noindex, nofollow">
+<title>Duval Plomberie — Plombier de Confiance à Toulouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ======= RESET & BASE ======= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
+  color: #333;
+  background: #fffbf5;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ======= CUSTOM PROPERTIES ======= */
+:root {
+  --navy: #1b2a4a;
+  --navy-mid: #243b6a;
+  --cream: #fdf6e3;
+  --warm-white: #fffbf5;
+  --warm-gray: #f5f1ec;
+  --brick: #c0392b;
+  --brick-light: #e74c3c;
+  --text: #2c3e50;
+  --text-light: #6b7c93;
+  --shadow-soft: 0 4px 20px rgba(27,42,74,0.08);
+  --shadow-hover: 0 8px 32px rgba(27,42,74,0.14);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
+  --transition: 0.3s ease;
+}
+
+/* ======= TYPOGRAPHY ======= */
+h1, h2, h3, h4 { font-family: 'Merriweather', Georgia, serif; color: var(--navy); line-height: 1.3; }
+h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; }
+h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; text-align: center; margin-bottom: 1rem; }
+h3 { font-size: 1.15rem; font-weight: 700; }
+p { color: var(--text); }
+.section-subtitle { text-align: center; color: var(--text-light); max-width: 600px; margin: 0 auto 3rem; font-size: 1.1rem; }
+
+/* ======= CONTAINER ======= */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 1.25rem; }
+section { padding: 5rem 0; }
+
+/* ======= SCROLL REVEAL ======= */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ======= NAV ======= */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: #fff; box-shadow: 0 2px 16px rgba(27,42,74,0.06);
+  transition: box-shadow var(--transition);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1140px; margin: 0 auto; padding: 0.9rem 1.25rem;
+}
+.nav-logo { display: flex; align-items: center; gap: 0.5rem; font-family: 'Merriweather', serif; font-weight: 900; font-size: 1.25rem; color: var(--navy); }
+.nav-logo svg { width: 28px; height: 28px; flex-shrink: 0; }
+.nav-links { display: flex; align-items: center; gap: 2rem; font-weight: 500; font-size: 0.95rem; }
+.nav-links a { color: var(--text); transition: color var(--transition); position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--brick); transition: width var(--transition); border-radius: 2px; }
+.nav-links a:hover { color: var(--navy); }
+.nav-links a:hover::after { width: 100%; }
+.nav-phone { display: flex; align-items: center; gap: 0.4rem; font-weight: 700; color: var(--navy); font-size: 0.95rem; white-space: nowrap; }
+.nav-phone:hover { color: var(--brick); }
+.nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0.25rem; }
+.nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--navy); margin: 5px 0; border-radius: 2px; transition: var(--transition); }
+
+/* ======= HERO ======= */
+.hero {
+  padding-top: 7rem; padding-bottom: 4rem;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--warm-white) 100%);
+}
+.hero-inner { display: flex; align-items: center; gap: 3rem; }
+.hero-text { flex: 1.5; }
+.hero-badge {
+  display: inline-block; background: var(--navy); color: #fff;
+  padding: 0.4rem 1.2rem; border-radius: 50px; font-size: 0.85rem;
+  font-weight: 600; margin-bottom: 1.5rem; letter-spacing: 0.02em;
+}
+.hero h1 { margin-bottom: 1.25rem; }
+.hero h1 span { color: var(--brick); }
+.hero-desc { font-size: 1.15rem; color: var(--text-light); margin-bottom: 2rem; max-width: 520px; line-height: 1.8; }
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 2rem; border-radius: 50px; font-weight: 700;
+  font-size: 1rem; transition: all var(--transition); cursor: pointer;
+  border: 2px solid transparent; font-family: 'Source Sans 3', sans-serif;
+}
+.btn-primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+.btn-primary:hover { background: var(--navy-mid); border-color: var(--navy-mid); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.btn-outline { background: transparent; color: var(--navy); border-color: var(--navy); }
+.btn-outline:hover { background: var(--navy); color: #fff; transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.btn-brick { background: var(--brick); color: #fff; border-color: var(--brick); }
+.btn-brick:hover { background: var(--brick-light); border-color: var(--brick-light); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.hero-image { flex: 1; }
+.hero-image img { border-radius: var(--radius); object-fit: cover; width: 100%; max-height: 480px; box-shadow: var(--shadow-soft); }
+
+/* ======= TRUST BAR ======= */
+.trust-bar { background: var(--navy); padding: 1.5rem 0; }
+.trust-bar-inner { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+.trust-item { display: flex; align-items: center; gap: 0.6rem; color: #fff; font-weight: 600; font-size: 1rem; white-space: nowrap; }
+.trust-item .emoji { font-size: 1.4rem; }
+
+/* ======= SERVICES ======= */
+.services { background: #fff; }
+.services-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+}
+.service-card {
+  background: #fff; border: 1px solid #eee8df; border-radius: var(--radius);
+  padding: 2rem 1.5rem; text-align: center;
+  transition: all var(--transition); box-shadow: var(--shadow-soft);
+}
+.service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: transparent; }
+.service-icon {
+  width: 64px; height: 64px; border-radius: 50%; background: var(--cream);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem;
+  font-size: 1.6rem; color: var(--navy); transition: background var(--transition);
+}
+.service-card:hover .service-icon { background: var(--navy); color: #fff; }
+.service-icon svg { width: 28px; height: 28px; fill: currentColor; }
+.service-card h3 { margin-bottom: 0.6rem; }
+.service-card p { font-size: 0.92rem; color: var(--text-light); line-height: 1.6; }
+
+/* ======= ABOUT / ENGAGEMENTS ======= */
+.about { background: var(--cream); }
+.about-inner { display: flex; align-items: center; gap: 3rem; }
+.about-text { flex: 1.2; }
+.about-text h2 { text-align: left; margin-bottom: 1.5rem; }
+.about-list { display: flex; flex-direction: column; gap: 1rem; }
+.about-item { display: flex; align-items: flex-start; gap: 0.8rem; font-size: 1.05rem; }
+.about-check {
+  flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--navy); display: flex; align-items: center; justify-content: center; margin-top: 2px;
+}
+.about-check svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.about-image { flex: 1; }
+.about-image img { border-radius: var(--radius); object-fit: cover; width: 100%; max-height: 420px; box-shadow: var(--shadow-soft); }
+
+/* ======= GALLERY ======= */
+.gallery { background: #fff; }
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.gallery-item { position: relative; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-soft); cursor: pointer; }
+.gallery-item img { width: 100%; aspect-ratio: 4/3; object-fit: cover; transition: transform 0.5s ease; }
+.gallery-item:hover img { transform: scale(1.03); }
+.gallery-item:hover { box-shadow: var(--shadow-hover); }
+.gallery-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(27,42,74,0.8));
+  color: #fff; padding: 2rem 1rem 0.8rem; font-weight: 600; font-size: 0.9rem;
+  transform: translateY(100%); transition: transform var(--transition);
+}
+.gallery-item:hover .gallery-caption { transform: translateY(0); }
+
+/* ======= REVIEWS ======= */
+.reviews { background: var(--cream); }
+.reviews-header { text-align: center; margin-bottom: 2.5rem; }
+.reviews-header .google-icon { margin: 0 auto 0.8rem; }
+.reviews-score { font-family: 'Merriweather', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); }
+.reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+.review-card {
+  background: #fff; border-radius: var(--radius); padding: 1.5rem;
+  box-shadow: var(--shadow-soft); transition: all var(--transition);
+}
+.review-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.review-top { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; }
+.review-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.review-name { font-weight: 700; font-size: 0.95rem; color: var(--navy); }
+.review-stars { color: #f5a623; font-size: 0.9rem; letter-spacing: 1px; }
+.review-text { font-size: 0.95rem; color: var(--text); line-height: 1.6; margin-bottom: 0.6rem; font-style: italic; }
+.review-date { font-size: 0.8rem; color: var(--text-light); }
+
+/* ======= ZONE ======= */
+.zone { background: var(--navy); color: #fff; text-align: center; }
+.zone h2 { color: #fff; margin-bottom: 0.8rem; }
+.zone .section-subtitle { color: rgba(255,255,255,0.7); }
+.zone-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; max-width: 700px; margin: 0 auto; }
+.zone-pill {
+  background: rgba(255,255,255,0.12); color: #fff; padding: 0.5rem 1.4rem;
+  border-radius: 50px; font-weight: 600; font-size: 0.95rem;
+  border: 1px solid rgba(255,255,255,0.2); transition: all var(--transition);
+}
+.zone-pill:hover { background: #fff; color: var(--navy); }
+
+/* ======= CONTACT ======= */
+.contact { background: #fff; }
+.contact-wrapper { max-width: 640px; margin: 0 auto; text-align: center; }
+.contact-info { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.contact-item { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: var(--navy); }
+.contact-item svg { width: 20px; height: 20px; flex-shrink: 0; }
+.contact-form { display: flex; flex-direction: column; gap: 1rem; text-align: left; }
+.form-row { display: flex; gap: 1rem; }
+.form-row > * { flex: 1; }
+.contact-form label { font-weight: 600; font-size: 0.9rem; color: var(--navy); margin-bottom: 0.25rem; display: block; }
+.contact-form input, .contact-form textarea, .contact-form select {
+  width: 100%; padding: 0.85rem 1.1rem; border: 2px solid #e8e2d9;
+  border-radius: var(--radius-xs); font-family: 'Source Sans 3', sans-serif;
+  font-size: 1rem; transition: border-color var(--transition); background: var(--warm-white);
+}
+.contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus {
+  outline: none; border-color: var(--navy); background: #fff;
+}
+.contact-form textarea { resize: vertical; min-height: 120px; }
+.contact-form .btn { align-self: center; margin-top: 0.5rem; }
+
+/* ======= FOOTER ======= */
+.footer { background: var(--navy); color: rgba(255,255,255,0.8); padding: 3rem 0 1.5rem; }
+.footer-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap; }
+.footer-brand .nav-logo { color: #fff; margin-bottom: 0.8rem; }
+.footer-brand p { font-size: 0.9rem; max-width: 300px; line-height: 1.6; }
+.footer-links { display: flex; gap: 3rem; }
+.footer-links h4 { color: #fff; font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.8rem; }
+.footer-links a { display: block; font-size: 0.9rem; padding: 0.2rem 0; transition: color var(--transition); }
+.footer-links a:hover { color: #fff; }
+.footer-bottom { text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; }
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 1024px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  section { padding: 3.5rem 0; }
+  .nav-links, .nav-phone { display: none; }
+  .nav-hamburger { display: block; }
+  .nav-links.open {
+    display: flex; flex-direction: column; position: absolute;
+    top: 100%; left: 0; right: 0; background: #fff; padding: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1); gap: 1rem;
+  }
+  .nav-phone.open { display: flex; justify-content: center; padding: 0.8rem; background: var(--cream); }
+  .hero-inner { flex-direction: column; text-align: center; }
+  .hero-desc { margin: 0 auto 2rem; }
+  .hero-ctas { justify-content: center; }
+  .hero-image { order: -1; max-width: 320px; margin: 0 auto; }
+  .trust-bar-inner { gap: 1.2rem; justify-content: center; }
+  .trust-item { font-size: 0.85rem; }
+  .services-grid { grid-template-columns: 1fr; }
+  .about-inner { flex-direction: column; }
+  .about-text h2 { text-align: center; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-caption { transform: translateY(0); }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .form-row { flex-direction: column; }
+  .contact-info { flex-direction: column; align-items: center; gap: 1rem; }
+  .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+  .footer-links { flex-direction: column; gap: 1.5rem; align-items: center; }
+}
+
+/* ======= UTILITY ======= */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+</style>
+</head>
+<body>
+
+<!-- ========== NAV ========== -->
+<nav class="nav" role="navigation" aria-label="Navigation principale">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" aria-label="Duval Plomberie - Accueil">
+      <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M6 4h6a4 4 0 010 8H8v12H6V4z" fill="#1b2a4a"/>
+        <rect x="14" y="8" width="10" height="4" rx="2" fill="#c0392b"/>
+        <rect x="14" y="16" width="10" height="4" rx="2" fill="#243b6a"/>
+        <circle cx="19" cy="24" r="2" fill="#1b2a4a"/>
+      </svg>
+      Duval Plomberie
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#services">Services</a>
+      <a href="#about">Engagements</a>
+      <a href="#gallery">Réalisations</a>
+      <a href="#reviews">Avis</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="tel:0561234567" class="nav-phone" id="navPhone" aria-label="Appeler le 05 61 23 45 67">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      05 61 23 45 67
+    </a>
+    <button class="nav-hamburger" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text reveal">
+      <span class="hero-badge">Plombier &agrave; Toulouse depuis 2008</span>
+      <h1>Votre Plombier de Quartier,<br><span>S&eacute;rieux et Disponible</span></h1>
+      <p class="hero-desc">D&eacute;pannage rapide, travail soign&eacute; et prix transparents. On s'occupe de votre plomberie comme si c'&eacute;tait chez nous.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn btn-primary">Demander un Devis</a>
+        <a href="tel:0561234567" class="btn btn-outline">Appeler : 05 61 23 45 67</a>
+      </div>
+    </div>
+    <div class="hero-image reveal">
+      <img src="https://picsum.photos/id/1025/600/700" alt="Plombier professionnel souriant, pr&ecirc;t &agrave; intervenir" width="600" height="700" loading="eager" fetchpriority="high">
+    </div>
+  </div>
+</section>
+
+<!-- ========== TRUST BAR ========== -->
+<section class="trust-bar" aria-label="Chiffres cles">
+  <div class="container trust-bar-inner">
+    <div class="trust-item"><span class="emoji" aria-hidden="true">&#11088;</span> 4.9/5 sur Google</div>
+    <div class="trust-item"><span class="emoji" aria-hidden="true">&#128295;</span> 15 ans d'exp&eacute;rience</div>
+    <div class="trust-item"><span class="emoji" aria-hidden="true">&#9889;</span> Intervention en 30min</div>
+    <div class="trust-item"><span class="emoji" aria-hidden="true">&#128175;</span> Devis gratuit</div>
+  </div>
+</section>
+
+<!-- ========== SERVICES ========== -->
+<section class="services" id="services">
+  <div class="container">
+    <h2 class="reveal">Comment Puis-Je Vous Aider ?</h2>
+    <p class="section-subtitle reveal">Des solutions fiables pour tous vos besoins en plomberie et chauffage, avec le sourire&nbsp;!</p>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3>Plomberie g&eacute;n&eacute;rale</h3>
+        <p>Installation, r&eacute;paration et entretien de toutes vos installations de plomberie.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1 3 3 5 6 6-3 1-5 3-6 6-1-3-3-5-6-6 3-1 5-3 6-6z"/><path d="M8 16c.5 1.5 1.5 2.5 3 3-1.5.5-2.5 1.5-3 3-.5-1.5-1.5-2.5-3-3 1.5-.5 2.5-1.5 3-3z"/></svg>
+        </div>
+        <h3>Chauffage &amp; chaudi&egrave;res</h3>
+        <p>Installation, entretien et d&eacute;pannage de chaudi&egrave;res gaz, pompes &agrave; chaleur et radiateurs.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        </div>
+        <h3>Salle de bain cl&eacute; en main</h3>
+        <p>R&eacute;novation compl&egrave;te de votre salle de bain : conception, plomberie, carrelage et finitions.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>D&eacute;pannage urgent 24/7</h3>
+        <p>Fuite, canalisation bouch&eacute;e, panne de chauffage : intervention rapide, m&ecirc;me le week-end.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>D&eacute;bouchage canalisations</h3>
+        <p>D&eacute;bouchage professionnel par haute pression ou furet. Diagnostic cam&eacute;ra en option.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>Installation sanitaire</h3>
+        <p>Pose de WC, lavabos, douches, baignoires et robinetterie. Neuf ou remplacement&nbsp;!</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== ABOUT ========== -->
+<section class="about" id="about">
+  <div class="container about-inner">
+    <div class="about-text reveal">
+      <h2>Pourquoi Me Choisir ?</h2>
+      <p style="color:var(--text-light); margin-bottom: 1.5rem;">Depuis 2008, je mets mon savoir-faire au service des habitants de Toulouse et ses environs. Mon engagement&nbsp;: un travail bien fait, au juste prix.</p>
+      <div class="about-list">
+        <div class="about-item">
+          <div class="about-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>Artisan qualifi&eacute; RGE et assur&eacute;</span>
+        </div>
+        <div class="about-item">
+          <div class="about-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>Devis d&eacute;taill&eacute; et transparent</span>
+        </div>
+        <div class="about-item">
+          <div class="about-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>Intervention rapide, m&ecirc;me le week-end</span>
+        </div>
+        <div class="about-item">
+          <div class="about-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span>Garantie d&eacute;cennale sur tous les travaux</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-image reveal">
+      <img src="https://picsum.photos/id/1027/600/500" alt="Artisan plombier en intervention, travail soign&eacute;" width="600" height="500" loading="lazy" decoding="async">
+    </div>
+  </div>
+</section>
+
+<!-- ========== GALLERY ========== -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <h2 class="reveal">Mes Derni&egrave;res R&eacute;alisations</h2>
+    <p class="section-subtitle reveal">Un aper&ccedil;u de mes interventions r&eacute;centes chez des clients &agrave; Toulouse et alentours.</p>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal">
+        <img src="https://picsum.photos/id/290/600/450" alt="R&eacute;novation salle de bain moderne" width="600" height="450" loading="lazy" decoding="async">
+        <div class="gallery-caption">Salle de bain moderne</div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://picsum.photos/id/291/600/450" alt="Installation chaudi&egrave;re gaz" width="600" height="450" loading="lazy" decoding="async">
+        <div class="gallery-caption">Installation chaudi&egrave;re</div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://picsum.photos/id/292/600/450" alt="Remplacement tuyauterie cuivre" width="600" height="450" loading="lazy" decoding="async">
+        <div class="gallery-caption">Tuyauterie cuivre</div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://picsum.photos/id/293/600/450" alt="Douche italienne sur mesure" width="600" height="450" loading="lazy" decoding="async">
+        <div class="gallery-caption">Douche &agrave; l'italienne</div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://picsum.photos/id/294/600/450" alt="D&eacute;pannage fuite urgente" width="600" height="450" loading="lazy" decoding="async">
+        <div class="gallery-caption">D&eacute;pannage fuite</div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://picsum.photos/id/295/600/450" alt="R&eacute;novation compl&egrave;te cuisine" width="600" height="450" loading="lazy" decoding="async">
+        <div class="gallery-caption">R&eacute;novation cuisine</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== REVIEWS ========== -->
+<section class="reviews" id="reviews">
+  <div class="container">
+    <div class="reviews-header reveal">
+      <!-- Google G icon -->
+      <svg class="google-icon" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true">
+        <path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"/>
+        <path fill="#34A853" d="M6.3 14.7l7 5.1C15 15.6 19.1 12 24 12c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 16.3 2 9.7 7.3 6.3 14.7z"/>
+        <path fill="#FBBC05" d="M24 46c5.4 0 10.3-1.8 14.1-5l-6.5-5.5C29.6 37.1 27 38 24 38c-6 0-11.1-4-12.8-9.5l-7 5.4C7.5 40.6 15.2 46 24 46z"/>
+        <path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-1 3.2-3.1 5.8-5.9 7.5l6.5 5.5C40.3 38 46 32 46 24c0-1.3-.2-2.7-.5-4z"/>
+      </svg>
+      <div class="reviews-score">4.9/5 &mdash; 127 avis v&eacute;rifi&eacute;s</div>
+    </div>
+    <div class="reviews-grid">
+
+      <div class="review-card reveal">
+        <div class="review-top">
+          <img src="https://picsum.photos/id/64/40/40" alt="" class="review-avatar" width="40" height="40" loading="lazy">
+          <div><div class="review-name">Marie L.</div><div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+        </div>
+        <p class="review-text">&laquo;&nbsp;Intervention rapide et soign&eacute;e. M. Duval est tr&egrave;s professionnel, je recommande sans h&eacute;siter&nbsp;!&nbsp;&raquo;</p>
+        <span class="review-date">il y a 2 semaines</span>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="review-top">
+          <img src="https://picsum.photos/id/65/40/40" alt="" class="review-avatar" width="40" height="40" loading="lazy">
+          <div><div class="review-name">Thomas B.</div><div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+        </div>
+        <p class="review-text">&laquo;&nbsp;Excellente prestation pour la r&eacute;novation de notre salle de bain. Travail propre et dans les d&eacute;lais.&nbsp;&raquo;</p>
+        <span class="review-date">il y a 1 mois</span>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="review-top">
+          <img src="https://picsum.photos/id/77/40/40" alt="" class="review-avatar" width="40" height="40" loading="lazy">
+          <div><div class="review-name">Sophie M.</div><div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+        </div>
+        <p class="review-text">&laquo;&nbsp;D&eacute;pannage un dimanche soir, arriv&eacute; en 30 minutes. Prix honn&ecirc;te et travail impeccable.&nbsp;&raquo;</p>
+        <span class="review-date">il y a 1 mois</span>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="review-top">
+          <img src="https://picsum.photos/id/91/40/40" alt="" class="review-avatar" width="40" height="40" loading="lazy">
+          <div><div class="review-name">Jean-Pierre D.</div><div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+        </div>
+        <p class="review-text">&laquo;&nbsp;Tr&egrave;s satisfait de l'installation de notre nouvelle chaudi&egrave;re. Conseils pertinents et pose soign&eacute;e.&nbsp;&raquo;</p>
+        <span class="review-date">il y a 2 mois</span>
+      </div>
+
+      <div class="review-card reveal">
+        <div class="review-top">
+          <img src="https://picsum.photos/id/96/40/40" alt="" class="review-avatar" width="40" height="40" loading="lazy">
+          <div><div class="review-name">Isabelle R.</div><div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div></div>
+        </div>
+        <p class="review-text">&laquo;&nbsp;Plombier s&eacute;rieux et ponctuel. A r&eacute;solu un probl&egrave;me de fuite que d'autres n'avaient pas su trouver.&nbsp;&raquo;</p>
+        <span class="review-date">il y a 3 mois</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== ZONE ========== -->
+<section class="zone" id="zone">
+  <div class="container">
+    <h2 class="reveal">Zone d'Intervention</h2>
+    <p class="section-subtitle reveal">J'interviens &agrave; Toulouse et dans un rayon de 30&nbsp;km autour.</p>
+    <div class="zone-pills reveal">
+      <span class="zone-pill">Toulouse</span>
+      <span class="zone-pill">Blagnac</span>
+      <span class="zone-pill">Colomiers</span>
+      <span class="zone-pill">Tournefeuille</span>
+      <span class="zone-pill">Balma</span>
+      <span class="zone-pill">L'Union</span>
+      <span class="zone-pill">Ramonville</span>
+      <span class="zone-pill">Castanet-Tolosan</span>
+      <span class="zone-pill">Cugnaux</span>
+      <span class="zone-pill">Muret</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONTACT ========== -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-wrapper">
+      <h2 class="reveal">Un Projet ? Un Probl&egrave;me ? Parlons-en !</h2>
+      <p class="section-subtitle reveal">D&eacute;crivez-moi votre besoin, je vous recontacte dans la journ&eacute;e avec un devis gratuit.</p>
+      <div class="contact-info reveal">
+        <a href="tel:0561234567" class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.8.36 1.58.65 2.33a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.75.29 1.53.52 2.33.65A2 2 0 0122 16.92z"/></svg>
+          05 61 23 45 67
+        </a>
+        <a href="mailto:contact@duval-plomberie.fr" class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          contact@duval-plomberie.fr
+        </a>
+      </div>
+      <form class="contact-form reveal" onsubmit="event.preventDefault(); alert('Merci ! Votre demande a bien été envoyée. Je vous recontacte rapidement.');">
+        <div class="form-row">
+          <div>
+            <label for="name">Nom complet</label>
+            <input type="text" id="name" name="name" placeholder="Jean Dupont" required>
+          </div>
+          <div>
+            <label for="phone">T&eacute;l&eacute;phone</label>
+            <input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78" required>
+          </div>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="jean@exemple.fr">
+        </div>
+        <div>
+          <label for="service">Type de prestation</label>
+          <select id="service" name="service">
+            <option value="">-- Choisir --</option>
+            <option>D&eacute;pannage urgent</option>
+            <option>Plomberie g&eacute;n&eacute;rale</option>
+            <option>Chauffage / chaudi&egrave;re</option>
+            <option>Salle de bain</option>
+            <option>D&eacute;bouchage</option>
+            <option>Installation sanitaire</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div>
+          <label for="message">D&eacute;crivez votre besoin</label>
+          <textarea id="message" name="message" placeholder="Ex: J'ai une fuite sous l'evier de ma cuisine depuis ce matin..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Envoyer ma demande</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" aria-label="Duval Plomberie">
+          <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M6 4h6a4 4 0 010 8H8v12H6V4z" fill="#fff"/>
+            <rect x="14" y="8" width="10" height="4" rx="2" fill="#c0392b"/>
+            <rect x="14" y="16" width="10" height="4" rx="2" fill="rgba(255,255,255,0.6)"/>
+            <circle cx="19" cy="24" r="2" fill="#fff"/>
+          </svg>
+          Duval Plomberie
+        </a>
+        <p>Artisan plombier &agrave; Toulouse depuis 2008. D&eacute;pannage, installation et r&eacute;novation pour particuliers et professionnels.</p>
+      </div>
+      <div class="footer-links">
+        <div>
+          <h4>Navigation</h4>
+          <a href="#services">Services</a>
+          <a href="#about">Engagements</a>
+          <a href="#gallery">R&eacute;alisations</a>
+          <a href="#reviews">Avis clients</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <a href="tel:0561234567">05 61 23 45 67</a>
+          <a href="mailto:contact@duval-plomberie.fr">contact@duval-plomberie.fr</a>
+          <p style="font-size:0.9rem;">12 rue des Artisans<br>31000 Toulouse</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Duval Plomberie &mdash; Tous droits r&eacute;serv&eacute;s | <a href="#" style="color:rgba(255,255,255,0.6);">Mentions l&eacute;gales</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== JS ========== -->
+<script>
+// Mobile nav toggle
+const toggle = document.getElementById('navToggle');
+const links = document.getElementById('navLinks');
+const phone = document.getElementById('navPhone');
+toggle.addEventListener('click', () => {
+  const open = links.classList.toggle('open');
+  phone.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', open);
+});
+
+// Close mobile nav on link click
+links.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    links.classList.remove('open');
+    phone.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  });
+});
+
+// Scroll reveal with Intersection Observer
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      // Stagger siblings
+      const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+      let delay = 0;
+      siblings.forEach((sib, idx) => {
+        if (sib === entry.target) delay = idx * 80;
+      });
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, Math.min(delay, 400));
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+reveals.forEach(el => observer.observe(el));
+
+// Navbar shadow on scroll
+const nav = document.querySelector('.nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 20) {
+    nav.style.boxShadow = '0 4px 24px rgba(27,42,74,0.1)';
+  } else {
+    nav.style.boxShadow = '0 2px 16px rgba(27,42,74,0.06)';
+  }
+}, { passive: true });
+</script>
+</body>
+</html>

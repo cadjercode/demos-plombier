@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Duval Plomberie - Votre plombier professionnel à Toulouse. Dépannage urgent 24/7, installation, rénovation. Intervention en 30 min.">
+<meta name="robots" content="noindex, nofollow">
+<title>DUVAL PLOMBERIE — Plombier Pro à Toulouse | Dépannage 24/7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   INDUSTRIAL BOLD — Le Brut Assumé
+   Concept: Raw, powerful, masculine design
+   ============================================ */
+
+/* --- Reset & Base --- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --steel-dark: #2d2d2d;
+  --steel-mid: #404040;
+  --steel-light: #555;
+  --orange: #ff6600;
+  --orange-dark: #e65c00;
+  --concrete: #f2ece4;
+  --white: #ffffff;
+  --font-heading: 'Bebas Neue', Impact, sans-serif;
+  --font-body: 'Roboto', Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--steel-dark);
+  background: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+ul { list-style: none; }
+
+/* --- Utility --- */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- Scroll Reveal --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: var(--steel-dark);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.nav.scrolled {
+  background: rgba(45, 45, 45, 0.97);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 70px;
+}
+.nav-logo {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--white);
+  letter-spacing: 2px;
+  position: relative;
+}
+.nav-logo::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--orange);
+}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+.nav-links a {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 1.5px;
+  transition: color 0.3s ease;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--orange);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { width: 100%; }
+
+/* Burger */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1001;
+}
+.burger span {
+  display: block;
+  width: 28px;
+  height: 3px;
+  background: var(--white);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+@media (max-width: 768px) {
+  .burger { display: flex; }
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 75%;
+    height: 100vh;
+    background: var(--steel-dark);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    transition: right 0.4s ease;
+  }
+  .nav-links.open { right: 0; }
+  .nav-links a { font-size: 1.5rem; }
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--steel-dark);
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('https://picsum.photos/id/1076/1920/1080') center/cover no-repeat;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(45,45,45,0.92) 0%, rgba(45,45,45,0.7) 100%);
+}
+/* Diagonal stripe accent */
+.hero-stripe {
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 35%;
+  height: 130%;
+  background: var(--orange);
+  opacity: 0.08;
+  transform: skewX(-12deg);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 5%;
+  max-width: 900px;
+}
+.hero-tag {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--orange);
+  letter-spacing: 4px;
+  margin-bottom: 1rem;
+}
+.hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  color: var(--white);
+  line-height: 0.95;
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+}
+.hero-bar {
+  width: 120px;
+  height: 6px;
+  background: var(--orange);
+  margin-bottom: 1.5rem;
+}
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin-bottom: 2.5rem;
+}
+.hero-actions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  padding: 1rem 2.5rem;
+  background: var(--orange);
+  color: var(--white);
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
+  transition: background 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary:hover {
+  background: var(--orange-dark);
+  transform: scale(1.03);
+}
+.hero-phone {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--white);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hero-phone svg { width: 24px; height: 24px; fill: var(--orange); }
+.hero-phone:hover { color: var(--orange); }
+
+/* ============================================
+   STATS BAR
+   ============================================ */
+.stats {
+  background: var(--orange);
+  padding: 3rem 0;
+  position: relative;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+.stat-item {
+  color: var(--white);
+  position: relative;
+}
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: rgba(255,255,255,0.3);
+}
+.stat-number {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.stat-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  .stat-item:nth-child(2)::after { display: none; }
+}
+
+/* ============================================
+   SERVICES
+   ============================================ */
+.services {
+  background: var(--steel-dark);
+  padding: 6rem 0 5rem;
+  position: relative;
+  clip-path: polygon(0 0, 100% 40px, 100% 100%, 0 100%);
+  margin-top: -1px;
+}
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: var(--white);
+  text-align: center;
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+}
+.section-title-bar {
+  width: 80px;
+  height: 5px;
+  background: var(--orange);
+  margin: 0 auto 3rem;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.service-card {
+  background: var(--steel-mid);
+  padding: 2.5rem 2rem;
+  border-top: 4px solid transparent;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s ease;
+  perspective: 600px;
+  cursor: default;
+}
+.service-card:hover {
+  transform: translateY(-10px) rotateX(3deg) rotateY(-2deg);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  border-top-color: var(--orange);
+}
+.service-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 1.2rem;
+}
+.service-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.service-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--white);
+  letter-spacing: 2px;
+  margin-bottom: 0.8rem;
+}
+.service-card p {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .services-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+  .services { clip-path: polygon(0 0, 100% 20px, 100% 100%, 0 100%); }
+}
+
+/* ============================================
+   GALERIE
+   ============================================ */
+.galerie {
+  padding: 6rem 0;
+  background: var(--concrete);
+}
+.galerie .section-title { color: var(--steel-dark); }
+.galerie-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.galerie-item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+}
+.galerie-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.galerie-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(45,45,45,0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.galerie-item:hover img { transform: scale(1.1); }
+.galerie-item:hover .galerie-overlay { opacity: 1; }
+.galerie-overlay h4 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--orange);
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+.galerie-overlay span {
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .galerie-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .galerie-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================
+   AVIS
+   ============================================ */
+.avis {
+  background: var(--steel-dark);
+  padding: 6rem 0;
+  position: relative;
+  clip-path: polygon(0 40px, 100% 0, 100% 100%, 0 100%);
+  margin-top: -1px;
+}
+.avis .section-title { color: var(--white); }
+.avis-summary {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.avis-stars {
+  font-size: 2rem;
+  color: var(--orange);
+  margin-bottom: 0.5rem;
+}
+.avis-score {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--white);
+  letter-spacing: 1px;
+}
+.avis-score span { color: rgba(255,255,255,0.5); }
+.avis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+.avis-card {
+  background: var(--steel-mid);
+  padding: 1.8rem;
+  border-left: 4px solid var(--orange);
+  transition: transform 0.3s ease;
+}
+.avis-card:hover { transform: translateX(5px); }
+.avis-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+.avis-author {
+  font-weight: 700;
+  color: var(--white);
+  font-size: 1rem;
+}
+.avis-card-stars {
+  color: var(--orange);
+  font-size: 1rem;
+}
+.avis-text {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 0.6rem;
+  font-style: italic;
+}
+.avis-date {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .avis { clip-path: polygon(0 20px, 100% 0, 100% 100%, 0 100%); }
+  .avis-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================
+   CONTACT
+   ============================================ */
+.contact {
+  position: relative;
+  clip-path: polygon(0 0, 100% 40px, 100% 100%, 0 100%);
+  margin-top: -1px;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 550px;
+}
+.contact-info {
+  background: var(--concrete);
+  padding: 5rem 4rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.contact-info h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--steel-dark);
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+.contact-info-bar {
+  width: 60px;
+  height: 4px;
+  background: var(--orange);
+  margin-bottom: 2rem;
+}
+.contact-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.contact-detail svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--orange);
+  fill: none;
+  stroke-width: 2;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.contact-detail-text strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  color: var(--steel-dark);
+  margin-bottom: 0.2rem;
+}
+.contact-detail-text span,
+.contact-detail-text a {
+  color: var(--steel-light);
+  font-size: 0.95rem;
+}
+.contact-detail-text a:hover { color: var(--orange); }
+
+.contact-form-wrap {
+  background: var(--steel-dark);
+  padding: 5rem 4rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.contact-form-wrap h3 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--white);
+  letter-spacing: 2px;
+  margin-bottom: 2rem;
+}
+.form-group { margin-bottom: 1.2rem; }
+.form-group label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 1.5px;
+  margin-bottom: 0.4rem;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: var(--steel-mid);
+  border: 2px solid transparent;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--orange);
+}
+.form-group textarea { resize: vertical; min-height: 110px; }
+.form-group select option { background: var(--steel-mid); color: var(--white); }
+
+.btn-submit {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  padding: 1rem 3rem;
+  background: var(--orange);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 0% 100%);
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: 0.5rem;
+}
+.btn-submit:hover {
+  background: var(--orange-dark);
+  transform: scale(1.03);
+}
+
+@media (max-width: 768px) {
+  .contact { clip-path: polygon(0 0, 100% 20px, 100% 100%, 0 100%); }
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-info,
+  .contact-form-wrap { padding: 3rem 1.5rem; }
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  background: #1a1a1a;
+  padding: 2.5rem 0;
+  border-top: 4px solid var(--orange);
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-logo {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--white);
+  letter-spacing: 2px;
+}
+.footer-copy {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.85rem;
+}
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.footer-links a {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.85rem;
+  transition: color 0.3s ease;
+}
+.footer-links a:hover { color: var(--orange); }
+
+@media (max-width: 768px) {
+  .footer-inner { flex-direction: column; text-align: center; }
+}
+
+/* --- Skip to content --- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--orange);
+  color: var(--white);
+  padding: 0.8rem 1.5rem;
+  z-index: 9999;
+  font-family: var(--font-heading);
+  letter-spacing: 1px;
+}
+.skip-link:focus { top: 0; }
+</style>
+</head>
+<body>
+
+<!-- Skip to content -->
+<a href="#main" class="skip-link">Aller au contenu principal</a>
+
+<!-- ==========================================
+     NAVIGATION
+     ========================================== -->
+<nav class="nav" role="navigation" aria-label="Navigation principale">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" aria-label="Duval Plomberie - Accueil">DUVAL PLOMBERIE</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">SERVICES</a></li>
+      <li><a href="#galerie">CHANTIERS</a></li>
+      <li><a href="#avis">AVIS</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+    <div class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ==========================================
+     HERO
+     ========================================== -->
+<header class="hero">
+  <div class="hero-bg" role="img" aria-label="Tuyauterie industrielle"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-stripe"></div>
+  <div class="hero-content">
+    <p class="hero-tag reveal-left">PLOMBERIE &bull; CHAUFFAGE &bull; SANITAIRE</p>
+    <h1 class="reveal">VOTRE PLOMBIER PRO &Agrave; TOULOUSE</h1>
+    <div class="hero-bar reveal"></div>
+    <p class="hero-subtitle reveal">D&eacute;pannage &bull; Installation &bull; R&eacute;novation</p>
+    <div class="hero-actions reveal">
+      <a href="#contact" class="btn-primary">DEMANDER UN DEVIS</a>
+      <a href="tel:0561234567" class="hero-phone">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        05 61 23 45 67
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ==========================================
+     STATS BAR
+     ========================================== -->
+<section class="stats" aria-label="Chiffres cl&eacute;s">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number" data-target="15">0</div>
+        <div class="stat-label">Ans d'exp&eacute;rience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="2500">0</div>
+        <div class="stat-label">Interventions</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number no-count">24/7</div>
+        <div class="stat-label">Disponibilit&eacute;</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-target="30">0</div>
+        <div class="stat-label">Min intervention urgence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     SERVICES
+     ========================================== -->
+<main id="main">
+<section class="services" id="services" aria-label="Nos services">
+  <div class="container">
+    <h2 class="section-title reveal">NOS SERVICES</h2>
+    <div class="section-title-bar reveal"></div>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M6 2l.01 6L10 12l-3.99 4L6 22h12v-6l-4-4 4-4V2H6z"/></svg>
+        </div>
+        <h3>PLOMBERIE G&Eacute;N&Eacute;RALE</h3>
+        <p>R&eacute;paration de fuites, remplacement de robinetterie, mise aux normes de vos installations. Diagnostic pr&eacute;cis et r&eacute;paration durable.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 6v6l4.24 2.54"/></svg>
+        </div>
+        <h3>CHAUFFAGE &amp; CHAUDI&Egrave;RES</h3>
+        <p>Installation, entretien annuel et d&eacute;pannage de chaudi&egrave;res gaz et pompes &agrave; chaleur. Certifi&eacute; RGE QualiPAC.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+        </div>
+        <h3>SALLE DE BAIN CL&Eacute; EN MAIN</h3>
+        <p>Conception, d&eacute;molition, plomberie, carrelage et finitions. Votre salle de bain r&eacute;nov&eacute;e de A &agrave; Z en toute s&eacute;r&eacute;nit&eacute;.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3>D&Eacute;PANNAGE URGENT 24/7</h3>
+        <p>Fuite d'eau, canalisation bouch&eacute;e, panne de chauffage ? Intervention en 30 minutes, 7 jours sur 7, jours f&eacute;ri&eacute;s inclus.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6"/><circle cx="12" cy="16" r="0.5"/></svg>
+        </div>
+        <h3>D&Eacute;BOUCHAGE CANALISATIONS</h3>
+        <p>D&eacute;bouchage m&eacute;canique et hydrocurage haute pression. Cam&eacute;ra d'inspection pour diagnostic pr&eacute;cis de vos canalisations.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+        </div>
+        <h3>INSTALLATION SANITAIRE</h3>
+        <p>Pose de WC, lavabos, douches, baignoires et accessoires. Mat&eacute;riel de qualit&eacute; professionnelle, installation soign&eacute;e et garantie.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     GALERIE
+     ========================================== -->
+<section class="galerie" id="galerie" aria-label="Nos chantiers">
+  <div class="container">
+    <h2 class="section-title reveal">NOS CHANTIERS</h2>
+    <div class="section-title-bar reveal" style="background: var(--orange);"></div>
+    <div class="galerie-grid">
+
+      <div class="galerie-item reveal">
+        <img src="https://picsum.photos/id/260/600/450" alt="R&eacute;novation salle de bain compl&egrave;te" loading="lazy" width="600" height="450" decoding="async">
+        <div class="galerie-overlay">
+          <h4>SALLE DE BAIN</h4>
+          <span>Voir le projet &rarr;</span>
+        </div>
+      </div>
+
+      <div class="galerie-item reveal">
+        <img src="https://picsum.photos/id/261/600/450" alt="Installation chauffage central" loading="lazy" width="600" height="450" decoding="async">
+        <div class="galerie-overlay">
+          <h4>CHAUFFAGE CENTRAL</h4>
+          <span>Voir le projet &rarr;</span>
+        </div>
+      </div>
+
+      <div class="galerie-item reveal">
+        <img src="https://picsum.photos/id/262/600/450" alt="R&eacute;novation plomberie cuisine" loading="lazy" width="600" height="450" decoding="async">
+        <div class="galerie-overlay">
+          <h4>CUISINE COMPL&Egrave;TE</h4>
+          <span>Voir le projet &rarr;</span>
+        </div>
+      </div>
+
+      <div class="galerie-item reveal">
+        <img src="https://picsum.photos/id/263/600/450" alt="D&eacute;pannage urgence fuite" loading="lazy" width="600" height="450" decoding="async">
+        <div class="galerie-overlay">
+          <h4>D&Eacute;PANNAGE URGENCE</h4>
+          <span>Voir le projet &rarr;</span>
+        </div>
+      </div>
+
+      <div class="galerie-item reveal">
+        <img src="https://picsum.photos/id/264/600/450" alt="Installation pompe &agrave; chaleur" loading="lazy" width="600" height="450" decoding="async">
+        <div class="galerie-overlay">
+          <h4>POMPE &Agrave; CHALEUR</h4>
+          <span>Voir le projet &rarr;</span>
+        </div>
+      </div>
+
+      <div class="galerie-item reveal">
+        <img src="https://picsum.photos/id/265/600/450" alt="R&eacute;novation compl&egrave;te appartement" loading="lazy" width="600" height="450" decoding="async">
+        <div class="galerie-overlay">
+          <h4>R&Eacute;NOVATION APPARTEMENT</h4>
+          <span>Voir le projet &rarr;</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     AVIS
+     ========================================== -->
+<section class="avis" id="avis" aria-label="Avis clients">
+  <div class="container">
+    <h2 class="section-title reveal">ILS NOUS FONT CONFIANCE</h2>
+    <div class="section-title-bar reveal"></div>
+
+    <div class="avis-summary reveal">
+      <div class="avis-stars">&starf;&starf;&starf;&starf;&starf;</div>
+      <div class="avis-score">4.9/5 <span>&mdash; 127 avis Google</span></div>
+    </div>
+
+    <div class="avis-grid">
+
+      <div class="avis-card reveal">
+        <div class="avis-card-header">
+          <span class="avis-author">Marie L.</span>
+          <span class="avis-card-stars">&starf;&starf;&starf;&starf;&starf;</span>
+        </div>
+        <p class="avis-text">&laquo; Intervention rapide et soign&eacute;e. M. Duval est tr&egrave;s professionnel, je recommande sans h&eacute;siter ! &raquo;</p>
+        <span class="avis-date">Il y a 2 semaines</span>
+      </div>
+
+      <div class="avis-card reveal">
+        <div class="avis-card-header">
+          <span class="avis-author">Thomas B.</span>
+          <span class="avis-card-stars">&starf;&starf;&starf;&starf;&starf;</span>
+        </div>
+        <p class="avis-text">&laquo; Excellente prestation pour la r&eacute;novation de notre salle de bain. Travail propre et dans les d&eacute;lais. &raquo;</p>
+        <span class="avis-date">Il y a 1 mois</span>
+      </div>
+
+      <div class="avis-card reveal">
+        <div class="avis-card-header">
+          <span class="avis-author">Sophie M.</span>
+          <span class="avis-card-stars">&starf;&starf;&starf;&starf;&starf;</span>
+        </div>
+        <p class="avis-text">&laquo; D&eacute;pannage un dimanche soir, arriv&eacute; en 30 minutes. Prix honn&ecirc;te et travail impeccable. &raquo;</p>
+        <span class="avis-date">Il y a 1 mois</span>
+      </div>
+
+      <div class="avis-card reveal">
+        <div class="avis-card-header">
+          <span class="avis-author">Jean-Pierre D.</span>
+          <span class="avis-card-stars">&starf;&starf;&starf;&starf;&starf;</span>
+        </div>
+        <p class="avis-text">&laquo; Tr&egrave;s satisfait de l'installation de notre nouvelle chaudi&egrave;re. Conseils pertinents et pose soign&eacute;e. &raquo;</p>
+        <span class="avis-date">Il y a 2 mois</span>
+      </div>
+
+      <div class="avis-card reveal">
+        <div class="avis-card-header">
+          <span class="avis-author">Isabelle R.</span>
+          <span class="avis-card-stars">&starf;&starf;&starf;&starf;&star;</span>
+        </div>
+        <p class="avis-text">&laquo; Plombier s&eacute;rieux et ponctuel. A r&eacute;solu un probl&egrave;me de fuite que d'autres n'avaient pas su trouver. &raquo;</p>
+        <span class="avis-date">Il y a 3 mois</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     CONTACT
+     ========================================== -->
+<section class="contact" id="contact" aria-label="Nous contacter">
+  <div class="contact-grid">
+
+    <div class="contact-info">
+      <h2 class="reveal-left">CONTACTEZ-NOUS</h2>
+      <div class="contact-info-bar reveal-left"></div>
+
+      <div class="contact-detail reveal-left">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div class="contact-detail-text">
+          <strong>ADRESSE</strong>
+          <span>15 rue des Artisans<br>31000 Toulouse</span>
+        </div>
+      </div>
+
+      <div class="contact-detail reveal-left">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <div class="contact-detail-text">
+          <strong>T&Eacute;L&Eacute;PHONE</strong>
+          <a href="tel:0561234567">05 61 23 45 67</a>
+        </div>
+      </div>
+
+      <div class="contact-detail reveal-left">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div class="contact-detail-text">
+          <strong>EMAIL</strong>
+          <a href="mailto:contact@duval-plomberie.fr">contact@duval-plomberie.fr</a>
+        </div>
+      </div>
+
+      <div class="contact-detail reveal-left">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div class="contact-detail-text">
+          <strong>HORAIRES</strong>
+          <span>Lun-Ven : 7h30 &ndash; 19h<br>Sam : 8h &ndash; 13h<br>Urgences : 24h/24, 7j/7</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-wrap">
+      <h3 class="reveal-right">VOTRE DEMANDE</h3>
+      <form id="contactForm" action="#" method="post">
+        <div class="form-group reveal-right">
+          <label for="name">NOM COMPLET</label>
+          <input type="text" id="name" name="name" placeholder="Jean Dupont" required>
+        </div>
+        <div class="form-group reveal-right">
+          <label for="phone">T&Eacute;L&Eacute;PHONE</label>
+          <input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78" required>
+        </div>
+        <div class="form-group reveal-right">
+          <label for="service">TYPE DE SERVICE</label>
+          <select id="service" name="service" required>
+            <option value="" disabled selected>Choisir un service</option>
+            <option value="depannage">D&eacute;pannage urgent</option>
+            <option value="plomberie">Plomberie g&eacute;n&eacute;rale</option>
+            <option value="chauffage">Chauffage / chaudi&egrave;re</option>
+            <option value="sdb">Salle de bain</option>
+            <option value="debouchage">D&eacute;bouchage</option>
+            <option value="sanitaire">Installation sanitaire</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-group reveal-right">
+          <label for="message">VOTRE MESSAGE</label>
+          <textarea id="message" name="message" placeholder="D&eacute;crivez votre besoin..." rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit reveal-right">ENVOYER</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<!-- ==========================================
+     FOOTER
+     ========================================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">DUVAL PLOMBERIE</div>
+      <p class="footer-copy">&copy; 2026 Duval Plomberie &mdash; Tous droits r&eacute;serv&eacute;s</p>
+      <div class="footer-links">
+        <a href="#">Mentions l&eacute;gales</a>
+        <a href="#">Politique de confidentialit&eacute;</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ==========================================
+     JAVASCRIPT
+     ========================================== -->
+<script>
+(function() {
+  'use strict';
+
+  /* --- Mobile Menu --- */
+  var burger = document.getElementById('burger');
+  var navLinks = document.getElementById('navLinks');
+
+  burger.addEventListener('click', function() {
+    burger.classList.toggle('active');
+    navLinks.classList.toggle('open');
+    var expanded = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', String(!expanded));
+  });
+
+  /* Close menu on link click */
+  navLinks.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      burger.classList.remove('active');
+      navLinks.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* --- Nav scroll effect --- */
+  var nav = document.querySelector('.nav');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 80) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  /* --- Intersection Observer: Scroll Reveal --- */
+  var revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    revealElements.forEach(function(el) {
+      revealObserver.observe(el);
+    });
+  } else {
+    /* Fallback: show all */
+    revealElements.forEach(function(el) { el.classList.add('visible'); });
+  }
+
+  /* --- Counter Animation --- */
+  var counters = document.querySelectorAll('.stat-number[data-target]');
+  var counterDone = false;
+
+  function animateCounters() {
+    if (counterDone) return;
+    counterDone = true;
+
+    counters.forEach(function(counter) {
+      var target = parseInt(counter.getAttribute('data-target'), 10);
+      var duration = 2000;
+      var start = 0;
+      var startTime = null;
+      var suffix = '';
+
+      /* Detect suffix from the stat (+ sign) */
+      var parentText = counter.parentElement.querySelector('.stat-label').textContent;
+      if (target === 15) suffix = '+';
+      if (target === 2500) suffix = '+';
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        /* Ease out cubic */
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.floor(eased * target);
+        counter.textContent = current + suffix;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          counter.textContent = target + suffix;
+        }
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var statsSection = document.querySelector('.stats');
+    var statsObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          animateCounters();
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    statsObserver.observe(statsSection);
+  } else {
+    animateCounters();
+  }
+
+  /* --- Form submission (mockup) --- */
+  var form = document.getElementById('contactForm');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var btn = form.querySelector('.btn-submit');
+    var originalText = btn.textContent;
+    btn.textContent = 'ENVOYÉ ✓';
+    btn.style.background = '#2d8a4e';
+    setTimeout(function() {
+      btn.textContent = originalText;
+      btn.style.background = '';
+      form.reset();
+    }, 2500);
+  });
+
+  /* --- Keyboard support for burger --- */
+  burger.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      burger.click();
+    }
+  });
+
+})();
+</script>
+</body>
+</html>

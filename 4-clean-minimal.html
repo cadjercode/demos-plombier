@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duval Plomberie — Plombier à Toulouse depuis 2008</title>
+<meta name="description" content="Duval Plomberie, votre plombier de confiance à Toulouse. Dépannage, rénovation, chauffage. Devis gratuit sous 24h. Garantie décennale.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --white: #ffffff;
+  --off-white: #fafafa;
+  --charcoal: #1d1d1f;
+  --teal: #0d7377;
+  --teal-hover: #0a9396;
+  --gray-light: #e8e8e8;
+  --gray-mid: #86868b;
+  --gold: #f5a623;
+  --font-heading: 'Sora', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --max-w: 1100px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--charcoal);
+  background: var(--white);
+  line-height: 1.7;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; transition: color 0.4s var(--ease); }
+
+img { display: block; max-width: 100%; }
+
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s var(--ease);
+}
+.nav.scrolled { border-bottom-color: var(--gray-light); }
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+.nav-logo {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--gray-mid);
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--teal);
+  transition: width 0.4s var(--ease);
+}
+.nav-links a:hover { color: var(--charcoal); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--charcoal);
+  margin: 5px 0;
+  transition: all 0.3s var(--ease);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+}
+.hero-content { max-width: 800px; }
+.hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--charcoal);
+  margin-bottom: 24px;
+}
+.hero-sub {
+  font-size: 1.125rem;
+  font-weight: 300;
+  color: var(--gray-mid);
+  margin-bottom: 48px;
+  letter-spacing: 0.01em;
+}
+.btn-primary {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--white);
+  background: var(--teal);
+  border: none;
+  padding: 18px 48px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.4s var(--ease), transform 0.4s var(--ease);
+  letter-spacing: 0.01em;
+}
+.btn-primary:hover { background: var(--teal-hover); transform: translateY(-1px); }
+.hero-phone {
+  display: block;
+  margin-top: 24px;
+  font-size: 0.875rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.04em;
+}
+.hero-phone:hover { color: var(--teal); }
+
+/* ── ABOUT STRIP ── */
+.about-strip {
+  background: var(--off-white);
+  padding: 40px 24px;
+}
+.about-strip-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+}
+.about-item {
+  text-align: center;
+  padding: 0 48px;
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--charcoal);
+}
+.about-item + .about-item { border-left: 1px solid var(--gray-light); }
+
+/* ── SECTIONS COMMON ── */
+.section { padding: 120px 24px; }
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-bottom: 72px;
+}
+
+/* ── SERVICES ── */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px 40px;
+}
+.service-card {
+  padding: 32px 0;
+  border-top: 3px solid var(--teal);
+  transition: box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+.service-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); padding: 32px 24px; }
+.service-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.service-card p {
+  font-size: 0.9375rem;
+  color: var(--gray-mid);
+  line-height: 1.6;
+}
+
+/* ── GALERIE ── */
+.galerie { background: var(--white); }
+.galerie-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.galerie-item {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  cursor: pointer;
+}
+.galerie-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease), box-shadow 0.4s var(--ease);
+}
+.galerie-item:hover img { transform: scale(1.02); }
+.galerie-item:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+
+/* ── AVIS ── */
+.avis { background: var(--off-white); }
+.avis-rating {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--gray-mid);
+  margin-bottom: 64px;
+  letter-spacing: 0.02em;
+}
+.avis-list { max-width: 720px; margin: 0 auto; }
+.avis-item {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--gray-light);
+}
+.avis-item:last-child { border-bottom: none; }
+.avis-stars {
+  color: var(--gold);
+  font-size: 0.875rem;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.avis-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 12px;
+  font-style: italic;
+  color: var(--charcoal);
+}
+.avis-author {
+  font-size: 0.8125rem;
+  color: var(--gray-mid);
+}
+.avis-author strong {
+  font-weight: 500;
+  color: var(--charcoal);
+}
+
+/* ── CONTACT ── */
+.contact { text-align: center; }
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 56px;
+}
+.contact-links a {
+  font-size: 1rem;
+  color: var(--teal);
+  font-weight: 400;
+}
+.contact-links a:hover { color: var(--teal-hover); }
+.contact-form {
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: left;
+}
+.form-field {
+  margin-bottom: 20px;
+}
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 300;
+  padding: 16px 0;
+  border: none;
+  border-bottom: 1px solid var(--gray-light);
+  background: transparent;
+  color: var(--charcoal);
+  outline: none;
+  transition: border-color 0.4s var(--ease);
+}
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--gray-mid);
+  font-weight: 300;
+}
+.form-field input:focus,
+.form-field textarea:focus { border-bottom-color: var(--teal); }
+.form-field textarea { resize: vertical; min-height: 100px; }
+.contact-form .btn-primary {
+  width: 100%;
+  margin-top: 12px;
+}
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 1px solid var(--gray-light);
+  padding: 32px 24px;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--gray-mid);
+}
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-logo {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--charcoal);
+}
+
+/* ── FADE IN ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); gap: 36px 32px; }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 72px; left: 0; right: 0;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(12px);
+    padding: 32px 24px;
+    gap: 24px;
+    border-bottom: 1px solid var(--gray-light);
+  }
+  .nav-toggle { display: block; }
+  .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+  .hero { padding: 100px 24px 64px; min-height: 90vh; }
+  .hero h1 { font-size: clamp(2rem, 8vw, 3rem); }
+  .hero-sub { font-size: 1rem; margin-bottom: 36px; }
+
+  .about-strip-inner { flex-direction: column; gap: 16px; }
+  .about-item { padding: 8px 0; }
+  .about-item + .about-item { border-left: none; border-top: 1px solid var(--gray-light); padding-top: 16px; }
+
+  .section { padding: 80px 24px; }
+  .section-title { margin-bottom: 48px; }
+
+  .services-grid { grid-template-columns: 1fr; gap: 24px; }
+  .service-card:hover { padding: 32px 16px; }
+
+  .galerie-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .contact-links { flex-direction: column; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Duval Plomberie</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">Expertises</a></li>
+      <li><a href="#galerie">Galerie</a></li>
+      <li><a href="#avis">Avis</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="fade-in">Un plombier qui fait<br>la diff&eacute;rence.</h1>
+    <p class="hero-sub fade-in">Qualit&eacute;, ponctualit&eacute; et transparence depuis 2008 &agrave; Toulouse</p>
+    <a href="#contact" class="btn-primary fade-in">Prendre rendez-vous</a>
+    <a href="tel:+33561000000" class="hero-phone fade-in">05 61 00 00 00</a>
+  </div>
+</section>
+
+<!-- ABOUT STRIP -->
+<div class="about-strip">
+  <div class="about-strip-inner">
+    <div class="about-item fade-in">15 ans d'expertise</div>
+    <div class="about-item fade-in">Devis gratuit sous 24h</div>
+    <div class="about-item fade-in">Garantie d&eacute;cennale</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <h2 class="section-title fade-in">Nos expertises</h2>
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <h3>Plomberie</h3>
+        <p>Installation et r&eacute;paration de canalisations, robinetterie et syst&egrave;mes d'eau pour votre confort quotidien.</p>
+      </div>
+      <div class="service-card fade-in">
+        <h3>Chauffage</h3>
+        <p>Pose, entretien et d&eacute;pannage de chaudi&egrave;res gaz, pompes &agrave; chaleur et planchers chauffants.</p>
+      </div>
+      <div class="service-card fade-in">
+        <h3>Salle de bain</h3>
+        <p>R&eacute;novation compl&egrave;te de votre salle de bain, de la conception &agrave; la r&eacute;alisation cl&eacute; en main.</p>
+      </div>
+      <div class="service-card fade-in">
+        <h3>Urgences</h3>
+        <p>Intervention rapide 7j/7 pour fuites, d&eacute;g&acirc;ts des eaux et pannes de chauffage urgentes.</p>
+      </div>
+      <div class="service-card fade-in">
+        <h3>D&eacute;bouchage</h3>
+        <p>D&eacute;bouchage professionnel de canalisations, &eacute;viers, toilettes et r&eacute;seaux d'&eacute;vacuation.</p>
+      </div>
+      <div class="service-card fade-in">
+        <h3>Sanitaires</h3>
+        <p>Remplacement et installation de WC, lavabos, baignoires et &eacute;quipements sanitaires.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section class="section galerie" id="galerie">
+  <div class="container">
+    <h2 class="section-title fade-in">Avant. Apr&egrave;s.</h2>
+    <div class="galerie-grid">
+      <div class="galerie-item fade-in"><img src="https://picsum.photos/id/270/600/450" alt="R&eacute;alisation plomberie 1" loading="lazy" width="600" height="450"></div>
+      <div class="galerie-item fade-in"><img src="https://picsum.photos/id/271/600/450" alt="R&eacute;alisation plomberie 2" loading="lazy" width="600" height="450"></div>
+      <div class="galerie-item fade-in"><img src="https://picsum.photos/id/272/600/450" alt="R&eacute;alisation plomberie 3" loading="lazy" width="600" height="450"></div>
+      <div class="galerie-item fade-in"><img src="https://picsum.photos/id/273/600/450" alt="R&eacute;alisation plomberie 4" loading="lazy" width="600" height="450"></div>
+      <div class="galerie-item fade-in"><img src="https://picsum.photos/id/274/600/450" alt="R&eacute;alisation plomberie 5" loading="lazy" width="600" height="450"></div>
+      <div class="galerie-item fade-in"><img src="https://picsum.photos/id/275/600/450" alt="R&eacute;alisation plomberie 6" loading="lazy" width="600" height="450"></div>
+    </div>
+  </div>
+</section>
+
+<!-- AVIS -->
+<section class="section avis" id="avis">
+  <div class="container">
+    <h2 class="section-title fade-in">La parole &agrave; nos clients</h2>
+    <p class="avis-rating fade-in">4.9 sur 5 &mdash; 127 avis Google</p>
+    <div class="avis-list">
+      <div class="avis-item fade-in">
+        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="avis-text">&laquo; Intervention rapide et soign&eacute;e. M. Duval est tr&egrave;s professionnel, je recommande sans h&eacute;siter ! &raquo;</p>
+        <p class="avis-author"><strong>Marie L.</strong> &mdash; il y a 2 semaines</p>
+      </div>
+      <div class="avis-item fade-in">
+        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="avis-text">&laquo; Excellente prestation pour la r&eacute;novation de notre salle de bain. Travail propre et dans les d&eacute;lais. &raquo;</p>
+        <p class="avis-author"><strong>Thomas B.</strong> &mdash; il y a 1 mois</p>
+      </div>
+      <div class="avis-item fade-in">
+        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="avis-text">&laquo; D&eacute;pannage un dimanche soir, arriv&eacute; en 30 minutes. Prix honn&ecirc;te et travail impeccable. &raquo;</p>
+        <p class="avis-author"><strong>Sophie M.</strong> &mdash; il y a 1 mois</p>
+      </div>
+      <div class="avis-item fade-in">
+        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="avis-text">&laquo; Tr&egrave;s satisfait de l'installation de notre nouvelle chaudi&egrave;re. Conseils pertinents et pose soign&eacute;e. &raquo;</p>
+        <p class="avis-author"><strong>Jean-Pierre D.</strong> &mdash; il y a 2 mois</p>
+      </div>
+      <div class="avis-item fade-in">
+        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+        <p class="avis-text">&laquo; Plombier s&eacute;rieux et ponctuel. A r&eacute;solu un probl&egrave;me de fuite que d'autres n'avaient pas su trouver. &raquo;</p>
+        <p class="avis-author"><strong>Isabelle R.</strong> &mdash; il y a 3 mois</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="container">
+    <h2 class="section-title fade-in">Parlons de votre projet</h2>
+    <div class="contact-links fade-in">
+      <a href="tel:+33561000000">05 61 00 00 00</a>
+      <a href="mailto:contact@duval-plomberie.fr">contact@duval-plomberie.fr</a>
+    </div>
+    <form class="contact-form fade-in" onsubmit="return false;">
+      <div class="form-field">
+        <input type="text" name="nom" placeholder="Nom" required>
+      </div>
+      <div class="form-field">
+        <input type="email" name="email" placeholder="Email" required>
+      </div>
+      <div class="form-field">
+        <input type="tel" name="telephone" placeholder="T&eacute;l&eacute;phone">
+      </div>
+      <div class="form-field">
+        <textarea name="message" placeholder="D&eacute;crivez votre besoin..." rows="4" required></textarea>
+      </div>
+      <button type="submit" class="btn-primary">Envoyer</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-logo">Duval Plomberie</span>
+    <span>&copy; 2026</span>
+    <span>12 rue des Artisans, 31000 Toulouse</span>
+  </div>
+</footer>
+
+<script>
+/* Nav scroll border */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 10);
+}, { passive: true });
+
+/* Mobile menu */
+const toggle = document.getElementById('navToggle');
+const links = document.getElementById('navLinks');
+toggle.addEventListener('click', () => {
+  toggle.classList.toggle('open');
+  links.classList.toggle('open');
+});
+links.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    toggle.classList.remove('open');
+    links.classList.remove('open');
+  });
+});
+
+/* Fade-in on scroll */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

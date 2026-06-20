@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>6 Concepts de Site — Plombier | Galerie de Maquettes</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#181b22; --line:#262b35;
+    --txt:#e8eaed; --muted:#9aa3b2; --accent:#5b8cff; --accent2:#7af0c8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:radial-gradient(1200px 600px at 70% -10%,#1a2030 0%,var(--bg) 55%);
+    color:var(--txt);min-height:100vh;line-height:1.6;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:48px 24px 80px}
+  header{text-align:center;margin-bottom:48px}
+  .badge{
+    display:inline-block;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent2);border:1px solid var(--line);border-radius:999px;
+    padding:6px 16px;margin-bottom:20px;background:#11151c;
+  }
+  h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+  h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);max-width:640px;margin:16px auto 0;font-size:1.05rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:24px;margin-top:8px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+    text-decoration:none;color:inherit;display:flex;flex-direction:column;
+    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+  }
+  .card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+  .thumb{height:150px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .thumb .num{font-size:3.4rem;font-weight:900;opacity:.85;letter-spacing:-.04em}
+  .body{padding:20px 22px 24px}
+  .ctitle{font-size:1.25rem;font-weight:700;margin-bottom:2px;display:flex;align-items:center;gap:8px}
+  .tag{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+  .desc{color:var(--muted);font-size:.92rem;margin-top:10px}
+  .open{margin-top:16px;font-size:.85rem;font-weight:600;color:var(--accent2);display:inline-flex;align-items:center;gap:6px}
+  .card:hover .open{gap:12px}
+  .open span{transition:all .25s ease}
+
+  /* Thumb themes */
+  .t1{background:linear-gradient(135deg,#0d0d0d,#241a0c)}.t1 .num{color:#d4a853}
+  .t2{background:linear-gradient(135deg,#0a2463,#1e3a5f)}.t2 .num{color:#48cae4}
+  .t3{background:linear-gradient(135deg,#2d2d2d,#404040)}.t3 .num{color:#ff6600}
+  .t4{background:linear-gradient(135deg,#ffffff,#eef2f1)}.t4 .num{color:#0d7377}
+  .t5{background:linear-gradient(135deg,#000,#0a0a0a)}.t5 .num{color:#00ff88;text-shadow:0 0 18px #00ff88}
+  .t6{background:linear-gradient(135deg,#1b2a4a,#243b6a)}.t6 .num{color:#fdf6e3}
+
+  footer{margin-top:56px;text-align:center;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:28px}
+  .note{background:#11151c;border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:36px 0 0;color:var(--muted);font-size:.9rem}
+  .note b{color:var(--txt)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="badge">Maquettes de démonstration</span>
+    <h1>6 concepts de site<br><span>pour votre plombier</span></h1>
+    <p class="sub">Six directions de design totalement différentes, chacune en site mono-page complet avec galerie photo, avis Google et formulaire de contact. Cliquez pour ouvrir chaque maquette.</p>
+  </header>
+
+  <div class="grid">
+    <a class="card" href="1-dark-copper.html">
+      <div class="thumb t1"><div class="num">01</div></div>
+      <div class="body">
+        <div class="ctitle">Dark Copper</div>
+        <div class="tag">Luxe artisan · Cuivre &amp; or</div>
+        <p class="desc">Thème sombre élégant avec accents cuivrés. Casse les codes du métier — un rendu haut de gamme façon architecte d'intérieur.</p>
+        <div class="open"><span>Ouvrir la maquette →</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="2-aquaflow.html">
+      <div class="thumb t2"><div class="num">02</div></div>
+      <div class="body">
+        <div class="ctitle">AquaFlow</div>
+        <div class="tag">Frais &amp; fluide · Bleu eau</div>
+        <p class="desc">Design inspiré de l'eau : dégradés bleus, vagues animées entre les sections et bulles flottantes. Moderne et rassurant.</p>
+        <div class="open"><span>Ouvrir la maquette →</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="3-industrial-bold.html">
+      <div class="thumb t3"><div class="num">03</div></div>
+      <div class="body">
+        <div class="ctitle">Industrial Bold</div>
+        <div class="tag">Brut &amp; puissant · Orange chantier</div>
+        <p class="desc">Typographie massive, gris acier et orange chantier. Compteurs animés et cartes en 3D. Affirme « je suis un vrai pro ».</p>
+        <div class="open"><span>Ouvrir la maquette →</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="4-clean-minimal.html">
+      <div class="thumb t4"><div class="num">04</div></div>
+      <div class="body">
+        <div class="ctitle">Clean Minimal</div>
+        <div class="tag">Élégance épurée · Style Apple</div>
+        <p class="desc">Minimalisme extrême : beaucoup de blanc, une seule couleur d'accent, typographie soignée. La confiance par la sobriété.</p>
+        <div class="open"><span>Ouvrir la maquette →</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="5-neon-urgence.html">
+      <div class="thumb t5"><div class="num">05</div></div>
+      <div class="body">
+        <div class="ctitle">Néon Urgence</div>
+        <div class="tag">Tech &amp; impactant · Vert néon</div>
+        <p class="desc">Thème noir profond avec néons verts qui claquent. Vibe gaming/tech parfaite pour le dépannage urgent 24/7. Impossible à ignorer.</p>
+        <div class="open"><span>Ouvrir la maquette →</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="6-confiance-locale.html">
+      <div class="thumb t6"><div class="num">06</div></div>
+      <div class="body">
+        <div class="ctitle">Confiance Locale</div>
+        <div class="tag">Proximité humaine · Marine &amp; crème</div>
+        <p class="desc">Chaleureux et humain : « votre plombier de quartier ». Couleurs douces, coins arrondis, zone d'intervention. Le meilleur pour convertir en SEO local.</p>
+        <div class="open"><span>Ouvrir la maquette →</span></div>
+      </div>
+    </a>
+  </div>
+
+  <div class="note">
+    <b>À propos de ces maquettes —</b> Contenu de démonstration (entreprise fictive « Duval Plomberie » à Toulouse). Les photos sont des images temporaires, les avis Google et coordonnées sont fictifs. Tout sera remplacé par les vraies informations de votre plombier une fois un concept choisi.
+  </div>
+
+  <footer>
+    Gestion Sites — Galerie de concepts · Mono-page · Responsive · Animations au scroll
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duval Plomberie — Votre Plombier de Confiance à Toulouse</title>
+  <meta name="description" content="Duval Plomberie : plombier professionnel à Toulouse. Dépannage urgent 24/7, rénovation salle de bain, chauffage. Devis gratuit. Appelez le 05 61 23 45 67.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Base ──────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      color: #1a1a2e;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background: #fff;
+    }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', system-ui, sans-serif; line-height: 1.2; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; height: auto; display: block; }
+    ul { list-style: none; }
+    .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+
+    /* ── Scroll Reveal ─────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(2rem); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Navigation ────────────────────────────────── */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px);
+      transition: box-shadow .3s;
+    }
+    .navbar.scrolled { box-shadow: 0 2px 20px rgba(10,36,99,.1); }
+    .navbar .container {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .9rem 0;
+    }
+    .nav-logo { display: flex; align-items: center; gap: .5rem; }
+    .nav-logo svg { width: 2rem; height: 2rem; }
+    .nav-logo span { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.25rem; color: #0a2463; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { font-size: .95rem; font-weight: 500; color: #1e3a5f; transition: color .3s; }
+    .nav-links a:hover { color: #00b4d8; }
+    .nav-cta {
+      background: #0a2463; color: #fff !important; padding: .55rem 1.3rem; border-radius: 2rem;
+      font-weight: 600; transition: background .3s, transform .15s;
+    }
+    .nav-cta:hover { background: #00b4d8; transform: translateY(-1px); }
+    .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: .25rem; }
+    .menu-toggle span {
+      display: block; width: 1.5rem; height: 2px; background: #0a2463;
+      margin: 5px 0; transition: transform .3s, opacity .3s;
+    }
+
+    /* ── Hero ──────────────────────────────────────── */
+    .hero {
+      position: relative; min-height: 100vh; display: flex; align-items: center;
+      background: linear-gradient(165deg, #0a2463 0%, #1e3a5f 60%, #0d3b66 100%);
+      overflow: hidden; padding-top: 5rem;
+    }
+    .hero .container { position: relative; z-index: 2; text-align: center; padding: 4rem 0 8rem; }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5.5vw, 3.8rem); font-weight: 800; color: #fff;
+      margin-bottom: 1.2rem; letter-spacing: -.02em;
+    }
+    .hero h1 .accent { color: #48cae4; }
+    .hero .subtitle {
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: rgba(255,255,255,.8);
+      max-width: 38rem; margin: 0 auto 2.5rem; font-weight: 400;
+    }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 2rem; border-radius: 3rem; font-weight: 600;
+      font-size: 1rem; transition: all .3s; border: 2px solid transparent; cursor: pointer;
+    }
+    .btn-primary { background: #fff; color: #0a2463; border-color: #fff; }
+    .btn-primary:hover { background: #48cae4; border-color: #48cae4; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,180,216,.3); }
+    .btn-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,.5); }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,.1); transform: translateY(-2px); }
+
+    /* Bubbles */
+    .bubbles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .bubble {
+      position: absolute; bottom: -4rem; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(72,202,228,.25), rgba(0,180,216,.08));
+      animation: float-up linear infinite;
+    }
+    .bubble:nth-child(1) { width: 1.5rem; height: 1.5rem; left: 8%;  animation-duration: 9s;  animation-delay: 0s; }
+    .bubble:nth-child(2) { width: 2.2rem; height: 2.2rem; left: 22%; animation-duration: 11s; animation-delay: 2s; }
+    .bubble:nth-child(3) { width: 1rem;   height: 1rem;   left: 40%; animation-duration: 8s;  animation-delay: 4s; }
+    .bubble:nth-child(4) { width: 1.8rem; height: 1.8rem; left: 58%; animation-duration: 13s; animation-delay: 1s; }
+    .bubble:nth-child(5) { width: 2.5rem; height: 2.5rem; left: 75%; animation-duration: 10s; animation-delay: 3s; }
+    .bubble:nth-child(6) { width: 1.2rem; height: 1.2rem; left: 90%; animation-duration: 7s;  animation-delay: 5s; }
+    @keyframes float-up {
+      0%   { transform: translateY(0) scale(1); opacity: 0; }
+      10%  { opacity: .7; }
+      90%  { opacity: .3; }
+      100% { transform: translateY(-100vh) scale(.6); opacity: 0; }
+    }
+
+    /* Hero wave */
+    .wave-divider { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; }
+    .wave-divider svg { display: block; width: 100%; height: auto; }
+    .wave-divider-top { position: absolute; top: -1px; left: 0; width: 100%; line-height: 0; }
+    .wave-divider-top svg { display: block; width: 100%; height: auto; }
+
+    /* ── Services ──────────────────────────────────── */
+    .services { padding: 6rem 0 4rem; background: #fff; }
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-label {
+      display: inline-block; font-size: .85rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .12em; color: #00b4d8; margin-bottom: .75rem;
+    }
+    .section-title { font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 700; color: #0a2463; }
+    .section-title::after {
+      content: ''; display: block; width: 3.5rem; height: 3px; background: #48cae4;
+      margin: 1rem auto 0; border-radius: 2px;
+    }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    }
+    .service-card {
+      padding: 2.2rem 1.8rem; border-radius: 1rem; background: #fff;
+      border: 1px solid #e8f0fe; transition: all .35s; text-align: center;
+    }
+    .service-card:hover {
+      transform: translateY(-.5rem); box-shadow: 0 16px 40px rgba(10,36,99,.1);
+      border-color: transparent;
+    }
+    .service-icon {
+      width: 4rem; height: 4rem; border-radius: 50%; margin: 0 auto 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #e0f3ff, #caf0f8);
+      transition: background .35s;
+    }
+    .service-card:hover .service-icon { background: linear-gradient(135deg, #00b4d8, #0a2463); }
+    .service-icon svg { width: 1.6rem; height: 1.6rem; stroke: #0a2463; transition: stroke .35s; }
+    .service-card:hover .service-icon svg { stroke: #fff; }
+    .service-card h3 { font-size: 1.15rem; font-weight: 600; color: #0a2463; margin-bottom: .6rem; }
+    .service-card p { font-size: .92rem; color: #5a6a7a; line-height: 1.55; }
+
+    /* ── Chiffres ──────────────────────────────────── */
+    .stats {
+      position: relative; padding: 5rem 0;
+      background: linear-gradient(165deg, #0a2463 0%, #1e3a5f 100%);
+    }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+    .stat-item { position: relative; z-index: 2; }
+    .stat-number {
+      font-family: 'Outfit', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; color: #48cae4;
+    }
+    .stat-label { font-size: .95rem; color: rgba(255,255,255,.85); margin-top: .3rem; }
+
+    /* ── Galerie ───────────────────────────────────── */
+    .gallery { padding: 6rem 0; background: #fff; }
+    .masonry {
+      columns: 3; column-gap: 1.2rem;
+    }
+    .masonry-item {
+      break-inside: avoid; margin-bottom: 1.2rem; border-radius: .75rem;
+      overflow: hidden; position: relative; cursor: pointer;
+    }
+    .masonry-item img { width: 100%; display: block; transition: transform .5s; }
+    .masonry-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(10,36,99,0) 40%, rgba(10,36,99,.85) 100%);
+      display: flex; align-items: flex-end; padding: 1.2rem;
+      opacity: 0; transition: opacity .4s;
+    }
+    .masonry-item:hover .masonry-overlay { opacity: 1; }
+    .masonry-item:hover img { transform: scale(1.05); }
+    .masonry-overlay span { color: #fff; font-weight: 600; font-size: .95rem; }
+
+    /* ── Avis ──────────────────────────────────────── */
+    .reviews { padding: 6rem 0; background: #f0f7ff; position: relative; }
+    .reviews-header {
+      display: flex; align-items: center; gap: 1rem; justify-content: center;
+      margin-bottom: .5rem; flex-wrap: wrap;
+    }
+    .google-badge {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.05rem; color: #0a2463;
+    }
+    .google-badge svg { height: 1.5rem; }
+    .google-stars { color: #f4b400; font-size: 1.2rem; letter-spacing: 2px; }
+    .google-count { font-size: .9rem; color: #5a6a7a; }
+    .reviews-scroll {
+      display: flex; gap: 1.5rem; overflow-x: auto; padding: 1rem .5rem 2rem;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin; scrollbar-color: #cce0f5 transparent;
+    }
+    .reviews-scroll::-webkit-scrollbar { height: 6px; }
+    .reviews-scroll::-webkit-scrollbar-track { background: transparent; }
+    .reviews-scroll::-webkit-scrollbar-thumb { background: #cce0f5; border-radius: 3px; }
+    .review-card {
+      flex: 0 0 20rem; scroll-snap-align: start; background: #fff;
+      border-radius: 1rem; padding: 1.8rem; box-shadow: 0 4px 20px rgba(10,36,99,.06);
+      display: flex; flex-direction: column; gap: .8rem;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .review-card:hover { transform: translateY(-.3rem); box-shadow: 0 8px 30px rgba(10,36,99,.1); }
+    .review-top { display: flex; align-items: center; gap: .75rem; }
+    .review-avatar {
+      width: 2.8rem; height: 2.8rem; border-radius: 50%; background: linear-gradient(135deg, #48cae4, #0a2463);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #fff; font-size: 1.1rem;
+    }
+    .review-name { font-weight: 600; color: #0a2463; font-size: .95rem; }
+    .review-date { font-size: .8rem; color: #8a9bae; }
+    .review-stars { color: #f4b400; font-size: .95rem; letter-spacing: 1px; }
+    .review-text { font-size: .92rem; color: #3a4a5c; line-height: 1.6; flex: 1; font-style: italic; }
+
+    /* ── Contact ───────────────────────────────────── */
+    .contact { padding: 6rem 0; background: #fff; position: relative; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-info h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: #0a2463; margin-bottom: 1.5rem; }
+    .contact-info h2 .accent { color: #00b4d8; }
+    .contact-detail {
+      display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .contact-detail-icon {
+      width: 2.8rem; height: 2.8rem; min-width: 2.8rem; border-radius: .75rem;
+      background: linear-gradient(135deg, #e0f3ff, #caf0f8);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .contact-detail-icon svg { width: 1.2rem; height: 1.2rem; stroke: #0a2463; }
+    .contact-detail strong { display: block; font-size: .85rem; color: #8a9bae; text-transform: uppercase; letter-spacing: .08em; font-weight: 500; }
+    .contact-detail span, .contact-detail a { display: block; font-size: 1rem; color: #1a1a2e; font-weight: 500; }
+    .contact-detail a:hover { color: #00b4d8; }
+    .map-placeholder {
+      width: 100%; height: 12rem; border-radius: 1rem; background: #e8f0fe;
+      display: flex; align-items: center; justify-content: center;
+      color: #8a9bae; font-size: .9rem; margin-top: 1rem; border: 2px dashed #cce0f5;
+    }
+    .contact-form { background: #f8f9fa; padding: 2.5rem; border-radius: 1.25rem; }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-size: .85rem; font-weight: 600; color: #0a2463; margin-bottom: .4rem; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: .8rem 1rem; border: 1.5px solid #dce6f0; border-radius: .6rem;
+      font-family: 'DM Sans', sans-serif; font-size: .95rem; color: #1a1a2e;
+      background: #fff; transition: border-color .3s, box-shadow .3s;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      outline: none; border-color: #00b4d8; box-shadow: 0 0 0 3px rgba(0,180,216,.12);
+    }
+    .form-group textarea { resize: vertical; min-height: 7rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .btn-submit {
+      width: 100%; padding: .9rem; border: none; border-radius: 3rem;
+      background: linear-gradient(135deg, #00b4d8, #0a2463); color: #fff;
+      font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 600;
+      cursor: pointer; transition: all .3s; position: relative; overflow: hidden;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,180,216,.35); }
+    .btn-submit::after {
+      content: ''; position: absolute; inset: 0; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,.25), transparent 60%);
+      opacity: 0; transition: opacity .3s;
+    }
+    .btn-submit:hover::after { opacity: 1; }
+
+    /* ── Footer ────────────────────────────────────── */
+    .footer { background: #0a2463; color: rgba(255,255,255,.7); padding: 3rem 0 1.5rem; position: relative; }
+    .footer-content {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
+      padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .footer-logo { display: flex; align-items: center; gap: .5rem; }
+    .footer-logo svg { width: 1.8rem; height: 1.8rem; }
+    .footer-logo span { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.15rem; color: #fff; }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-links a { font-size: .9rem; transition: color .3s; }
+    .footer-links a:hover { color: #48cae4; }
+    .footer-bottom { text-align: center; padding-top: 1.5rem; font-size: .82rem; }
+
+    /* ── Mobile Menu ───────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed; top: 0; right: -100%; width: 75%; max-width: 20rem; height: 100vh;
+        background: #fff; flex-direction: column; justify-content: center;
+        gap: 2rem; padding: 2rem; transition: right .4s ease; box-shadow: -8px 0 30px rgba(0,0,0,.1);
+        z-index: 200;
+      }
+      .nav-links.active { right: 0; }
+      .nav-links a { font-size: 1.1rem; }
+      .menu-toggle { display: block; z-index: 201; }
+      .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+      .menu-toggle.active span:nth-child(2) { opacity: 0; }
+      .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+      .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 150; }
+      .mobile-overlay.active { display: block; }
+
+      .hero { min-height: 100svh; }
+      .hero h1 { font-size: clamp(1.8rem, 7vw, 2.5rem); }
+
+      .services-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
+      .masonry { columns: 2; column-gap: .8rem; }
+      .masonry-item { margin-bottom: .8rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-content { flex-direction: column; text-align: center; }
+      .review-card { flex: 0 0 85vw; }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid { grid-template-columns: repeat(4, 1fr); }
+      .masonry { columns: 2; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="nav-logo" aria-label="Accueil Duval Plomberie">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" fill="#0a2463"/>
+          <path d="M20 8c0 0-8 6-8 14a8 8 0 0016 0c0-8-8-14-8-14z" fill="#48cae4"/>
+          <ellipse cx="17" cy="19" rx="2.5" ry="3.5" fill="rgba(255,255,255,.35)" transform="rotate(-15 17 19)"/>
+        </svg>
+        <span>Duval Plomberie</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#services">Services</a>
+        <a href="#realisations">Réalisations</a>
+        <a href="#avis">Avis</a>
+        <a href="#contact">Contact</a>
+        <a href="tel:0561234567" class="nav-cta">05 61 23 45 67</a>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero">
+    <div class="bubbles">
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+    </div>
+    <div class="container">
+      <h1>Votre Plombier de<br><span class="accent">Confiance</span> à Toulouse</h1>
+      <p class="subtitle">Solutions rapides, durables et au juste prix.<br>Intervention en urgence 7j/7 sur toute la métropole.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn btn-primary">Devis Gratuit</a>
+        <a href="tel:0561234567" class="btn btn-outline">📞 05 61 23 45 67</a>
+      </div>
+    </div>
+    <div class="wave-divider">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C360,120 720,0 1080,80 C1260,110 1380,60 1440,40 L1440,120 L0,120 Z" fill="#ffffff"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Nos Expertises</span>
+        <h2 class="section-title">Des Services Complets</h2>
+      </div>
+      <div class="services-grid">
+        <!-- Plomberie générale -->
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <h3>Plomberie Générale</h3>
+          <p>Installation, réparation et entretien de toute votre plomberie : robinetterie, tuyauterie, raccordements.</p>
+        </div>
+        <!-- Chauffage -->
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2c0 0-4 4-4 8a4 4 0 008 0c0-4-4-8-4-8z"/>
+              <path d="M12 22v-4"/>
+              <path d="M8 18h8"/>
+            </svg>
+          </div>
+          <h3>Chauffage & Chaudières</h3>
+          <p>Installation, remplacement et entretien de chaudières gaz, pompes à chaleur et planchers chauffants.</p>
+        </div>
+        <!-- Salle de bain -->
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4"/>
+              <path d="M4 15h16"/>
+              <path d="M6 15V5a2 2 0 012-2h1"/>
+              <circle cx="12" cy="9" r="1"/>
+              <path d="M12 10v2"/>
+              <path d="M10 12h4"/>
+            </svg>
+          </div>
+          <h3>Salle de Bain Clé en Main</h3>
+          <p>Conception et rénovation complète : douche italienne, baignoire, meuble vasque, carrelage et finitions.</p>
+        </div>
+        <!-- Dépannage -->
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3>Dépannage Urgent 24/7</h3>
+          <p>Fuite d'eau, canalisation bouchée, panne de chauffe-eau : intervention rapide en moins de 30 minutes.</p>
+        </div>
+        <!-- Débouchage -->
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 3v4"/>
+              <path d="M3 7h8"/>
+              <path d="M7 7v10a4 4 0 004 4h2a4 4 0 004-4V7"/>
+              <path d="M17 3v4"/>
+              <path d="M13 7h8"/>
+            </svg>
+          </div>
+          <h3>Débouchage Canalisations</h3>
+          <p>Débouchage mécanique et hydrocurage de vos canalisations, éviers, WC et colonnes d'évacuation.</p>
+        </div>
+        <!-- Installation sanitaire -->
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v6"/>
+              <path d="M8 6h8"/>
+              <path d="M8 6c0 0-4 2-4 8v4a2 2 0 002 2h12a2 2 0 002-2v-4c0-6-4-8-4-8"/>
+              <path d="M12 14v2"/>
+            </svg>
+          </div>
+          <h3>Installation Sanitaire</h3>
+          <p>Pose de WC, lavabos, douches, chauffe-eau et ballons d'eau chaude. Matériel de qualité garanti.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CHIFFRES CLES ═══ -->
+  <section class="stats" id="chiffres">
+    <div class="wave-divider-top">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C480,0 960,80 1440,20 L1440,0 L0,0 Z" fill="#ffffff"/>
+      </svg>
+    </div>
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <div class="stat-number">15+</div>
+          <div class="stat-label">ans d'expérience</div>
+        </div>
+        <div class="stat-item reveal">
+          <div class="stat-number">2 500+</div>
+          <div class="stat-label">interventions</div>
+        </div>
+        <div class="stat-item reveal">
+          <div class="stat-number">4.9/5</div>
+          <div class="stat-label">satisfaction client</div>
+        </div>
+        <div class="stat-item reveal">
+          <div class="stat-number">30 min</div>
+          <div class="stat-label">délai urgence</div>
+        </div>
+      </div>
+    </div>
+    <div class="wave-divider">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,20 C480,80 960,0 1440,60 L1440,80 L0,80 Z" fill="#ffffff"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══ GALERIE ═══ -->
+  <section class="gallery" id="realisations">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Portfolio</span>
+        <h2 class="section-title">Nos Réalisations</h2>
+      </div>
+      <div class="masonry">
+        <div class="masonry-item reveal">
+          <img src="https://picsum.photos/id/250/600/400" alt="Rénovation salle de bain moderne" width="600" height="400" loading="lazy" decoding="async">
+          <div class="masonry-overlay"><span>Salle de bain moderne</span></div>
+        </div>
+        <div class="masonry-item reveal">
+          <img src="https://picsum.photos/id/251/400/600" alt="Installation douche italienne" width="400" height="600" loading="lazy" decoding="async">
+          <div class="masonry-overlay"><span>Douche italienne</span></div>
+        </div>
+        <div class="masonry-item reveal">
+          <img src="https://picsum.photos/id/252/600/400" alt="Remplacement chaudière gaz" width="600" height="400" loading="lazy" decoding="async">
+          <div class="masonry-overlay"><span>Chaudière condensation</span></div>
+        </div>
+        <div class="masonry-item reveal">
+          <img src="https://picsum.photos/id/253/600/400" alt="Plomberie neuve cuisine" width="600" height="400" loading="lazy" decoding="async">
+          <div class="masonry-overlay"><span>Cuisine complète</span></div>
+        </div>
+        <div class="masonry-item reveal">
+          <img src="https://picsum.photos/id/254/400/600" alt="Installation sanitaire" width="400" height="600" loading="lazy" decoding="async">
+          <div class="masonry-overlay"><span>Sanitaire haut de gamme</span></div>
+        </div>
+        <div class="masonry-item reveal">
+          <img src="https://picsum.photos/id/255/600/400" alt="Réfection tuyauterie" width="600" height="400" loading="lazy" decoding="async">
+          <div class="masonry-overlay"><span>Réfection tuyauterie</span></div>
+        </div>
+        <div class="masonry-item reveal">
+          <img src="https://picsum.photos/id/256/600/400" alt="Plancher chauffant" width="600" height="400" loading="lazy" decoding="async">
+          <div class="masonry-overlay"><span>Plancher chauffant</span></div>
+        </div>
+        <div class="masonry-item reveal">
+          <img src="https://picsum.photos/id/257/400/600" alt="Rénovation complète" width="400" height="600" loading="lazy" decoding="async">
+          <div class="masonry-overlay"><span>Rénovation complète</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ AVIS ═══ -->
+  <section class="reviews" id="avis">
+    <div class="wave-divider-top">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C320,0 640,60 960,20 C1120,0 1300,40 1440,30 L1440,0 L0,0 Z" fill="#ffffff"/>
+      </svg>
+    </div>
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Témoignages</span>
+        <h2 class="section-title">Avis de Nos Clients</h2>
+        <div class="reviews-header" style="margin-top:1rem;">
+          <div class="google-badge">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            <span>4.9</span>
+            <span class="google-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <span class="google-count">(127 avis)</span>
+          </div>
+        </div>
+      </div>
+      <div class="reviews-scroll">
+        <div class="review-card reveal">
+          <div class="review-top">
+            <div class="review-avatar">M</div>
+            <div><div class="review-name">Marie L.</div><div class="review-date">il y a 2 semaines</div></div>
+          </div>
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">"Intervention rapide et soignée. M. Duval est très professionnel, je recommande sans hésiter !"</p>
+        </div>
+        <div class="review-card reveal">
+          <div class="review-top">
+            <div class="review-avatar">T</div>
+            <div><div class="review-name">Thomas B.</div><div class="review-date">il y a 1 mois</div></div>
+          </div>
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">"Excellente prestation pour la rénovation de notre salle de bain. Travail propre et dans les délais."</p>
+        </div>
+        <div class="review-card reveal">
+          <div class="review-top">
+            <div class="review-avatar">S</div>
+            <div><div class="review-name">Sophie M.</div><div class="review-date">il y a 1 mois</div></div>
+          </div>
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">"Dépannage un dimanche soir, arrivé en 30 minutes. Prix honnête et travail impeccable."</p>
+        </div>
+        <div class="review-card reveal">
+          <div class="review-top">
+            <div class="review-avatar">J</div>
+            <div><div class="review-name">Jean-Pierre D.</div><div class="review-date">il y a 2 mois</div></div>
+          </div>
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="review-text">"Très satisfait de l'installation de notre nouvelle chaudière. Conseils pertinents et pose soignée."</p>
+        </div>
+        <div class="review-card reveal">
+          <div class="review-top">
+            <div class="review-avatar">I</div>
+            <div><div class="review-name">Isabelle R.</div><div class="review-date">il y a 3 mois</div></div>
+          </div>
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+          <p class="review-text">"Plombier sérieux et ponctuel. A résolu un problème de fuite que d'autres n'avaient pas su trouver."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="contact" id="contact">
+    <div class="wave-divider-top">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,20 C360,60 720,0 1080,40 C1260,55 1380,25 1440,30 L1440,0 L0,0 Z" fill="#f0f7ff"/>
+      </svg>
+    </div>
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <h2>Besoin d'un<br><span class="accent">Plombier</span> ?</h2>
+          <p style="color:#5a6a7a; margin-bottom:2rem;">Contactez-nous pour un devis gratuit et sans engagement. Nous intervenons sur Toulouse et toute la métropole.</p>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div><strong>Téléphone</strong><a href="tel:0561234567">05 61 23 45 67</a></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div><strong>Email</strong><a href="mailto:duval.plomberie@gmail.com">duval.plomberie@gmail.com</a></div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div><strong>Adresse</strong><span>15 rue des Artisans, 31000 Toulouse</span></div>
+          </div>
+          <div class="map-placeholder">
+            <span>Carte Google Maps</span>
+          </div>
+        </div>
+        <form class="contact-form reveal" onsubmit="event.preventDefault(); alert('Message envoyé ! (demo)')">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Nom complet</label>
+              <input type="text" id="name" placeholder="Jean Dupont" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Téléphone</label>
+              <input type="tel" id="phone" placeholder="06 12 34 56 78" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="jean@exemple.fr">
+          </div>
+          <div class="form-group">
+            <label for="service">Type d'intervention</label>
+            <select id="service">
+              <option value="">Sélectionnez un service</option>
+              <option>Plomberie générale</option>
+              <option>Chauffage & chaudières</option>
+              <option>Salle de bain clé en main</option>
+              <option>Dépannage urgent</option>
+              <option>Débouchage canalisations</option>
+              <option>Installation sanitaire</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Décrivez votre besoin</label>
+            <textarea id="message" placeholder="Décrivez votre problème ou projet..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Envoyer ma demande</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="wave-divider-top">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,30 C240,60 480,0 720,40 C960,70 1200,10 1440,40 L1440,0 L0,0 Z" fill="#ffffff"/>
+      </svg>
+    </div>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="18" fill="rgba(72,202,228,.2)"/>
+            <path d="M20 8c0 0-8 6-8 14a8 8 0 0016 0c0-8-8-14-8-14z" fill="#48cae4"/>
+            <ellipse cx="17" cy="19" rx="2.5" ry="3.5" fill="rgba(255,255,255,.3)" transform="rotate(-15 17 19)"/>
+          </svg>
+          <span>Duval Plomberie</span>
+        </div>
+        <div class="footer-links">
+          <a href="#services">Services</a>
+          <a href="#realisations">Réalisations</a>
+          <a href="#avis">Avis</a>
+          <a href="#contact">Contact</a>
+          <a href="#">Mentions légales</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 Duval Plomberie — Toulouse. Tous droits réservés.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Navbar scroll shadow ──────────────────────── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 30);
+    }, { passive: true });
+
+    /* ── Mobile menu ───────────────────────────────── */
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    const overlay = document.getElementById('mobileOverlay');
+
+    function toggleMenu() {
+      menuToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+    }
+    menuToggle.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (navLinks.classList.contains('active')) toggleMenu();
+      });
+    });
+
+    /* ── Scroll Reveal (Intersection Observer) ───── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ── Ripple effect on submit button ──────────── */
+    const submitBtn = document.querySelector('.btn-submit');
+    if (submitBtn) {
+      submitBtn.addEventListener('mousemove', (e) => {
+        const rect = submitBtn.getBoundingClientRect();
+        submitBtn.style.setProperty('--x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+        submitBtn.style.setProperty('--y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+      });
+    }
+  </script>
+</body>
+</html>
