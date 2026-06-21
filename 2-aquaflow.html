@@ -9,87 +9,172 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* ── Design Tokens ─────────────────────────────── */
+    :root {
+      /* Palette eau */
+      --blue-900: #0a2463;
+      --blue-700: #1e3a5f;
+      --blue-600: #0d3b66;
+      --cyan-500: #00b4d8;
+      --cyan-400: #48cae4;
+      --ink: #1a1a2e;
+      --muted: #5a6a7a;
+      --surface: #f0f7ff;
+
+      /* Typographie fluide (clamp) */
+      --fs-hero: clamp(2.5rem, 6vw, 5.5rem);
+      --fs-h2: clamp(1.8rem, 3.5vw, 2.6rem);
+      --fs-h3: clamp(1.1rem, 1.6vw, 1.2rem);
+      --fs-lead: clamp(1.05rem, 2.2vw, 1.4rem);
+      --fs-body: clamp(.92rem, 1.4vw, 1rem);
+
+      /* Espacement fluide */
+      --space-section: clamp(3.5rem, 8vw, 7rem);
+      --space-gap: clamp(1.2rem, 2.5vw, 2rem);
+
+      /* Easing */
+      --ease: cubic-bezier(.22, 1, .36, 1);
+      --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+      --radius: 1rem;
+    }
+
     /* ── Reset & Base ──────────────────────────────── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body {
       font-family: 'DM Sans', system-ui, sans-serif;
-      color: #1a1a2e;
+      color: var(--ink);
       line-height: 1.6;
       overflow-x: hidden;
       background: #fff;
     }
-    h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', system-ui, sans-serif; line-height: 1.2; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', system-ui, sans-serif; line-height: 1.15; }
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; height: auto; display: block; }
     ul { list-style: none; }
-    .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+    .container { width: min(92%, 1200px); margin: 0 auto; }
+
+    :focus-visible { outline: 3px solid var(--cyan-500); outline-offset: 3px; border-radius: 4px; }
+
+    .skip-link {
+      position: absolute; left: 1rem; top: -4rem; z-index: 1000;
+      background: var(--blue-900); color: #fff; padding: .75rem 1.25rem;
+      border-radius: 0 0 .6rem .6rem; font-weight: 600; transition: top .25s var(--ease);
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ── Scroll Progress Bar ───────────────────────── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0;
+      background: linear-gradient(90deg, var(--cyan-400), var(--cyan-500), var(--blue-900));
+      z-index: 300; transition: width .08s linear; will-change: width;
+    }
 
     /* ── Scroll Reveal ─────────────────────────────── */
-    .reveal { opacity: 0; transform: translateY(2rem); transition: opacity .7s ease, transform .7s ease; }
+    .reveal {
+      opacity: 0; transform: translateY(2.2rem);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+      transition-delay: var(--reveal-delay, 0s);
+    }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── Navigation ────────────────────────────────── */
+    /* ── Navigation (Glassmorphism 2.0) ────────────── */
     .navbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(255,255,255,.96);
-      backdrop-filter: blur(12px);
-      transition: box-shadow .3s;
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(12px) saturate(150%);
+      -webkit-backdrop-filter: blur(12px) saturate(150%);
+      border-bottom: 1px solid rgba(255,255,255,.4);
+      transition: box-shadow .35s var(--ease), background .35s var(--ease);
     }
-    .navbar.scrolled { box-shadow: 0 2px 20px rgba(10,36,99,.1); }
+    .navbar.scrolled {
+      background: rgba(255,255,255,.85);
+      box-shadow: 0 6px 30px rgba(10,36,99,.14);
+    }
     .navbar .container {
       display: flex; align-items: center; justify-content: space-between;
-      padding: .9rem 0;
+      padding: .85rem 0;
     }
     .nav-logo { display: flex; align-items: center; gap: .5rem; }
     .nav-logo svg { width: 2rem; height: 2rem; }
-    .nav-logo span { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.25rem; color: #0a2463; }
+    .nav-logo span { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.25rem; color: var(--blue-900); }
     .nav-links { display: flex; align-items: center; gap: 2rem; }
-    .nav-links a { font-size: .95rem; font-weight: 500; color: #1e3a5f; transition: color .3s; }
-    .nav-links a:hover { color: #00b4d8; }
+    .nav-links a { font-size: .95rem; font-weight: 500; color: var(--blue-700); transition: color .3s var(--ease); }
+    .nav-links a:not(.nav-cta):hover { color: var(--cyan-500); }
     .nav-cta {
-      background: #0a2463; color: #fff !important; padding: .55rem 1.3rem; border-radius: 2rem;
-      font-weight: 600; transition: background .3s, transform .15s;
+      background: var(--blue-900); color: #fff !important;
+      padding: .65rem 1.3rem; border-radius: 2rem; min-height: 44px;
+      display: inline-flex; align-items: center;
+      font-weight: 600; transition: background .3s var(--ease), transform .15s var(--ease-spring), box-shadow .3s var(--ease);
     }
-    .nav-cta:hover { background: #00b4d8; transform: translateY(-1px); }
-    .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: .25rem; }
+    .nav-cta:hover { background: var(--cyan-500); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,180,216,.35); }
+    .nav-cta:active { transform: scale(.97); }
+    .menu-toggle {
+      display: none; background: none; border: none; cursor: pointer;
+      padding: .5rem; min-width: 44px; min-height: 44px;
+    }
     .menu-toggle span {
-      display: block; width: 1.5rem; height: 2px; background: #0a2463;
-      margin: 5px 0; transition: transform .3s, opacity .3s;
+      display: block; width: 1.6rem; height: 2px; background: var(--blue-900);
+      margin: 5px auto; transition: transform .3s var(--ease), opacity .3s var(--ease);
     }
 
     /* ── Hero ──────────────────────────────────────── */
     .hero {
-      position: relative; min-height: 100vh; display: flex; align-items: center;
-      background: linear-gradient(165deg, #0a2463 0%, #1e3a5f 60%, #0d3b66 100%);
-      overflow: hidden; padding-top: 5rem;
+      position: relative; min-height: 100vh; min-height: 100svh;
+      display: flex; align-items: center;
+      background: linear-gradient(165deg, var(--blue-900) 0%, var(--blue-700) 60%, var(--blue-600) 100%);
+      overflow: hidden; padding-top: 5rem; isolation: isolate;
     }
-    .hero .container { position: relative; z-index: 2; text-align: center; padding: 4rem 0 8rem; }
+    /* Animated gradient mesh */
+    .hero::before {
+      content: ''; position: absolute; inset: -25%; z-index: 0;
+      background:
+        radial-gradient(40% 50% at 18% 28%, rgba(0,180,216,.55), transparent 60%),
+        radial-gradient(45% 55% at 82% 20%, rgba(72,202,228,.45), transparent 62%),
+        radial-gradient(50% 60% at 70% 80%, rgba(13,59,102,.7), transparent 65%),
+        radial-gradient(40% 45% at 25% 85%, rgba(0,180,216,.35), transparent 60%);
+      background-size: 200% 200%;
+      animation: mesh-flow 15s ease-in-out infinite alternate;
+      filter: blur(8px);
+    }
+    @keyframes mesh-flow {
+      0%   { background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%; }
+      100% { background-position: 100% 50%, 0% 50%, 0% 0%, 100% 100%; }
+    }
+    .hero .container { position: relative; z-index: 3; text-align: center; padding: 4rem 0 9rem; }
     .hero h1 {
-      font-size: clamp(2.2rem, 5.5vw, 3.8rem); font-weight: 800; color: #fff;
-      margin-bottom: 1.2rem; letter-spacing: -.02em;
+      font-size: var(--fs-hero); font-weight: 800; color: #fff;
+      margin-bottom: 1.3rem; letter-spacing: -.02em; line-height: 1.02;
     }
-    .hero h1 .accent { color: #48cae4; }
+    .hero h1 .accent { color: var(--cyan-400); }
     .hero .subtitle {
-      font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: rgba(255,255,255,.8);
-      max-width: 38rem; margin: 0 auto 2.5rem; font-weight: 400;
+      font-size: var(--fs-lead); color: rgba(255,255,255,.85);
+      max-width: 40rem; margin: 0 auto 2.5rem; font-weight: 400;
     }
     .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
     .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .85rem 2rem; border-radius: 3rem; font-weight: 600;
-      font-size: 1rem; transition: all .3s; border: 2px solid transparent; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .9rem 2rem; border-radius: 3rem; font-weight: 600; min-height: 44px;
+      font-size: 1rem; transition: transform .3s var(--ease-spring), box-shadow .3s var(--ease), background .3s var(--ease), border-color .3s var(--ease), color .3s var(--ease);
+      border: 2px solid transparent; cursor: pointer; position: relative; overflow: hidden;
     }
-    .btn-primary { background: #fff; color: #0a2463; border-color: #fff; }
-    .btn-primary:hover { background: #48cae4; border-color: #48cae4; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,180,216,.3); }
-    .btn-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,.5); }
-    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,.1); transform: translateY(-2px); }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: #fff; color: var(--blue-900); border-color: #fff; }
+    /* water-ripple radial light on CTA */
+    .btn-primary::after {
+      content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity .35s var(--ease);
+      background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(0,180,216,.45), transparent 55%);
+    }
+    .btn-primary:hover { color: var(--blue-900); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,180,216,.4); }
+    .btn-primary:hover::after { opacity: 1; }
+    .btn-outline { background: rgba(255,255,255,.06); color: #fff; border-color: rgba(255,255,255,.5); }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,.16); transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0,0,0,.2); }
 
     /* Bubbles */
-    .bubbles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .bubbles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
     .bubble {
       position: absolute; bottom: -4rem; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(72,202,228,.25), rgba(0,180,216,.08));
+      background: radial-gradient(circle at 30% 30%, rgba(72,202,228,.3), rgba(0,180,216,.08));
       animation: float-up linear infinite;
     }
     .bubble:nth-child(1) { width: 1.5rem; height: 1.5rem; left: 8%;  animation-duration: 9s;  animation-delay: 0s; }
@@ -105,93 +190,102 @@
       100% { transform: translateY(-100vh) scale(.6); opacity: 0; }
     }
 
-    /* Hero wave */
-    .wave-divider { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; }
-    .wave-divider svg { display: block; width: 100%; height: auto; }
-    .wave-divider-top { position: absolute; top: -1px; left: 0; width: 100%; line-height: 0; }
-    .wave-divider-top svg { display: block; width: 100%; height: auto; }
+    /* Wave dividers — full-width, no gaps at any size */
+    .wave-divider, .wave-divider-top { position: absolute; left: 0; width: 100%; line-height: 0; z-index: 2; }
+    .wave-divider { bottom: -1px; }
+    .wave-divider-top { top: -1px; }
+    .wave-divider svg, .wave-divider-top svg { display: block; width: 100%; height: auto; }
 
-    /* ── Services ──────────────────────────────────── */
-    .services { padding: 6rem 0 4rem; background: #fff; }
-    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    /* ── Section heads ─────────────────────────────── */
+    .section-header { text-align: center; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
     .section-label {
       display: inline-block; font-size: .85rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: .12em; color: #00b4d8; margin-bottom: .75rem;
+      letter-spacing: .12em; color: var(--cyan-500); margin-bottom: .75rem;
     }
-    .section-title { font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 700; color: #0a2463; }
+    .section-title { font-size: var(--fs-h2); font-weight: 700; color: var(--blue-900); letter-spacing: -.01em; }
     .section-title::after {
-      content: ''; display: block; width: 3.5rem; height: 3px; background: #48cae4;
+      content: ''; display: block; width: 3.5rem; height: 3px; background: var(--cyan-400);
       margin: 1rem auto 0; border-radius: 2px;
     }
+
+    /* ── Services ──────────────────────────────────── */
+    .services { padding: var(--space-section) 0 calc(var(--space-section) - 2rem); background: #fff; }
     .services-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+      display: grid; gap: var(--space-gap);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
     }
     .service-card {
-      padding: 2.2rem 1.8rem; border-radius: 1rem; background: #fff;
-      border: 1px solid #e8f0fe; transition: all .35s; text-align: center;
+      padding: 2.2rem 1.8rem; border-radius: var(--radius); background: #fff;
+      border: 1px solid #e8f0fe; text-align: center;
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s var(--ease);
     }
     .service-card:hover {
-      transform: translateY(-.5rem); box-shadow: 0 16px 40px rgba(10,36,99,.1);
+      transform: translateY(-.5rem); box-shadow: 0 18px 44px rgba(10,36,99,.12);
       border-color: transparent;
     }
     .service-icon {
       width: 4rem; height: 4rem; border-radius: 50%; margin: 0 auto 1.3rem;
       display: flex; align-items: center; justify-content: center;
       background: linear-gradient(135deg, #e0f3ff, #caf0f8);
-      transition: background .35s;
+      transition: background .35s var(--ease), transform .35s var(--ease-spring);
     }
-    .service-card:hover .service-icon { background: linear-gradient(135deg, #00b4d8, #0a2463); }
-    .service-icon svg { width: 1.6rem; height: 1.6rem; stroke: #0a2463; transition: stroke .35s; }
+    .service-card:hover .service-icon { background: linear-gradient(135deg, var(--cyan-500), var(--blue-900)); transform: scale(1.08); }
+    .service-icon svg { width: 1.6rem; height: 1.6rem; stroke: var(--blue-900); transition: stroke .35s var(--ease); }
     .service-card:hover .service-icon svg { stroke: #fff; }
-    .service-card h3 { font-size: 1.15rem; font-weight: 600; color: #0a2463; margin-bottom: .6rem; }
-    .service-card p { font-size: .92rem; color: #5a6a7a; line-height: 1.55; }
+    .service-card h3 { font-size: var(--fs-h3); font-weight: 600; color: var(--blue-900); margin-bottom: .6rem; }
+    .service-card p { font-size: var(--fs-body); color: var(--muted); line-height: 1.55; }
 
     /* ── Chiffres ──────────────────────────────────── */
     .stats {
-      position: relative; padding: 5rem 0;
-      background: linear-gradient(165deg, #0a2463 0%, #1e3a5f 100%);
+      position: relative; padding: var(--space-section) 0;
+      background: linear-gradient(165deg, var(--blue-900) 0%, var(--blue-700) 100%);
     }
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
-    .stat-item { position: relative; z-index: 2; }
+    .stats-grid {
+      display: grid; gap: var(--space-gap); text-align: center;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    }
+    .stat-item { position: relative; z-index: 3; }
     .stat-number {
-      font-family: 'Outfit', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800; color: #48cae4;
+      font-family: 'Outfit', sans-serif; font-size: clamp(2.2rem, 4.5vw, 3rem);
+      font-weight: 800; color: var(--cyan-400); letter-spacing: -.01em;
     }
     .stat-label { font-size: .95rem; color: rgba(255,255,255,.85); margin-top: .3rem; }
 
     /* ── Galerie ───────────────────────────────────── */
-    .gallery { padding: 6rem 0; background: #fff; }
-    .masonry {
-      columns: 3; column-gap: 1.2rem;
-    }
+    .gallery { padding: var(--space-section) 0; background: #fff; }
+    .masonry { columns: 3; column-gap: 1.2rem; }
     .masonry-item {
       break-inside: avoid; margin-bottom: 1.2rem; border-radius: .75rem;
       overflow: hidden; position: relative; cursor: pointer;
     }
-    .masonry-item img { width: 100%; display: block; transition: transform .5s; }
+    .masonry-item img {
+      width: 100%; display: block; transition: transform .5s var(--ease);
+    }
+    .masonry-item img.ratio-l { aspect-ratio: 3 / 2; object-fit: cover; }
+    .masonry-item img.ratio-p { aspect-ratio: 2 / 3; object-fit: cover; }
     .masonry-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(180deg, rgba(10,36,99,0) 40%, rgba(10,36,99,.85) 100%);
       display: flex; align-items: flex-end; padding: 1.2rem;
-      opacity: 0; transition: opacity .4s;
+      opacity: 0; transition: opacity .4s var(--ease);
     }
-    .masonry-item:hover .masonry-overlay { opacity: 1; }
-    .masonry-item:hover img { transform: scale(1.05); }
+    .masonry-item:hover .masonry-overlay, .masonry-item:focus-within .masonry-overlay { opacity: 1; }
+    .masonry-item:hover img { transform: scale(1.06); }
     .masonry-overlay span { color: #fff; font-weight: 600; font-size: .95rem; }
 
-    /* ── Avis ──────────────────────────────────────── */
-    .reviews { padding: 6rem 0; background: #f0f7ff; position: relative; }
+    /* ── Avis (Glass cards) ────────────────────────── */
+    .reviews { padding: var(--space-section) 0; background: var(--surface); position: relative; }
     .reviews-header {
       display: flex; align-items: center; gap: 1rem; justify-content: center;
       margin-bottom: .5rem; flex-wrap: wrap;
     }
     .google-badge {
       display: inline-flex; align-items: center; gap: .6rem;
-      font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.05rem; color: #0a2463;
+      font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.05rem; color: var(--blue-900);
     }
     .google-badge svg { height: 1.5rem; }
     .google-stars { color: #f4b400; font-size: 1.2rem; letter-spacing: 2px; }
-    .google-count { font-size: .9rem; color: #5a6a7a; }
+    .google-count { font-size: .9rem; color: var(--muted); }
     .reviews-scroll {
       display: flex; gap: 1.5rem; overflow-x: auto; padding: 1rem .5rem 2rem;
       scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
@@ -201,73 +295,83 @@
     .reviews-scroll::-webkit-scrollbar-track { background: transparent; }
     .reviews-scroll::-webkit-scrollbar-thumb { background: #cce0f5; border-radius: 3px; }
     .review-card {
-      flex: 0 0 20rem; scroll-snap-align: start; background: #fff;
-      border-radius: 1rem; padding: 1.8rem; box-shadow: 0 4px 20px rgba(10,36,99,.06);
+      flex: 0 0 20rem; scroll-snap-align: start;
+      background: rgba(255,255,255,.6);
+      backdrop-filter: blur(10px) saturate(140%);
+      -webkit-backdrop-filter: blur(10px) saturate(140%);
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: var(--radius); padding: 1.8rem; box-shadow: 0 6px 26px rgba(10,36,99,.08);
       display: flex; flex-direction: column; gap: .8rem;
-      transition: transform .3s, box-shadow .3s;
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease);
     }
-    .review-card:hover { transform: translateY(-.3rem); box-shadow: 0 8px 30px rgba(10,36,99,.1); }
+    .review-card:hover { transform: translateY(-.4rem); box-shadow: 0 12px 36px rgba(10,36,99,.14); }
     .review-top { display: flex; align-items: center; gap: .75rem; }
     .review-avatar {
-      width: 2.8rem; height: 2.8rem; border-radius: 50%; background: linear-gradient(135deg, #48cae4, #0a2463);
+      width: 2.8rem; height: 2.8rem; min-width: 2.8rem; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan-400), var(--blue-900));
       display: flex; align-items: center; justify-content: center;
       font-weight: 700; color: #fff; font-size: 1.1rem;
     }
-    .review-name { font-weight: 600; color: #0a2463; font-size: .95rem; }
+    .review-name { font-weight: 600; color: var(--blue-900); font-size: .95rem; }
     .review-date { font-size: .8rem; color: #8a9bae; }
     .review-stars { color: #f4b400; font-size: .95rem; letter-spacing: 1px; }
-    .review-text { font-size: .92rem; color: #3a4a5c; line-height: 1.6; flex: 1; font-style: italic; }
+    .review-text { font-size: var(--fs-body); color: #3a4a5c; line-height: 1.6; flex: 1; font-style: italic; }
 
     /* ── Contact ───────────────────────────────────── */
-    .contact { padding: 6rem 0; background: #fff; position: relative; }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-    .contact-info h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: #0a2463; margin-bottom: 1.5rem; }
-    .contact-info h2 .accent { color: #00b4d8; }
-    .contact-detail {
-      display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem;
+    .contact { padding: var(--space-section) 0; background: #fff; position: relative; }
+    .contact-grid {
+      display: grid; gap: clamp(2.5rem, 5vw, 4rem); align-items: start;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
     }
+    .contact-info h2 { font-size: var(--fs-h2); font-weight: 700; color: var(--blue-900); margin-bottom: 1.5rem; letter-spacing: -.01em; }
+    .contact-info h2 .accent { color: var(--cyan-500); }
+    .contact-detail { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
     .contact-detail-icon {
       width: 2.8rem; height: 2.8rem; min-width: 2.8rem; border-radius: .75rem;
       background: linear-gradient(135deg, #e0f3ff, #caf0f8);
       display: flex; align-items: center; justify-content: center;
     }
-    .contact-detail-icon svg { width: 1.2rem; height: 1.2rem; stroke: #0a2463; }
+    .contact-detail-icon svg { width: 1.2rem; height: 1.2rem; stroke: var(--blue-900); }
     .contact-detail strong { display: block; font-size: .85rem; color: #8a9bae; text-transform: uppercase; letter-spacing: .08em; font-weight: 500; }
-    .contact-detail span, .contact-detail a { display: block; font-size: 1rem; color: #1a1a2e; font-weight: 500; }
-    .contact-detail a:hover { color: #00b4d8; }
+    .contact-detail span, .contact-detail a { display: block; font-size: 1rem; color: var(--ink); font-weight: 500; }
+    .contact-detail a { min-height: 44px; display: flex; align-items: center; }
+    .contact-detail a:hover { color: var(--cyan-500); }
     .map-placeholder {
-      width: 100%; height: 12rem; border-radius: 1rem; background: #e8f0fe;
+      width: 100%; height: 12rem; border-radius: var(--radius); background: #e8f0fe;
       display: flex; align-items: center; justify-content: center;
       color: #8a9bae; font-size: .9rem; margin-top: 1rem; border: 2px dashed #cce0f5;
     }
-    .contact-form { background: #f8f9fa; padding: 2.5rem; border-radius: 1.25rem; }
+    .contact-form { background: #f8f9fa; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 1.25rem; }
     .form-group { margin-bottom: 1.2rem; }
-    .form-group label { display: block; font-size: .85rem; font-weight: 600; color: #0a2463; margin-bottom: .4rem; }
+    .form-group label { display: block; font-size: .85rem; font-weight: 600; color: var(--blue-900); margin-bottom: .4rem; }
     .form-group input, .form-group textarea, .form-group select {
       width: 100%; padding: .8rem 1rem; border: 1.5px solid #dce6f0; border-radius: .6rem;
-      font-family: 'DM Sans', sans-serif; font-size: .95rem; color: #1a1a2e;
-      background: #fff; transition: border-color .3s, box-shadow .3s;
+      font-family: 'DM Sans', sans-serif; font-size: 1rem; color: var(--ink);
+      background: #fff; transition: border-color .3s var(--ease), box-shadow .3s var(--ease); min-height: 44px;
     }
     .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-      outline: none; border-color: #00b4d8; box-shadow: 0 0 0 3px rgba(0,180,216,.12);
+      outline: none; border-color: var(--cyan-500); box-shadow: 0 0 0 3px rgba(0,180,216,.12);
     }
     .form-group textarea { resize: vertical; min-height: 7rem; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: 1rem; }
     .btn-submit {
-      width: 100%; padding: .9rem; border: none; border-radius: 3rem;
-      background: linear-gradient(135deg, #00b4d8, #0a2463); color: #fff;
+      width: 100%; padding: .95rem; border: none; border-radius: 3rem; min-height: 44px;
+      background: linear-gradient(135deg, var(--cyan-500), var(--blue-900)); color: #fff;
       font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 600;
-      cursor: pointer; transition: all .3s; position: relative; overflow: hidden;
+      cursor: pointer; transition: transform .3s var(--ease-spring), box-shadow .3s var(--ease);
+      position: relative; overflow: hidden;
     }
-    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,180,216,.35); }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,180,216,.4); }
+    .btn-submit:active { transform: scale(.97); }
     .btn-submit::after {
-      content: ''; position: absolute; inset: 0; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,.25), transparent 60%);
-      opacity: 0; transition: opacity .3s;
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,.3), transparent 60%);
+      opacity: 0; transition: opacity .3s var(--ease);
     }
     .btn-submit:hover::after { opacity: 1; }
 
     /* ── Footer ────────────────────────────────────── */
-    .footer { background: #0a2463; color: rgba(255,255,255,.7); padding: 3rem 0 1.5rem; position: relative; }
+    .footer { background: var(--blue-900); color: rgba(255,255,255,.7); padding: 3rem 0 1.5rem; position: relative; }
     .footer-content {
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
       padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,.1);
@@ -276,53 +380,58 @@
     .footer-logo svg { width: 1.8rem; height: 1.8rem; }
     .footer-logo span { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.15rem; color: #fff; }
     .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-    .footer-links a { font-size: .9rem; transition: color .3s; }
-    .footer-links a:hover { color: #48cae4; }
+    .footer-links a { font-size: .9rem; transition: color .3s var(--ease); display: inline-flex; align-items: center; min-height: 44px; }
+    .footer-links a:hover { color: var(--cyan-400); }
     .footer-bottom { text-align: center; padding-top: 1.5rem; font-size: .82rem; }
 
-    /* ── Mobile Menu ───────────────────────────────── */
+    /* ── Mobile Menu & Responsive ──────────────────── */
     @media (max-width: 768px) {
       .nav-links {
-        position: fixed; top: 0; right: -100%; width: 75%; max-width: 20rem; height: 100vh;
+        position: fixed; top: 0; right: -100%; width: 78%; max-width: 20rem; height: 100vh; height: 100dvh;
         background: #fff; flex-direction: column; justify-content: center;
-        gap: 2rem; padding: 2rem; transition: right .4s ease; box-shadow: -8px 0 30px rgba(0,0,0,.1);
+        gap: 2rem; padding: 2rem; transition: right .4s var(--ease); box-shadow: -8px 0 30px rgba(0,0,0,.12);
         z-index: 200;
       }
       .nav-links.active { right: 0; }
-      .nav-links a { font-size: 1.1rem; }
-      .menu-toggle { display: block; z-index: 201; }
+      .nav-links a { font-size: 1.15rem; }
+      .menu-toggle { display: flex; flex-direction: column; justify-content: center; z-index: 201; }
       .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
       .menu-toggle.active span:nth-child(2) { opacity: 0; }
       .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
       .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 150; }
       .mobile-overlay.active { display: block; }
-
-      .hero { min-height: 100svh; }
-      .hero h1 { font-size: clamp(1.8rem, 7vw, 2.5rem); }
-
-      .services-grid { grid-template-columns: 1fr; gap: 1.2rem; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
       .masonry { columns: 2; column-gap: .8rem; }
       .masonry-item { margin-bottom: .8rem; }
-      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .form-row { grid-template-columns: 1fr; }
       .footer-content { flex-direction: column; text-align: center; }
-      .review-card { flex: 0 0 85vw; }
+      .review-card { flex: 0 0 82vw; }
     }
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .services-grid { grid-template-columns: repeat(2, 1fr); }
-      .stats-grid { grid-template-columns: repeat(4, 1fr); }
-      .masonry { columns: 2; }
+    @media (max-width: 480px) {
+      .masonry { columns: 1; }
+      .hero-buttons .btn { width: 100%; }
+    }
+
+    /* ── Accessibilité : reduced motion ────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+      .hero::before { animation: none; }
+      .bubble { display: none; }
+      .reveal { opacity: 1; transform: none; }
     }
   </style>
 </head>
 <body>
+  <a href="#main" class="skip-link">Aller au contenu</a>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
   <!-- ═══ NAVIGATION ═══ -->
-  <nav class="navbar" id="navbar">
+  <nav class="navbar" id="navbar" aria-label="Navigation principale">
     <div class="container">
-      <a href="#" class="nav-logo" aria-label="Accueil Duval Plomberie">
-        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <a href="#hero" class="nav-logo" aria-label="Accueil Duval Plomberie">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <circle cx="20" cy="20" r="18" fill="#0a2463"/>
           <path d="M20 8c0 0-8 6-8 14a8 8 0 0016 0c0-8-8-14-8-14z" fill="#48cae4"/>
           <ellipse cx="17" cy="19" rx="2.5" ry="3.5" fill="rgba(255,255,255,.35)" transform="rotate(-15 17 19)"/>
@@ -336,16 +445,17 @@
         <a href="#contact">Contact</a>
         <a href="tel:0561234567" class="nav-cta">05 61 23 45 67</a>
       </div>
-      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
   <div class="mobile-overlay" id="mobileOverlay"></div>
 
+  <main id="main">
   <!-- ═══ HERO ═══ -->
   <section class="hero" id="hero">
-    <div class="bubbles">
+    <div class="bubbles" aria-hidden="true">
       <div class="bubble"></div>
       <div class="bubble"></div>
       <div class="bubble"></div>
@@ -357,11 +467,11 @@
       <h1>Votre Plombier de<br><span class="accent">Confiance</span> à Toulouse</h1>
       <p class="subtitle">Solutions rapides, durables et au juste prix.<br>Intervention en urgence 7j/7 sur toute la métropole.</p>
       <div class="hero-buttons">
-        <a href="#contact" class="btn btn-primary">Devis Gratuit</a>
+        <a href="#contact" class="btn btn-primary" id="heroCta">Devis Gratuit</a>
         <a href="tel:0561234567" class="btn btn-outline">📞 05 61 23 45 67</a>
       </div>
     </div>
-    <div class="wave-divider">
+    <div class="wave-divider" aria-hidden="true">
       <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,40 C360,120 720,0 1080,80 C1260,110 1380,60 1440,40 L1440,120 L0,120 Z" fill="#ffffff"/>
       </svg>
@@ -379,7 +489,7 @@
         <!-- Plomberie générale -->
         <div class="service-card reveal">
           <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
             </svg>
           </div>
@@ -389,19 +499,19 @@
         <!-- Chauffage -->
         <div class="service-card reveal">
           <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M12 2c0 0-4 4-4 8a4 4 0 008 0c0-4-4-8-4-8z"/>
               <path d="M12 22v-4"/>
               <path d="M8 18h8"/>
             </svg>
           </div>
-          <h3>Chauffage & Chaudières</h3>
+          <h3>Chauffage &amp; Chaudières</h3>
           <p>Installation, remplacement et entretien de chaudières gaz, pompes à chaleur et planchers chauffants.</p>
         </div>
         <!-- Salle de bain -->
         <div class="service-card reveal">
           <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4"/>
               <path d="M4 15h16"/>
               <path d="M6 15V5a2 2 0 012-2h1"/>
@@ -416,7 +526,7 @@
         <!-- Dépannage -->
         <div class="service-card reveal">
           <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="10"/>
               <polyline points="12 6 12 12 16 14"/>
             </svg>
@@ -427,7 +537,7 @@
         <!-- Débouchage -->
         <div class="service-card reveal">
           <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M7 3v4"/>
               <path d="M3 7h8"/>
               <path d="M7 7v10a4 4 0 004 4h2a4 4 0 004-4V7"/>
@@ -441,7 +551,7 @@
         <!-- Installation sanitaire -->
         <div class="service-card reveal">
           <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M12 2v6"/>
               <path d="M8 6h8"/>
               <path d="M8 6c0 0-4 2-4 8v4a2 2 0 002 2h12a2 2 0 002-2v-4c0-6-4-8-4-8"/>
@@ -456,8 +566,8 @@
   </section>
 
   <!-- ═══ CHIFFRES CLES ═══ -->
-  <section class="stats" id="chiffres">
-    <div class="wave-divider-top">
+  <section class="stats" id="chiffres" aria-label="Chiffres clés">
+    <div class="wave-divider-top" aria-hidden="true">
       <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,60 C480,0 960,80 1440,20 L1440,0 L0,0 Z" fill="#ffffff"/>
       </svg>
@@ -465,24 +575,24 @@
     <div class="container">
       <div class="stats-grid">
         <div class="stat-item reveal">
-          <div class="stat-number">15+</div>
+          <div class="stat-number" data-count="15" data-suffix="+">0</div>
           <div class="stat-label">ans d'expérience</div>
         </div>
         <div class="stat-item reveal">
-          <div class="stat-number">2 500+</div>
+          <div class="stat-number" data-count="2500" data-suffix="+">0</div>
           <div class="stat-label">interventions</div>
         </div>
         <div class="stat-item reveal">
-          <div class="stat-number">4.9/5</div>
+          <div class="stat-number" data-count="4.9" data-suffix="/5" data-decimals="1">0</div>
           <div class="stat-label">satisfaction client</div>
         </div>
         <div class="stat-item reveal">
-          <div class="stat-number">30 min</div>
+          <div class="stat-number" data-count="30" data-suffix=" min">0</div>
           <div class="stat-label">délai urgence</div>
         </div>
       </div>
     </div>
-    <div class="wave-divider">
+    <div class="wave-divider" aria-hidden="true">
       <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,20 C480,80 960,0 1440,60 L1440,80 L0,80 Z" fill="#ffffff"/>
       </svg>
@@ -498,35 +608,35 @@
       </div>
       <div class="masonry">
         <div class="masonry-item reveal">
-          <img src="https://loremflickr.com/600/400/bathroom?lock=250" alt="Rénovation salle de bain moderne" width="600" height="400" loading="lazy" decoding="async">
+          <img src="https://loremflickr.com/600/400/bathroom?lock=250" alt="Rénovation salle de bain moderne" width="600" height="400" loading="lazy" decoding="async" class="ratio-l">
           <div class="masonry-overlay"><span>Salle de bain moderne</span></div>
         </div>
         <div class="masonry-item reveal">
-          <img src="https://loremflickr.com/400/600/shower?lock=251" alt="Installation douche italienne" width="400" height="600" loading="lazy" decoding="async">
+          <img src="https://loremflickr.com/400/600/shower?lock=251" alt="Installation douche italienne" width="400" height="600" loading="lazy" decoding="async" class="ratio-p">
           <div class="masonry-overlay"><span>Douche italienne</span></div>
         </div>
         <div class="masonry-item reveal">
-          <img src="https://loremflickr.com/600/400/boiler?lock=252" alt="Remplacement chaudière gaz" width="600" height="400" loading="lazy" decoding="async">
+          <img src="https://loremflickr.com/600/400/boiler?lock=252" alt="Remplacement chaudière gaz" width="600" height="400" loading="lazy" decoding="async" class="ratio-l">
           <div class="masonry-overlay"><span>Chaudière condensation</span></div>
         </div>
         <div class="masonry-item reveal">
-          <img src="https://loremflickr.com/600/400/kitchen,sink?lock=253" alt="Plomberie neuve cuisine" width="600" height="400" loading="lazy" decoding="async">
+          <img src="https://loremflickr.com/600/400/kitchen,sink?lock=253" alt="Plomberie neuve cuisine" width="600" height="400" loading="lazy" decoding="async" class="ratio-l">
           <div class="masonry-overlay"><span>Cuisine complète</span></div>
         </div>
         <div class="masonry-item reveal">
-          <img src="https://loremflickr.com/400/600/toilet?lock=254" alt="Installation sanitaire" width="400" height="600" loading="lazy" decoding="async">
+          <img src="https://loremflickr.com/400/600/toilet?lock=254" alt="Installation sanitaire" width="400" height="600" loading="lazy" decoding="async" class="ratio-p">
           <div class="masonry-overlay"><span>Sanitaire haut de gamme</span></div>
         </div>
         <div class="masonry-item reveal">
-          <img src="https://loremflickr.com/600/400/pipes?lock=255" alt="Réfection tuyauterie" width="600" height="400" loading="lazy" decoding="async">
+          <img src="https://loremflickr.com/600/400/pipes?lock=255" alt="Réfection tuyauterie" width="600" height="400" loading="lazy" decoding="async" class="ratio-l">
           <div class="masonry-overlay"><span>Réfection tuyauterie</span></div>
         </div>
         <div class="masonry-item reveal">
-          <img src="https://loremflickr.com/600/400/radiator?lock=256" alt="Plancher chauffant" width="600" height="400" loading="lazy" decoding="async">
+          <img src="https://loremflickr.com/600/400/radiator?lock=256" alt="Plancher chauffant" width="600" height="400" loading="lazy" decoding="async" class="ratio-l">
           <div class="masonry-overlay"><span>Plancher chauffant</span></div>
         </div>
         <div class="masonry-item reveal">
-          <img src="https://loremflickr.com/400/600/bathtub?lock=257" alt="Rénovation complète" width="400" height="600" loading="lazy" decoding="async">
+          <img src="https://loremflickr.com/400/600/bathtub?lock=257" alt="Rénovation complète" width="400" height="600" loading="lazy" decoding="async" class="ratio-p">
           <div class="masonry-overlay"><span>Rénovation complète</span></div>
         </div>
       </div>
@@ -535,7 +645,7 @@
 
   <!-- ═══ AVIS ═══ -->
   <section class="reviews" id="avis">
-    <div class="wave-divider-top">
+    <div class="wave-divider-top" aria-hidden="true">
       <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,40 C320,0 640,60 960,20 C1120,0 1300,40 1440,30 L1440,0 L0,0 Z" fill="#ffffff"/>
       </svg>
@@ -546,14 +656,14 @@
         <h2 class="section-title">Avis de Nos Clients</h2>
         <div class="reviews-header" style="margin-top:1rem;">
           <div class="google-badge">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
             </svg>
             <span>4.9</span>
-            <span class="google-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <span class="google-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
             <span class="google-count">(127 avis)</span>
           </div>
         </div>
@@ -561,42 +671,42 @@
       <div class="reviews-scroll">
         <div class="review-card reveal">
           <div class="review-top">
-            <div class="review-avatar">M</div>
+            <div class="review-avatar" aria-hidden="true">M</div>
             <div><div class="review-name">Marie L.</div><div class="review-date">il y a 2 semaines</div></div>
           </div>
-          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="review-stars" aria-label="5 étoiles sur 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <p class="review-text">"Intervention rapide et soignée. M. Duval est très professionnel, je recommande sans hésiter !"</p>
         </div>
         <div class="review-card reveal">
           <div class="review-top">
-            <div class="review-avatar">T</div>
+            <div class="review-avatar" aria-hidden="true">T</div>
             <div><div class="review-name">Thomas B.</div><div class="review-date">il y a 1 mois</div></div>
           </div>
-          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="review-stars" aria-label="5 étoiles sur 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <p class="review-text">"Excellente prestation pour la rénovation de notre salle de bain. Travail propre et dans les délais."</p>
         </div>
         <div class="review-card reveal">
           <div class="review-top">
-            <div class="review-avatar">S</div>
+            <div class="review-avatar" aria-hidden="true">S</div>
             <div><div class="review-name">Sophie M.</div><div class="review-date">il y a 1 mois</div></div>
           </div>
-          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="review-stars" aria-label="5 étoiles sur 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <p class="review-text">"Dépannage un dimanche soir, arrivé en 30 minutes. Prix honnête et travail impeccable."</p>
         </div>
         <div class="review-card reveal">
           <div class="review-top">
-            <div class="review-avatar">J</div>
+            <div class="review-avatar" aria-hidden="true">J</div>
             <div><div class="review-name">Jean-Pierre D.</div><div class="review-date">il y a 2 mois</div></div>
           </div>
-          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="review-stars" aria-label="5 étoiles sur 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <p class="review-text">"Très satisfait de l'installation de notre nouvelle chaudière. Conseils pertinents et pose soignée."</p>
         </div>
         <div class="review-card reveal">
           <div class="review-top">
-            <div class="review-avatar">I</div>
+            <div class="review-avatar" aria-hidden="true">I</div>
             <div><div class="review-name">Isabelle R.</div><div class="review-date">il y a 3 mois</div></div>
           </div>
-          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+          <div class="review-stars" aria-label="4 étoiles sur 5">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
           <p class="review-text">"Plombier sérieux et ponctuel. A résolu un problème de fuite que d'autres n'avaient pas su trouver."</p>
         </div>
       </div>
@@ -605,7 +715,7 @@
 
   <!-- ═══ CONTACT ═══ -->
   <section class="contact" id="contact">
-    <div class="wave-divider-top">
+    <div class="wave-divider-top" aria-hidden="true">
       <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,20 C360,60 720,0 1080,40 C1260,55 1380,25 1440,30 L1440,0 L0,0 Z" fill="#f0f7ff"/>
       </svg>
@@ -614,22 +724,22 @@
       <div class="contact-grid">
         <div class="contact-info reveal">
           <h2>Besoin d'un<br><span class="accent">Plombier</span> ?</h2>
-          <p style="color:#5a6a7a; margin-bottom:2rem;">Contactez-nous pour un devis gratuit et sans engagement. Nous intervenons sur Toulouse et toute la métropole.</p>
+          <p style="color:var(--muted); margin-bottom:2rem;">Contactez-nous pour un devis gratuit et sans engagement. Nous intervenons sur Toulouse et toute la métropole.</p>
           <div class="contact-detail">
             <div class="contact-detail-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
             </div>
             <div><strong>Téléphone</strong><a href="tel:0561234567">05 61 23 45 67</a></div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <div><strong>Email</strong><a href="mailto:duval.plomberie@gmail.com">duval.plomberie@gmail.com</a></div>
           </div>
           <div class="contact-detail">
             <div class="contact-detail-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
             <div><strong>Adresse</strong><span>15 rue des Artisans, 31000 Toulouse</span></div>
           </div>
@@ -641,23 +751,23 @@
           <div class="form-row">
             <div class="form-group">
               <label for="name">Nom complet</label>
-              <input type="text" id="name" placeholder="Jean Dupont" required>
+              <input type="text" id="name" name="name" autocomplete="name" placeholder="Jean Dupont" required>
             </div>
             <div class="form-group">
               <label for="phone">Téléphone</label>
-              <input type="tel" id="phone" placeholder="06 12 34 56 78" required>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="06 12 34 56 78" required>
             </div>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" placeholder="jean@exemple.fr">
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="jean@exemple.fr">
           </div>
           <div class="form-group">
             <label for="service">Type d'intervention</label>
-            <select id="service">
+            <select id="service" name="service">
               <option value="">Sélectionnez un service</option>
               <option>Plomberie générale</option>
-              <option>Chauffage & chaudières</option>
+              <option>Chauffage &amp; chaudières</option>
               <option>Salle de bain clé en main</option>
               <option>Dépannage urgent</option>
               <option>Débouchage canalisations</option>
@@ -667,17 +777,18 @@
           </div>
           <div class="form-group">
             <label for="message">Décrivez votre besoin</label>
-            <textarea id="message" placeholder="Décrivez votre problème ou projet..."></textarea>
+            <textarea id="message" name="message" placeholder="Décrivez votre problème ou projet..."></textarea>
           </div>
           <button type="submit" class="btn-submit">Envoyer ma demande</button>
         </form>
       </div>
     </div>
   </section>
+  </main>
 
   <!-- ═══ FOOTER ═══ -->
   <footer class="footer">
-    <div class="wave-divider-top">
+    <div class="wave-divider-top" aria-hidden="true">
       <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,30 C240,60 480,0 720,40 C960,70 1200,10 1440,40 L1440,0 L0,0 Z" fill="#ffffff"/>
       </svg>
@@ -685,20 +796,20 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-logo">
-          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="20" cy="20" r="18" fill="rgba(72,202,228,.2)"/>
             <path d="M20 8c0 0-8 6-8 14a8 8 0 0016 0c0-8-8-14-8-14z" fill="#48cae4"/>
             <ellipse cx="17" cy="19" rx="2.5" ry="3.5" fill="rgba(255,255,255,.3)" transform="rotate(-15 17 19)"/>
           </svg>
           <span>Duval Plomberie</span>
         </div>
-        <div class="footer-links">
+        <nav class="footer-links" aria-label="Liens de pied de page">
           <a href="#services">Services</a>
           <a href="#realisations">Réalisations</a>
           <a href="#avis">Avis</a>
           <a href="#contact">Contact</a>
           <a href="#">Mentions légales</a>
-        </div>
+        </nav>
       </div>
       <div class="footer-bottom">
         &copy; 2026 Duval Plomberie — Toulouse. Tous droits réservés.
@@ -706,53 +817,120 @@
     </div>
   </footer>
 
-  <script>
-    /* ── Navbar scroll shadow ──────────────────────── */
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 30);
-    }, { passive: true });
+  <script defer>
+    (function () {
+      'use strict';
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* ── Mobile menu ───────────────────────────────── */
-    const menuToggle = document.getElementById('menuToggle');
-    const navLinks = document.getElementById('navLinks');
-    const overlay = document.getElementById('mobileOverlay');
+      /* ── Navbar scroll shadow + scroll progress bar ── */
+      var navbar = document.getElementById('navbar');
+      var progress = document.getElementById('scrollProgress');
+      var ticking = false;
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          var y = window.scrollY || window.pageYOffset;
+          navbar.classList.toggle('scrolled', y > 30);
+          var h = document.documentElement.scrollHeight - window.innerHeight;
+          progress.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
+          ticking = false;
+        });
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
 
-    function toggleMenu() {
-      menuToggle.classList.toggle('active');
-      navLinks.classList.toggle('active');
-      overlay.classList.toggle('active');
-      document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
-    }
-    menuToggle.addEventListener('click', toggleMenu);
-    overlay.addEventListener('click', toggleMenu);
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (navLinks.classList.contains('active')) toggleMenu();
+      /* ── Mobile menu ───────────────────────────────── */
+      var menuToggle = document.getElementById('menuToggle');
+      var navLinks = document.getElementById('navLinks');
+      var overlay = document.getElementById('mobileOverlay');
+      function setMenu(open) {
+        menuToggle.classList.toggle('active', open);
+        navLinks.classList.toggle('active', open);
+        overlay.classList.toggle('active', open);
+        menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menuToggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
+      menuToggle.addEventListener('click', function () {
+        setMenu(!navLinks.classList.contains('active'));
       });
-    });
+      overlay.addEventListener('click', function () { setMenu(false); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && navLinks.classList.contains('active')) setMenu(false);
+      });
+      navLinks.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          if (navLinks.classList.contains('active')) setMenu(false);
+        });
+      });
 
-    /* ── Scroll Reveal (Intersection Observer) ───── */
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
+      /* ── Staggered scroll reveal ──────────────────── */
+      var revealEls = document.querySelectorAll('.reveal');
+      if (reduceMotion) {
+        revealEls.forEach(function (el) { el.classList.add('visible'); });
+      } else {
+        var revealObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var target = entry.target;
+              var siblings = Array.prototype.slice.call(target.parentNode.children).filter(function (n) {
+                return n.classList && n.classList.contains('reveal');
+              });
+              var idx = siblings.indexOf(target);
+              target.style.setProperty('--reveal-delay', (Math.max(0, idx) * 0.09) + 's');
+              target.classList.add('visible');
+              revealObserver.unobserve(target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        revealEls.forEach(function (el) { revealObserver.observe(el); });
+      }
+
+      /* ── Count-up counters on scroll ──────────────── */
+      var counters = document.querySelectorAll('.stat-number[data-count]');
+      function animateCount(el) {
+        var target = parseFloat(el.getAttribute('data-count'));
+        var suffix = el.getAttribute('data-suffix') || '';
+        var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+        if (reduceMotion) {
+          el.textContent = target.toLocaleString('fr-FR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
+          return;
         }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        var duration = 1600, start = null;
+        function step(ts) {
+          if (!start) start = ts;
+          var p = Math.min((ts - start) / duration, 1);
+          var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+          var val = target * eased;
+          el.textContent = val.toLocaleString('fr-FR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = target.toLocaleString('fr-FR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
+        }
+        requestAnimationFrame(step);
+      }
+      var countObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animateCount(entry.target);
+            countObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      counters.forEach(function (c) { countObserver.observe(c); });
 
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    /* ── Ripple effect on submit button ──────────── */
-    const submitBtn = document.querySelector('.btn-submit');
-    if (submitBtn) {
-      submitBtn.addEventListener('mousemove', (e) => {
-        const rect = submitBtn.getBoundingClientRect();
-        submitBtn.style.setProperty('--x', ((e.clientX - rect.left) / rect.width * 100) + '%');
-        submitBtn.style.setProperty('--y', ((e.clientY - rect.top) / rect.height * 100) + '%');
-      });
-    }
+      /* ── Water-ripple light follow on CTAs ─────────── */
+      function trackRipple(el) {
+        if (!el) return;
+        el.addEventListener('mousemove', function (e) {
+          var rect = el.getBoundingClientRect();
+          el.style.setProperty('--x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+          el.style.setProperty('--y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+        });
+      }
+      trackRipple(document.querySelector('.btn-submit'));
+      trackRipple(document.getElementById('heroCta'));
+    })();
   </script>
 </body>
 </html>

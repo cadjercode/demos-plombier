@@ -11,14 +11,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================
-   INDUSTRIAL BOLD — Le Brut Assumé
-   Concept: Raw, powerful, masculine design
+   INDUSTRIAL BOLD — Le Brut Assumé · 2025 Edition
+   Concept: Raw, powerful, masculine. Bold minimalism.
    ============================================ */
 
 /* --- Reset & Base --- */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
+  /* Palette — identity preserved */
   --steel-dark: #2d2d2d;
   --steel-mid: #404040;
   --steel-light: #555;
@@ -26,11 +27,40 @@
   --orange-dark: #e65c00;
   --concrete: #f2ece4;
   --white: #ffffff;
+  --black: #1a1a1a;
+
+  /* Fonts */
   --font-heading: 'Bebas Neue', Impact, sans-serif;
   --font-body: 'Roboto', Arial, sans-serif;
+
+  /* Fluid type scale */
+  --fs-hero: clamp(3.5rem, 10vw, 9rem);
+  --fs-h2: clamp(2.4rem, 6vw, 3.5rem);
+  --fs-h3: clamp(1.4rem, 2.5vw, 1.6rem);
+  --fs-lead: clamp(1.05rem, 2vw, 1.3rem);
+  --fs-body: clamp(0.95rem, 1.2vw, 1rem);
+
+  /* Fluid spacing */
+  --space-section: clamp(4rem, 9vw, 7rem);
+  --space-lg: clamp(2rem, 5vw, 4rem);
+  --space-md: clamp(1.2rem, 3vw, 2rem);
+
+  /* Layout */
+  --maxw: 1200px;
+  --nav-h: 70px;
+
+  /* Easing tokens */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Angled divider depth — overridden on small screens */
+  --clip-angle: 40px;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
+}
 
 body {
   font-family: var(--font-body);
@@ -44,44 +74,80 @@ a { text-decoration: none; color: inherit; }
 img { max-width: 100%; height: auto; display: block; }
 ul { list-style: none; }
 
+/* --- Focus visible (accessibility) --- */
+:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 3px;
+}
+
 /* --- Utility --- */
 .container {
-  width: 90%;
-  max-width: 1200px;
+  width: min(90%, var(--maxw));
   margin: 0 auto;
 }
 
 /* --- Scroll Reveal --- */
-.reveal {
+.reveal, .reveal-left, .reveal-right {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
 }
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-60px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-.reveal-right {
-  opacity: 0;
-  transform: translateX(60px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
+.reveal { transform: translateY(40px); }
+.reveal-left { transform: translateX(-50px); }
+.reveal-right { transform: translateX(50px); }
+.reveal.visible,
+.reveal-left.visible,
 .reveal-right.visible {
   opacity: 1;
-  transform: translateX(0);
+  transform: translate(0, 0);
 }
 
 /* ============================================
-   NAVIGATION
+   SCROLL PROGRESS BAR
+   ============================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: var(--orange);
+  z-index: 1100;
+}
+
+/* ============================================
+   CUSTOM CURSOR (desktop only)
+   ============================================ */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: var(--orange);
+  pointer-events: none;
+  z-index: 2000;
+  opacity: 0;
+  transition: width 0.25s var(--ease-spring), height 0.25s var(--ease-spring),
+              background 0.25s var(--ease), opacity 0.3s var(--ease);
+  mix-blend-mode: normal;
+}
+.cursor-dot.active { opacity: 1; }
+.cursor-dot.hover {
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  background: rgba(255, 102, 0, 0.25);
+  border: 2px solid var(--orange);
+}
+
+/* ============================================
+   NAVIGATION — Glassmorphism
    ============================================ */
 .nav {
   position: fixed;
@@ -89,19 +155,34 @@ ul { list-style: none; }
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: var(--steel-dark);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(45, 45, 45, 0.65);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: background 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.4s var(--ease);
 }
 .nav.scrolled {
-  background: rgba(45, 45, 45, 0.97);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  background: rgba(45, 45, 45, 0.85);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
 }
+.nav.scrolled::after { transform: scaleX(1); }
 .nav-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 5%;
-  height: 70px;
+  height: var(--nav-h);
 }
 .nav-logo {
   font-family: var(--font-heading);
@@ -126,61 +207,72 @@ ul { list-style: none; }
 .nav-links a {
   font-family: var(--font-heading);
   font-size: 1.1rem;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
   letter-spacing: 1.5px;
-  transition: color 0.3s ease;
+  transition: color 0.3s var(--ease);
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 .nav-links a::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: 8px;
   left: 0;
   width: 0;
   height: 2px;
   background: var(--orange);
-  transition: width 0.3s ease;
+  transition: width 0.3s var(--ease);
 }
 .nav-links a:hover { color: var(--white); }
 .nav-links a:hover::after { width: 100%; }
 
-/* Burger */
+/* Burger — animated → X */
 .burger {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  justify-content: center;
+  gap: 6px;
   cursor: pointer;
-  padding: 5px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
   z-index: 1001;
 }
 .burger span {
   display: block;
   width: 28px;
   height: 3px;
+  margin: 0 auto;
   background: var(--white);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  border-radius: 2px;
+  transition: transform 0.35s var(--ease), opacity 0.2s var(--ease);
 }
-.burger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+.burger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
 .burger.active span:nth-child(2) { opacity: 0; }
-.burger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+.burger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .burger { display: flex; }
   .nav-links {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 75%;
-    height: 100vh;
-    background: var(--steel-dark);
+    width: min(78%, 340px);
+    height: 100dvh;
+    background: rgba(45, 45, 45, 0.97);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2.5rem;
-    transition: right 0.4s ease;
+    transition: right 0.4s var(--ease);
   }
   .nav-links.open { right: 0; }
-  .nav-links a { font-size: 1.5rem; }
+  .nav-links a { font-size: 1.6rem; }
 }
 
 /* ============================================
@@ -189,22 +281,23 @@ ul { list-style: none; }
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   overflow: hidden;
   background: var(--steel-dark);
+  padding-top: var(--nav-h);
 }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: url('https://loremflickr.com/1920/1080/plumbing,pipes?lock=1076') center/cover no-repeat;
+  background: #2d2d2d url('https://loremflickr.com/1920/1080/plumbing,pipes?lock=1076') center/cover no-repeat;
 }
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(45,45,45,0.92) 0%, rgba(45,45,45,0.7) 100%);
+  background: linear-gradient(135deg, rgba(45, 45, 45, 0.94) 0%, rgba(45, 45, 45, 0.7) 100%);
 }
-/* Diagonal stripe accent */
 .hero-stripe {
   position: absolute;
   top: -10%;
@@ -214,6 +307,7 @@ ul { list-style: none; }
   background: var(--orange);
   opacity: 0.08;
   transform: skewX(-12deg);
+  pointer-events: none;
 }
 .hero-content {
   position: relative;
@@ -223,18 +317,19 @@ ul { list-style: none; }
 }
 .hero-tag {
   font-family: var(--font-heading);
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw, 1.3rem);
   color: var(--orange);
   letter-spacing: 4px;
   margin-bottom: 1rem;
 }
 .hero h1 {
   font-family: var(--font-heading);
-  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-size: var(--fs-hero);
   color: var(--white);
-  line-height: 0.95;
-  letter-spacing: 3px;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
   margin-bottom: 0.5rem;
+  text-wrap: balance;
 }
 .hero-bar {
   width: 120px;
@@ -244,8 +339,8 @@ ul { list-style: none; }
 }
 .hero-subtitle {
   font-family: var(--font-body);
-  font-size: 1.25rem;
-  color: rgba(255,255,255,0.7);
+  font-size: var(--fs-lead);
+  color: rgba(255, 255, 255, 0.72);
   font-weight: 400;
   letter-spacing: 2px;
   margin-bottom: 2.5rem;
@@ -256,31 +351,41 @@ ul { list-style: none; }
   align-items: center;
   flex-wrap: wrap;
 }
+
+/* Angular CTA button */
 .btn-primary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
   font-family: var(--font-heading);
   font-size: 1.3rem;
   letter-spacing: 2px;
-  padding: 1rem 2.5rem;
+  padding: 0.9rem 2.5rem;
   background: var(--orange);
   color: var(--white);
   clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s var(--ease), transform 0.25s var(--ease-spring), box-shadow 0.3s var(--ease);
   cursor: pointer;
   border: none;
 }
 .btn-primary:hover {
   background: var(--orange-dark);
-  transform: scale(1.03);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(255, 102, 0, 0.45);
 }
+.btn-primary:active { transform: scale(0.97); }
+
 .hero-phone {
   font-family: var(--font-heading);
   font-size: 1.5rem;
   color: var(--white);
   letter-spacing: 2px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  min-height: 44px;
+  transition: color 0.3s var(--ease);
 }
 .hero-phone svg { width: 24px; height: 24px; fill: var(--orange); }
 .hero-phone:hover { color: var(--orange); }
@@ -290,7 +395,7 @@ ul { list-style: none; }
    ============================================ */
 .stats {
   background: var(--orange);
-  padding: 3rem 0;
+  padding: clamp(2.5rem, 5vw, 3.5rem) 0;
   position: relative;
 }
 .stats-grid {
@@ -310,16 +415,16 @@ ul { list-style: none; }
   top: 10%;
   height: 80%;
   width: 1px;
-  background: rgba(255,255,255,0.3);
+  background: rgba(255, 255, 255, 0.3);
 }
 .stat-number {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2.5rem, 6vw, 4rem);
   line-height: 1;
   margin-bottom: 0.3rem;
 }
 .stat-label {
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.9rem);
   text-transform: uppercase;
   letter-spacing: 2px;
   opacity: 0.9;
@@ -332,45 +437,49 @@ ul { list-style: none; }
 }
 
 /* ============================================
-   SERVICES
+   SECTION HEADINGS
    ============================================ */
-.services {
-  background: var(--steel-dark);
-  padding: 6rem 0 5rem;
-  position: relative;
-  clip-path: polygon(0 0, 100% 40px, 100% 100%, 0 100%);
-  margin-top: -1px;
-}
 .section-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  color: var(--white);
+  font-size: var(--fs-h2);
   text-align: center;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
+  line-height: 1;
   margin-bottom: 0.5rem;
 }
 .section-title-bar {
   width: 80px;
   height: 5px;
   background: var(--orange);
-  margin: 0 auto 3rem;
+  margin: 0 auto clamp(2rem, 4vw, 3rem);
 }
+
+/* ============================================
+   SERVICES
+   ============================================ */
+.services {
+  background: var(--steel-dark);
+  padding: var(--space-section) 0 var(--space-lg);
+  position: relative;
+  clip-path: polygon(0 0, 100% var(--clip-angle), 100% 100%, 0 100%);
+  margin-top: -1px;
+}
+.services .section-title { color: var(--white); }
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 .service-card {
   background: var(--steel-mid);
-  padding: 2.5rem 2rem;
+  padding: clamp(1.8rem, 3vw, 2.5rem) clamp(1.5rem, 2.5vw, 2rem);
   border-top: 4px solid transparent;
-  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s ease;
-  perspective: 600px;
-  cursor: default;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.3s var(--ease);
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 .service-card:hover {
-  transform: translateY(-10px) rotateX(3deg) rotateY(-2deg);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
   border-top-color: var(--orange);
 }
 .service-icon {
@@ -389,63 +498,58 @@ ul { list-style: none; }
 }
 .service-card h3 {
   font-family: var(--font-heading);
-  font-size: 1.5rem;
+  font-size: var(--fs-h3);
   color: var(--white);
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   margin-bottom: 0.8rem;
 }
 .service-card p {
-  color: rgba(255,255,255,0.6);
-  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: var(--fs-body);
   line-height: 1.6;
-}
-
-@media (max-width: 1024px) {
-  .services-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 768px) {
-  .services-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
-  .services { clip-path: polygon(0 0, 100% 20px, 100% 100%, 0 100%); }
 }
 
 /* ============================================
    GALERIE
    ============================================ */
 .galerie {
-  padding: 6rem 0;
+  padding: var(--space-section) 0;
   background: var(--concrete);
 }
 .galerie .section-title { color: var(--steel-dark); }
 .galerie-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1rem;
 }
 .galerie-item {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4/3;
+  aspect-ratio: 4 / 3;
   cursor: pointer;
 }
 .galerie-item img {
   width: 100%;
   height: 100%;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 0.6s var(--ease);
 }
 .galerie-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(45,45,45,0.85);
+  background: rgba(45, 45, 45, 0.82);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.4s var(--ease);
 }
-.galerie-item:hover img { transform: scale(1.1); }
-.galerie-item:hover .galerie-overlay { opacity: 1; }
+.galerie-item:hover img,
+.galerie-item:focus-within img { transform: scale(1.1); }
+.galerie-item:hover .galerie-overlay,
+.galerie-item:focus-within .galerie-overlay { opacity: 1; }
 .galerie-overlay h4 {
   font-family: var(--font-heading);
   font-size: 1.4rem;
@@ -459,21 +563,14 @@ ul { list-style: none; }
   font-weight: 500;
 }
 
-@media (max-width: 768px) {
-  .galerie-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 480px) {
-  .galerie-grid { grid-template-columns: 1fr; }
-}
-
 /* ============================================
    AVIS
    ============================================ */
 .avis {
   background: var(--steel-dark);
-  padding: 6rem 0;
+  padding: var(--space-section) 0;
   position: relative;
-  clip-path: polygon(0 40px, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(0 var(--clip-angle), 100% 0, 100% 100%, 0 100%);
   margin-top: -1px;
 }
 .avis .section-title { color: var(--white); }
@@ -492,19 +589,19 @@ ul { list-style: none; }
   color: var(--white);
   letter-spacing: 1px;
 }
-.avis-score span { color: rgba(255,255,255,0.5); }
+.avis-score span { color: rgba(255, 255, 255, 0.5); }
 .avis-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
 }
 .avis-card {
   background: var(--steel-mid);
   padding: 1.8rem;
   border-left: 4px solid var(--orange);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s var(--ease);
 }
-.avis-card:hover { transform: translateX(5px); }
+.avis-card:hover { transform: translateX(6px); }
 .avis-card-header {
   display: flex;
   justify-content: space-between;
@@ -521,20 +618,15 @@ ul { list-style: none; }
   font-size: 1rem;
 }
 .avis-text {
-  color: rgba(255,255,255,0.7);
-  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: var(--fs-body);
   line-height: 1.6;
   margin-bottom: 0.6rem;
   font-style: italic;
 }
 .avis-date {
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.42);
   font-size: 0.8rem;
-}
-
-@media (max-width: 768px) {
-  .avis { clip-path: polygon(0 20px, 100% 0, 100% 100%, 0 100%); }
-  .avis-grid { grid-template-columns: 1fr; }
 }
 
 /* ============================================
@@ -542,17 +634,17 @@ ul { list-style: none; }
    ============================================ */
 .contact {
   position: relative;
-  clip-path: polygon(0 0, 100% 40px, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, 100% var(--clip-angle), 100% 100%, 0 100%);
   margin-top: -1px;
 }
 .contact-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
   min-height: 550px;
 }
 .contact-info {
   background: var(--concrete);
-  padding: 5rem 4rem 4rem;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 4rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -596,13 +688,19 @@ ul { list-style: none; }
 .contact-detail-text span,
 .contact-detail-text a {
   color: var(--steel-light);
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
+}
+.contact-detail-text a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  transition: color 0.3s var(--ease);
 }
 .contact-detail-text a:hover { color: var(--orange); }
 
 .contact-form-wrap {
   background: var(--steel-dark);
-  padding: 5rem 4rem 4rem;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 4rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -619,7 +717,7 @@ ul { list-style: none; }
   display: block;
   font-family: var(--font-heading);
   font-size: 0.95rem;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
   letter-spacing: 1.5px;
   margin-bottom: 0.4rem;
 }
@@ -628,12 +726,13 @@ ul { list-style: none; }
 .form-group select {
   width: 100%;
   padding: 0.85rem 1rem;
+  min-height: 48px;
   background: var(--steel-mid);
   border: 2px solid transparent;
   color: var(--white);
   font-family: var(--font-body);
-  font-size: 0.95rem;
-  transition: border-color 0.3s ease;
+  font-size: 1rem;
+  transition: border-color 0.3s var(--ease);
   outline: none;
 }
 .form-group input:focus,
@@ -648,32 +747,28 @@ ul { list-style: none; }
   font-family: var(--font-heading);
   font-size: 1.2rem;
   letter-spacing: 2px;
-  padding: 1rem 3rem;
+  padding: 0.9rem 3rem;
+  min-height: 48px;
   background: var(--orange);
   color: var(--white);
   border: none;
   cursor: pointer;
   clip-path: polygon(0 0, 100% 0, 96% 100%, 0% 100%);
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s var(--ease), transform 0.25s var(--ease-spring), box-shadow 0.3s var(--ease);
   margin-top: 0.5rem;
 }
 .btn-submit:hover {
   background: var(--orange-dark);
-  transform: scale(1.03);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(255, 102, 0, 0.45);
 }
-
-@media (max-width: 768px) {
-  .contact { clip-path: polygon(0 0, 100% 20px, 100% 100%, 0 100%); }
-  .contact-grid { grid-template-columns: 1fr; }
-  .contact-info,
-  .contact-form-wrap { padding: 3rem 1.5rem; }
-}
+.btn-submit:active { transform: scale(0.97); }
 
 /* ============================================
    FOOTER
    ============================================ */
 .footer {
-  background: #1a1a1a;
+  background: var(--black);
   padding: 2.5rem 0;
   border-top: 4px solid var(--orange);
 }
@@ -691,7 +786,7 @@ ul { list-style: none; }
   letter-spacing: 2px;
 }
 .footer-copy {
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
   font-size: 0.85rem;
 }
 .footer-links {
@@ -699,9 +794,12 @@ ul { list-style: none; }
   gap: 1.5rem;
 }
 .footer-links a {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   font-size: 0.85rem;
-  transition: color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  transition: color 0.3s var(--ease);
 }
 .footer-links a:hover { color: var(--orange); }
 
@@ -722,6 +820,35 @@ ul { list-style: none; }
   letter-spacing: 1px;
 }
 .skip-link:focus { top: 0; }
+
+/* ============================================
+   SMALL-SCREEN ADJUSTMENTS
+   Reduce clip angle so angled dividers never
+   cause overflow or gaps on mobile.
+   ============================================ */
+@media (max-width: 768px) {
+  :root { --clip-angle: 18px; }
+}
+@media (max-width: 480px) {
+  :root { --clip-angle: 12px; }
+}
+
+/* ============================================
+   REDUCED MOTION — full accessibility
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal, .reveal-left, .reveal-right {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .scroll-progress { display: none; }
+  .cursor-dot { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -729,10 +856,16 @@ ul { list-style: none; }
 <!-- Skip to content -->
 <a href="#main" class="skip-link">Aller au contenu principal</a>
 
+<!-- Scroll progress bar -->
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<!-- Custom cursor (desktop) -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
 <!-- ==========================================
      NAVIGATION
      ========================================== -->
-<nav class="nav" role="navigation" aria-label="Navigation principale">
+<nav class="nav" aria-label="Navigation principale">
   <div class="nav-inner">
     <a href="#" class="nav-logo" aria-label="Duval Plomberie - Accueil">DUVAL PLOMBERIE</a>
     <ul class="nav-links" id="navLinks">
@@ -741,9 +874,9 @@ ul { list-style: none; }
       <li><a href="#avis">AVIS</a></li>
       <li><a href="#contact">CONTACT</a></li>
     </ul>
-    <div class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" role="button" tabindex="0">
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
-    </div>
+    </button>
   </div>
 </nav>
 
@@ -753,16 +886,16 @@ ul { list-style: none; }
 <header class="hero">
   <div class="hero-bg" role="img" aria-label="Tuyauterie industrielle"></div>
   <div class="hero-overlay"></div>
-  <div class="hero-stripe"></div>
+  <div class="hero-stripe" aria-hidden="true"></div>
   <div class="hero-content">
     <p class="hero-tag reveal-left">PLOMBERIE &bull; CHAUFFAGE &bull; SANITAIRE</p>
     <h1 class="reveal">VOTRE PLOMBIER PRO &Agrave; TOULOUSE</h1>
-    <div class="hero-bar reveal"></div>
+    <div class="hero-bar reveal" aria-hidden="true"></div>
     <p class="hero-subtitle reveal">D&eacute;pannage &bull; Installation &bull; R&eacute;novation</p>
     <div class="hero-actions reveal">
       <a href="#contact" class="btn-primary">DEMANDER UN DEVIS</a>
       <a href="tel:0561234567" class="hero-phone">
-        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         05 61 23 45 67
       </a>
     </div>
@@ -776,11 +909,11 @@ ul { list-style: none; }
   <div class="container">
     <div class="stats-grid">
       <div class="stat-item">
-        <div class="stat-number" data-target="15">0</div>
+        <div class="stat-number" data-target="15" data-suffix="+">0</div>
         <div class="stat-label">Ans d'exp&eacute;rience</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number" data-target="2500">0</div>
+        <div class="stat-number" data-target="2500" data-suffix="+">0</div>
         <div class="stat-label">Interventions</div>
       </div>
       <div class="stat-item">
@@ -802,52 +935,52 @@ ul { list-style: none; }
 <section class="services" id="services" aria-label="Nos services">
   <div class="container">
     <h2 class="section-title reveal">NOS SERVICES</h2>
-    <div class="section-title-bar reveal"></div>
+    <div class="section-title-bar reveal" aria-hidden="true"></div>
     <div class="services-grid">
 
-      <div class="service-card reveal">
+      <div class="service-card reveal" data-tilt>
         <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M6 2l.01 6L10 12l-3.99 4L6 22h12v-6l-4-4 4-4V2H6z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2l.01 6L10 12l-3.99 4L6 22h12v-6l-4-4 4-4V2H6z"/></svg>
         </div>
         <h3>PLOMBERIE G&Eacute;N&Eacute;RALE</h3>
         <p>R&eacute;paration de fuites, remplacement de robinetterie, mise aux normes de vos installations. Diagnostic pr&eacute;cis et r&eacute;paration durable.</p>
       </div>
 
-      <div class="service-card reveal">
+      <div class="service-card reveal" data-tilt>
         <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 6v6l4.24 2.54"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 6v6l4.24 2.54"/></svg>
         </div>
         <h3>CHAUFFAGE &amp; CHAUDI&Egrave;RES</h3>
         <p>Installation, entretien annuel et d&eacute;pannage de chaudi&egrave;res gaz et pompes &agrave; chaleur. Certifi&eacute; RGE QualiPAC.</p>
       </div>
 
-      <div class="service-card reveal">
+      <div class="service-card reveal" data-tilt>
         <div class="service-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
         </div>
         <h3>SALLE DE BAIN CL&Eacute; EN MAIN</h3>
         <p>Conception, d&eacute;molition, plomberie, carrelage et finitions. Votre salle de bain r&eacute;nov&eacute;e de A &agrave; Z en toute s&eacute;r&eacute;nit&eacute;.</p>
       </div>
 
-      <div class="service-card reveal">
+      <div class="service-card reveal" data-tilt>
         <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
         <h3>D&Eacute;PANNAGE URGENT 24/7</h3>
         <p>Fuite d'eau, canalisation bouch&eacute;e, panne de chauffage ? Intervention en 30 minutes, 7 jours sur 7, jours f&eacute;ri&eacute;s inclus.</p>
       </div>
 
-      <div class="service-card reveal">
+      <div class="service-card reveal" data-tilt>
         <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6"/><circle cx="12" cy="16" r="0.5"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6"/><circle cx="12" cy="16" r="0.5"/></svg>
         </div>
         <h3>D&Eacute;BOUCHAGE CANALISATIONS</h3>
         <p>D&eacute;bouchage m&eacute;canique et hydrocurage haute pression. Cam&eacute;ra d'inspection pour diagnostic pr&eacute;cis de vos canalisations.</p>
       </div>
 
-      <div class="service-card reveal">
+      <div class="service-card reveal" data-tilt>
         <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
         </div>
         <h3>INSTALLATION SANITAIRE</h3>
         <p>Pose de WC, lavabos, douches, baignoires et accessoires. Mat&eacute;riel de qualit&eacute; professionnelle, installation soign&eacute;e et garantie.</p>
@@ -863,10 +996,10 @@ ul { list-style: none; }
 <section class="galerie" id="galerie" aria-label="Nos chantiers">
   <div class="container">
     <h2 class="section-title reveal">NOS CHANTIERS</h2>
-    <div class="section-title-bar reveal" style="background: var(--orange);"></div>
+    <div class="section-title-bar reveal" aria-hidden="true"></div>
     <div class="galerie-grid">
 
-      <div class="galerie-item reveal">
+      <div class="galerie-item reveal" tabindex="0">
         <img src="https://loremflickr.com/600/450/bathroom?lock=260" alt="R&eacute;novation salle de bain compl&egrave;te" loading="lazy" width="600" height="450" decoding="async">
         <div class="galerie-overlay">
           <h4>SALLE DE BAIN</h4>
@@ -874,7 +1007,7 @@ ul { list-style: none; }
         </div>
       </div>
 
-      <div class="galerie-item reveal">
+      <div class="galerie-item reveal" tabindex="0">
         <img src="https://loremflickr.com/600/450/radiator?lock=261" alt="Installation chauffage central" loading="lazy" width="600" height="450" decoding="async">
         <div class="galerie-overlay">
           <h4>CHAUFFAGE CENTRAL</h4>
@@ -882,7 +1015,7 @@ ul { list-style: none; }
         </div>
       </div>
 
-      <div class="galerie-item reveal">
+      <div class="galerie-item reveal" tabindex="0">
         <img src="https://loremflickr.com/600/450/kitchen,sink?lock=262" alt="R&eacute;novation plomberie cuisine" loading="lazy" width="600" height="450" decoding="async">
         <div class="galerie-overlay">
           <h4>CUISINE COMPL&Egrave;TE</h4>
@@ -890,7 +1023,7 @@ ul { list-style: none; }
         </div>
       </div>
 
-      <div class="galerie-item reveal">
+      <div class="galerie-item reveal" tabindex="0">
         <img src="https://loremflickr.com/600/450/pipes?lock=263" alt="D&eacute;pannage urgence fuite" loading="lazy" width="600" height="450" decoding="async">
         <div class="galerie-overlay">
           <h4>D&Eacute;PANNAGE URGENCE</h4>
@@ -898,7 +1031,7 @@ ul { list-style: none; }
         </div>
       </div>
 
-      <div class="galerie-item reveal">
+      <div class="galerie-item reveal" tabindex="0">
         <img src="https://loremflickr.com/600/450/boiler?lock=264" alt="Installation pompe &agrave; chaleur" loading="lazy" width="600" height="450" decoding="async">
         <div class="galerie-overlay">
           <h4>POMPE &Agrave; CHALEUR</h4>
@@ -906,7 +1039,7 @@ ul { list-style: none; }
         </div>
       </div>
 
-      <div class="galerie-item reveal">
+      <div class="galerie-item reveal" tabindex="0">
         <img src="https://loremflickr.com/600/450/bathtub?lock=265" alt="R&eacute;novation compl&egrave;te appartement" loading="lazy" width="600" height="450" decoding="async">
         <div class="galerie-overlay">
           <h4>R&Eacute;NOVATION APPARTEMENT</h4>
@@ -924,10 +1057,10 @@ ul { list-style: none; }
 <section class="avis" id="avis" aria-label="Avis clients">
   <div class="container">
     <h2 class="section-title reveal">ILS NOUS FONT CONFIANCE</h2>
-    <div class="section-title-bar reveal"></div>
+    <div class="section-title-bar reveal" aria-hidden="true"></div>
 
     <div class="avis-summary reveal">
-      <div class="avis-stars">&starf;&starf;&starf;&starf;&starf;</div>
+      <div class="avis-stars" aria-hidden="true">&starf;&starf;&starf;&starf;&starf;</div>
       <div class="avis-score">4.9/5 <span>&mdash; 127 avis Google</span></div>
     </div>
 
@@ -936,7 +1069,7 @@ ul { list-style: none; }
       <div class="avis-card reveal">
         <div class="avis-card-header">
           <span class="avis-author">Marie L.</span>
-          <span class="avis-card-stars">&starf;&starf;&starf;&starf;&starf;</span>
+          <span class="avis-card-stars" aria-label="5 sur 5 &eacute;toiles">&starf;&starf;&starf;&starf;&starf;</span>
         </div>
         <p class="avis-text">&laquo; Intervention rapide et soign&eacute;e. M. Duval est tr&egrave;s professionnel, je recommande sans h&eacute;siter ! &raquo;</p>
         <span class="avis-date">Il y a 2 semaines</span>
@@ -945,7 +1078,7 @@ ul { list-style: none; }
       <div class="avis-card reveal">
         <div class="avis-card-header">
           <span class="avis-author">Thomas B.</span>
-          <span class="avis-card-stars">&starf;&starf;&starf;&starf;&starf;</span>
+          <span class="avis-card-stars" aria-label="5 sur 5 &eacute;toiles">&starf;&starf;&starf;&starf;&starf;</span>
         </div>
         <p class="avis-text">&laquo; Excellente prestation pour la r&eacute;novation de notre salle de bain. Travail propre et dans les d&eacute;lais. &raquo;</p>
         <span class="avis-date">Il y a 1 mois</span>
@@ -954,7 +1087,7 @@ ul { list-style: none; }
       <div class="avis-card reveal">
         <div class="avis-card-header">
           <span class="avis-author">Sophie M.</span>
-          <span class="avis-card-stars">&starf;&starf;&starf;&starf;&starf;</span>
+          <span class="avis-card-stars" aria-label="5 sur 5 &eacute;toiles">&starf;&starf;&starf;&starf;&starf;</span>
         </div>
         <p class="avis-text">&laquo; D&eacute;pannage un dimanche soir, arriv&eacute; en 30 minutes. Prix honn&ecirc;te et travail impeccable. &raquo;</p>
         <span class="avis-date">Il y a 1 mois</span>
@@ -963,7 +1096,7 @@ ul { list-style: none; }
       <div class="avis-card reveal">
         <div class="avis-card-header">
           <span class="avis-author">Jean-Pierre D.</span>
-          <span class="avis-card-stars">&starf;&starf;&starf;&starf;&starf;</span>
+          <span class="avis-card-stars" aria-label="5 sur 5 &eacute;toiles">&starf;&starf;&starf;&starf;&starf;</span>
         </div>
         <p class="avis-text">&laquo; Tr&egrave;s satisfait de l'installation de notre nouvelle chaudi&egrave;re. Conseils pertinents et pose soign&eacute;e. &raquo;</p>
         <span class="avis-date">Il y a 2 mois</span>
@@ -972,7 +1105,7 @@ ul { list-style: none; }
       <div class="avis-card reveal">
         <div class="avis-card-header">
           <span class="avis-author">Isabelle R.</span>
-          <span class="avis-card-stars">&starf;&starf;&starf;&starf;&star;</span>
+          <span class="avis-card-stars" aria-label="4 sur 5 &eacute;toiles">&starf;&starf;&starf;&starf;&star;</span>
         </div>
         <p class="avis-text">&laquo; Plombier s&eacute;rieux et ponctuel. A r&eacute;solu un probl&egrave;me de fuite que d'autres n'avaient pas su trouver. &raquo;</p>
         <span class="avis-date">Il y a 3 mois</span>
@@ -990,10 +1123,10 @@ ul { list-style: none; }
 
     <div class="contact-info">
       <h2 class="reveal-left">CONTACTEZ-NOUS</h2>
-      <div class="contact-info-bar reveal-left"></div>
+      <div class="contact-info-bar reveal-left" aria-hidden="true"></div>
 
       <div class="contact-detail reveal-left">
-        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
         <div class="contact-detail-text">
           <strong>ADRESSE</strong>
           <span>15 rue des Artisans<br>31000 Toulouse</span>
@@ -1001,7 +1134,7 @@ ul { list-style: none; }
       </div>
 
       <div class="contact-detail reveal-left">
-        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         <div class="contact-detail-text">
           <strong>T&Eacute;L&Eacute;PHONE</strong>
           <a href="tel:0561234567">05 61 23 45 67</a>
@@ -1009,7 +1142,7 @@ ul { list-style: none; }
       </div>
 
       <div class="contact-detail reveal-left">
-        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         <div class="contact-detail-text">
           <strong>EMAIL</strong>
           <a href="mailto:contact@duval-plomberie.fr">contact@duval-plomberie.fr</a>
@@ -1017,7 +1150,7 @@ ul { list-style: none; }
       </div>
 
       <div class="contact-detail reveal-left">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <div class="contact-detail-text">
           <strong>HORAIRES</strong>
           <span>Lun-Ven : 7h30 &ndash; 19h<br>Sam : 8h &ndash; 13h<br>Urgences : 24h/24, 7j/7</span>
@@ -1030,11 +1163,11 @@ ul { list-style: none; }
       <form id="contactForm" action="#" method="post">
         <div class="form-group reveal-right">
           <label for="name">NOM COMPLET</label>
-          <input type="text" id="name" name="name" placeholder="Jean Dupont" required>
+          <input type="text" id="name" name="name" placeholder="Jean Dupont" autocomplete="name" required>
         </div>
         <div class="form-group reveal-right">
           <label for="phone">T&Eacute;L&Eacute;PHONE</label>
-          <input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78" required>
+          <input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78" autocomplete="tel" required>
         </div>
         <div class="form-group reveal-right">
           <label for="service">TYPE DE SERVICE</label>
@@ -1080,58 +1213,74 @@ ul { list-style: none; }
 <!-- ==========================================
      JAVASCRIPT
      ========================================== -->
-<script>
+<script defer>
 (function() {
   'use strict';
+
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
   /* --- Mobile Menu --- */
   var burger = document.getElementById('burger');
   var navLinks = document.getElementById('navLinks');
 
+  function closeMenu() {
+    burger.classList.remove('active');
+    navLinks.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }
+
   burger.addEventListener('click', function() {
-    burger.classList.toggle('active');
+    var open = burger.classList.toggle('active');
     navLinks.classList.toggle('open');
-    var expanded = burger.getAttribute('aria-expanded') === 'true';
-    burger.setAttribute('aria-expanded', String(!expanded));
+    burger.setAttribute('aria-expanded', String(open));
   });
 
-  /* Close menu on link click */
   navLinks.querySelectorAll('a').forEach(function(link) {
-    link.addEventListener('click', function() {
-      burger.classList.remove('active');
-      navLinks.classList.remove('open');
-      burger.setAttribute('aria-expanded', 'false');
-    });
+    link.addEventListener('click', closeMenu);
   });
 
-  /* --- Nav scroll effect --- */
-  var nav = document.querySelector('.nav');
-  window.addEventListener('scroll', function() {
-    if (window.scrollY > 80) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
-  }, { passive: true });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeMenu();
+  });
 
-  /* --- Intersection Observer: Scroll Reveal --- */
+  /* --- Nav scroll effect + scroll progress bar --- */
+  var nav = document.querySelector('.nav');
+  var progress = document.getElementById('scrollProgress');
+
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset;
+    if (y > 60) { nav.classList.add('scrolled'); }
+    else { nav.classList.remove('scrolled'); }
+
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    var ratio = docH > 0 ? Math.min(y / docH, 1) : 0;
+    if (progress) progress.style.transform = 'scaleX(' + ratio + ')';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* --- Intersection Observer: staggered scroll reveal --- */
   var revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
 
-  if ('IntersectionObserver' in window) {
+  if ('IntersectionObserver' in window && !prefersReduced) {
     var revealObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
+          var el = entry.target;
+          /* Stagger siblings sharing the same parent grid/row */
+          var siblings = Array.prototype.slice.call(el.parentElement.children)
+            .filter(function(c) { return c.classList.contains('reveal') || c.classList.contains('reveal-left') || c.classList.contains('reveal-right'); });
+          var idx = siblings.indexOf(el);
+          el.style.setProperty('--reveal-delay', (Math.max(idx, 0) * 0.08) + 's');
+          el.classList.add('visible');
+          revealObserver.unobserve(el);
         }
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-    revealElements.forEach(function(el) {
-      revealObserver.observe(el);
-    });
+    revealElements.forEach(function(el) { revealObserver.observe(el); });
   } else {
-    /* Fallback: show all */
     revealElements.forEach(function(el) { el.classList.add('visible'); });
   }
 
@@ -1139,30 +1288,30 @@ ul { list-style: none; }
   var counters = document.querySelectorAll('.stat-number[data-target]');
   var counterDone = false;
 
+  function setFinal() {
+    counters.forEach(function(c) {
+      c.textContent = c.getAttribute('data-target') + (c.getAttribute('data-suffix') || '');
+    });
+  }
+
   function animateCounters() {
     if (counterDone) return;
     counterDone = true;
 
+    if (prefersReduced) { setFinal(); return; }
+
     counters.forEach(function(counter) {
       var target = parseInt(counter.getAttribute('data-target'), 10);
+      var suffix = counter.getAttribute('data-suffix') || '';
       var duration = 2000;
-      var start = 0;
       var startTime = null;
-      var suffix = '';
-
-      /* Detect suffix from the stat (+ sign) */
-      var parentText = counter.parentElement.querySelector('.stat-label').textContent;
-      if (target === 15) suffix = '+';
-      if (target === 2500) suffix = '+';
 
       function step(timestamp) {
         if (!startTime) startTime = timestamp;
-        var progress = Math.min((timestamp - startTime) / duration, 1);
-        /* Ease out cubic */
-        var eased = 1 - Math.pow(1 - progress, 3);
-        var current = Math.floor(eased * target);
-        counter.textContent = current + suffix;
-        if (progress < 1) {
+        var progressV = Math.min((timestamp - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progressV, 3);
+        counter.textContent = Math.floor(eased * target) + suffix;
+        if (progressV < 1) {
           requestAnimationFrame(step);
         } else {
           counter.textContent = target + suffix;
@@ -1187,6 +1336,54 @@ ul { list-style: none; }
     animateCounters();
   }
 
+  /* --- 3D tilt on service cards (desktop, motion-on only) --- */
+  if (!isTouch && !prefersReduced) {
+    document.querySelectorAll('[data-tilt]').forEach(function(card) {
+      var maxTilt = 8;
+      card.addEventListener('mousemove', function(e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'perspective(700px) translateY(-10px) rotateX(' +
+          (-py * maxTilt) + 'deg) rotateY(' + (px * maxTilt) + 'deg)';
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = '';
+      });
+    });
+  }
+
+  /* --- Custom cursor (desktop, motion-on only) --- */
+  if (!isTouch && !prefersReduced) {
+    var dot = document.getElementById('cursorDot');
+    var mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    var dx = mx, dy = my;
+    var visible = false;
+
+    window.addEventListener('mousemove', function(e) {
+      mx = e.clientX; my = e.clientY;
+      if (!visible) { visible = true; dot.classList.add('active'); }
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', function() {
+      visible = false; dot.classList.remove('active');
+    });
+
+    var interactiveSel = 'a, button, .service-card, .galerie-item, input, textarea, select';
+    document.querySelectorAll(interactiveSel).forEach(function(el) {
+      el.addEventListener('mouseenter', function() { dot.classList.add('hover'); });
+      el.addEventListener('mouseleave', function() { dot.classList.remove('hover'); });
+    });
+
+    function lerpLoop() {
+      dx += (mx - dx) * 0.18;
+      dy += (my - dy) * 0.18;
+      dot.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      requestAnimationFrame(lerpLoop);
+    }
+    requestAnimationFrame(lerpLoop);
+  }
+
   /* --- Form submission (mockup) --- */
   var form = document.getElementById('contactForm');
   form.addEventListener('submit', function(e) {
@@ -1200,14 +1397,6 @@ ul { list-style: none; }
       btn.style.background = '';
       form.reset();
     }, 2500);
-  });
-
-  /* --- Keyboard support for burger --- */
-  burger.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      burger.click();
-    }
   });
 
 })();

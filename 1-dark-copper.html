@@ -14,6 +14,7 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
+      /* ── Palette (Dark Copper) ── */
       --bg-dark: #0d0d0d;
       --bg-card: #1a1a1a;
       --bg-alt: #141414;
@@ -25,9 +26,30 @@
       --gold-star: #f5c518;
       --font-heading: 'Playfair Display', Georgia, serif;
       --font-body: 'Inter', system-ui, sans-serif;
+
+      /* ── Fluid type scale (clamp) ── */
+      --fs-hero: clamp(2.5rem, 6vw, 5.5rem);
+      --fs-h2: clamp(1.85rem, 3.6vw, 2.8rem);
+      --fs-h3: clamp(1.15rem, 1.6vw, 1.3rem);
+      --fs-lead: clamp(1rem, 2vw, 1.25rem);
+      --fs-body: clamp(.9rem, 1.1vw, .95rem);
+
+      /* ── Fluid spacing scale (clamp) ── */
+      --space-xs: clamp(.5rem, 1vw, .75rem);
+      --space-sm: clamp(.85rem, 1.5vw, 1.25rem);
+      --space-md: clamp(1.25rem, 2.5vw, 1.75rem);
+      --space-lg: clamp(2rem, 4vw, 3rem);
+      --section-pad: clamp(3.5rem, 8vw, 7rem);
+      --gutter: clamp(1.1rem, 4vw, 1.5rem);
+
+      /* ── Easing tokens ── */
+      --ease: cubic-bezier(.4, 0, .2, 1);
+      --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+
+      --radius: 3px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
       font-family: var(--font-body);
@@ -38,14 +60,55 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    img { max-width: 100%; display: block; }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute; left: 1rem; top: -3rem; z-index: 2000;
+      background: var(--copper); color: var(--bg-dark); padding: .65rem 1.1rem;
+      border-radius: var(--radius); font-weight: 600; font-size: .85rem;
+      text-decoration: none; transition: top .25s var(--ease);
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ── Focus visibility ── */
+    :focus-visible {
+      outline: 3px solid var(--copper-light);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ── Scroll progress bar ── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--copper), var(--copper-pale), var(--copper-light));
+      z-index: 1200; transition: width .08s linear;
+    }
+
+    /* ── Custom cursor (desktop only) ── */
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+      border-radius: 50%; background: var(--copper-light);
+      pointer-events: none; z-index: 1500; mix-blend-mode: screen;
+      transform: translate(-50%, -50%);
+      transition: width .25s var(--ease-spring), height .25s var(--ease-spring), background .25s var(--ease), opacity .3s var(--ease);
+      opacity: 0;
+    }
+    .cursor-dot.is-active { opacity: 1; }
+    .cursor-dot.is-hover {
+      width: 28px; height: 28px;
+      background: rgba(212, 168, 83, .35);
+      border: 1px solid var(--copper-light);
+    }
+
     /* ── Utility ── */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-    .section-pad { padding: 6rem 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--gutter); width: 100%; }
+    .section-pad { padding: var(--section-pad) 0; }
 
     .reveal {
       opacity: 0;
-      transform: translateY(40px);
-      transition: opacity .8s cubic-bezier(.23,1,.32,1), transform .8s cubic-bezier(.23,1,.32,1);
+      transform: translateY(24px);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -56,107 +119,117 @@
       background-clip: text;
     }
 
-    /* ── Nav ── */
+    /* ── Nav (Glassmorphism 2.0) ── */
     .nav {
       position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-      padding: 1.25rem 0;
-      background: rgba(13,13,13,.6);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(196,127,23,.08);
-      transition: background .4s, padding .4s;
+      padding: var(--space-sm) 0;
+      background: rgba(13, 13, 13, .55);
+      backdrop-filter: blur(12px) saturate(140%);
+      -webkit-backdrop-filter: blur(12px) saturate(140%);
+      border-bottom: 1px solid transparent;
+      transition: background .4s var(--ease), padding .4s var(--ease), border-color .4s var(--ease);
     }
-    .nav.scrolled { background: rgba(13,13,13,.92); padding: .85rem 0; }
+    .nav.scrolled {
+      background: rgba(13, 13, 13, .82);
+      padding: .7rem 0;
+      border-bottom: 1px solid rgba(196, 127, 23, .22);
+    }
     .nav .container { display: flex; align-items: center; justify-content: space-between; }
     .nav-logo {
       font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700;
-      text-decoration: none; letter-spacing: .02em;
+      text-decoration: none; letter-spacing: .02em; color: var(--text);
+      padding: .35rem 0; display: inline-flex; align-items: center; min-height: 44px;
     }
     .nav-logo span { color: var(--copper-light); }
-    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links { display: flex; gap: clamp(1.4rem, 2.4vw, 2.2rem); list-style: none; }
     .nav-links a {
-      color: var(--text-muted); text-decoration: none; font-size: .875rem;
+      color: var(--text-muted); text-decoration: none; font-size: .8rem;
       font-weight: 400; letter-spacing: .04em; text-transform: uppercase;
-      transition: color .3s; position: relative;
+      transition: color .3s var(--ease); position: relative;
+      display: inline-flex; align-items: center; min-height: 44px;
     }
     .nav-links a::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
-      background: var(--copper); transition: width .3s;
+      content: ''; position: absolute; bottom: 8px; left: 0; width: 0; height: 1px;
+      background: var(--copper); transition: width .3s var(--ease);
     }
     .nav-links a:hover { color: var(--copper-light); }
     .nav-links a:hover::after { width: 100%; }
 
     .hamburger {
       display: none; background: none; border: none; cursor: pointer;
-      flex-direction: column; gap: 5px; padding: .5rem;
+      flex-direction: column; gap: 5px; padding: .6rem;
+      width: 44px; height: 44px; align-items: center; justify-content: center;
     }
     .hamburger span {
       display: block; width: 24px; height: 2px; background: var(--copper-light);
-      transition: transform .3s, opacity .3s;
+      transition: transform .3s var(--ease), opacity .3s var(--ease);
     }
     .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     .hamburger.active span:nth-child(2) { opacity: 0; }
     .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .95rem 2.2rem; font-size: .95rem; font-weight: 500; min-height: 48px;
+      text-decoration: none; border-radius: var(--radius);
+      transition: transform .3s var(--ease-spring), box-shadow .35s var(--ease), border-color .35s var(--ease);
+      cursor: pointer; letter-spacing: .03em; font-family: var(--font-body);
+    }
+    .btn-copper {
+      background: linear-gradient(135deg, var(--copper), var(--copper-light));
+      color: var(--bg-dark); border: none;
+      box-shadow: 0 0 30px rgba(196, 127, 23, .15);
+    }
+    .btn-copper:hover { box-shadow: 0 6px 45px rgba(196, 127, 23, .4); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--copper-light);
+      border: 1px solid rgba(196, 127, 23, .4);
+    }
+    .btn-outline:hover { border-color: var(--copper-light); box-shadow: 0 6px 25px rgba(196, 127, 23, .18); transform: translateY(-2px); }
+    .btn:active { transform: scale(.97); }
+
     /* ── Hero ── */
     .hero {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      min-height: 100svh; display: flex; align-items: center; justify-content: center;
       text-align: center; position: relative; overflow: hidden;
+      padding-top: 6rem; padding-bottom: 4rem;
     }
     .hero::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 30%, rgba(196,127,23,.06) 0%, transparent 70%);
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 28%, rgba(196, 127, 23, .14) 0%, transparent 65%),
+        radial-gradient(circle at 80% 80%, rgba(212, 168, 83, .06) 0%, transparent 50%);
+      pointer-events: none;
     }
     .hero::after {
       content: ''; position: absolute; inset: 0; opacity: .04;
       background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       pointer-events: none;
     }
-    .hero-content { position: relative; z-index: 1; max-width: 800px; padding: 0 1.5rem; }
+    .hero-content { position: relative; z-index: 1; max-width: 820px; padding: 0 var(--gutter); }
     .hero-badge {
-      display: inline-block; font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
-      color: var(--copper-light); border: 1px solid rgba(196,127,23,.3); padding: .5rem 1.5rem;
-      margin-bottom: 2rem; font-weight: 500;
+      display: inline-block; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--copper-light); border: 1px solid rgba(196, 127, 23, .3);
+      padding: .5rem 1.5rem; margin-bottom: var(--space-md); font-weight: 500;
+      border-radius: 100px;
     }
     .hero h1 {
-      font-family: var(--font-heading); font-size: clamp(2.4rem, 5.5vw, 4.2rem);
-      font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem;
+      font-family: var(--font-heading); font-size: var(--fs-hero);
+      font-weight: 700; line-height: 1.0; letter-spacing: -0.02em;
+      margin-bottom: var(--space-md);
     }
     .hero-sub {
-      font-size: clamp(1rem, 2vw, 1.2rem); color: var(--text-muted);
-      font-weight: 300; margin-bottom: 3rem; letter-spacing: .02em;
+      font-size: var(--fs-lead); color: var(--text-muted);
+      font-weight: 300; margin-bottom: var(--space-lg); letter-spacing: .02em;
     }
     .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
-    .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .95rem 2.2rem; font-size: .95rem; font-weight: 500;
-      text-decoration: none; border-radius: 2px; transition: all .35s;
-      cursor: pointer; letter-spacing: .03em; font-family: var(--font-body);
-    }
-    .btn-copper {
-      background: linear-gradient(135deg, var(--copper), var(--copper-light));
-      color: var(--bg-dark); border: none;
-      box-shadow: 0 0 30px rgba(196,127,23,.15);
-    }
-    .btn-copper:hover {
-      box-shadow: 0 0 45px rgba(196,127,23,.35);
-      transform: translateY(-2px);
-    }
-    .btn-outline {
-      background: transparent; color: var(--copper-light);
-      border: 1px solid rgba(196,127,23,.4);
-    }
-    .btn-outline:hover {
-      border-color: var(--copper-light);
-      box-shadow: 0 0 25px rgba(196,127,23,.15);
-      transform: translateY(-2px);
-    }
-
     .hero-scroll {
-      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
       display: flex; flex-direction: column; align-items: center; gap: .5rem;
       color: var(--text-muted); font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+      z-index: 1;
     }
     .hero-scroll-line {
       width: 1px; height: 40px; background: linear-gradient(to bottom, var(--copper), transparent);
@@ -168,10 +241,10 @@
     }
 
     /* ── Section headings ── */
-    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-header { text-align: center; margin-bottom: var(--space-lg); }
     .section-header h2 {
-      font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 600;
-      margin-bottom: .75rem;
+      font-family: var(--font-heading); font-size: var(--fs-h2); font-weight: 600;
+      line-height: 1.1; letter-spacing: -0.01em; margin-bottom: .75rem;
     }
     .section-header p { color: var(--text-muted); max-width: 550px; margin: 0 auto; font-weight: 300; }
     .section-line {
@@ -182,52 +255,57 @@
     /* ── Services ── */
     .services { background: var(--bg-alt); }
     .services-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: var(--space-sm);
     }
     .service-card {
-      background: var(--bg-card); border: 1px solid rgba(196,127,23,.08);
-      padding: 2.5rem 2rem; transition: all .4s; position: relative; overflow: hidden;
+      background: var(--bg-card); border: 1px solid rgba(196, 127, 23, .08);
+      padding: var(--space-lg) var(--space-md);
+      transition: transform .4s var(--ease-spring), border-color .4s var(--ease), box-shadow .4s var(--ease);
+      position: relative; overflow: hidden; border-radius: var(--radius);
     }
     .service-card::before {
       content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
       background: linear-gradient(90deg, transparent, var(--copper), transparent);
-      opacity: 0; transition: opacity .4s;
+      opacity: 0; transition: opacity .4s var(--ease);
     }
-    .service-card:hover { border-color: rgba(196,127,23,.25); transform: translateY(-4px); }
+    .service-card:hover {
+      border-color: rgba(196, 127, 23, .25); transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .45);
+    }
     .service-card:hover::before { opacity: 1; }
     .service-icon {
-      width: 52px; height: 52px; margin-bottom: 1.5rem;
+      width: 52px; height: 52px; margin-bottom: var(--space-sm);
       display: flex; align-items: center; justify-content: center;
-      border: 1px solid rgba(196,127,23,.25); border-radius: 50%;
-      color: var(--copper-light); transition: all .4s;
+      border: 1px solid rgba(196, 127, 23, .25); border-radius: 50%;
+      color: var(--copper-light); transition: background .4s var(--ease), box-shadow .4s var(--ease);
     }
-    .service-card:hover .service-icon {
-      background: rgba(196,127,23,.1);
-      box-shadow: 0 0 20px rgba(196,127,23,.15);
-    }
+    .service-card:hover .service-icon { background: rgba(196, 127, 23, .1); box-shadow: 0 0 20px rgba(196, 127, 23, .15); }
     .service-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
     .service-card h3 {
-      font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600;
+      font-family: var(--font-heading); font-size: var(--fs-h3); font-weight: 600;
       margin-bottom: .75rem; color: var(--text);
     }
-    .service-card p { font-size: .9rem; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+    .service-card p { font-size: var(--fs-body); color: var(--text-muted); line-height: 1.6; font-weight: 300; }
 
     /* ── Galerie ── */
     .galerie-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: var(--space-xs);
     }
     .galerie-item {
-      position: relative; overflow: hidden; aspect-ratio: 3/2; cursor: pointer;
+      position: relative; overflow: hidden; aspect-ratio: 3 / 2; cursor: pointer;
+      border-radius: var(--radius);
     }
     .galerie-item img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform .6s cubic-bezier(.23,1,.32,1);
+      width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3 / 2;
+      transition: transform .6s var(--ease);
     }
     .galerie-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(196,127,23,.7) 0%, rgba(13,13,13,.4) 100%);
+      background: linear-gradient(to top, rgba(196, 127, 23, .7) 0%, rgba(13, 13, 13, .4) 100%);
       display: flex; align-items: flex-end; padding: 1.5rem;
-      opacity: 0; transition: opacity .4s;
+      opacity: 0; transition: opacity .4s var(--ease);
     }
     .galerie-item:hover img { transform: scale(1.08); }
     .galerie-item:hover .galerie-overlay { opacity: 1; }
@@ -240,19 +318,23 @@
     .avis { background: var(--bg-alt); }
     .avis-stats {
       display: flex; align-items: center; justify-content: center; gap: .75rem;
-      margin-bottom: 3rem; font-size: 1.1rem;
+      margin-bottom: var(--space-lg); font-size: 1.1rem; flex-wrap: wrap; text-align: center;
     }
     .avis-stats .stars { color: var(--gold-star); font-size: 1.3rem; letter-spacing: 2px; }
     .avis-stats span { color: var(--text-muted); font-weight: 300; }
     .avis-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: var(--space-sm);
     }
     .avis-card {
-      background: var(--bg-card); border: 1px solid rgba(196,127,23,.06);
-      padding: 2rem; transition: border-color .4s;
+      background: var(--bg-card); border: 1px solid rgba(196, 127, 23, .06);
+      padding: var(--space-md); border-radius: var(--radius);
+      transition: transform .4s var(--ease-spring), border-color .4s var(--ease), box-shadow .4s var(--ease);
     }
-    .avis-card:hover { border-color: rgba(196,127,23,.2); }
-    .avis-card:nth-child(4), .avis-card:nth-child(5) { grid-column: span 1; }
+    .avis-card:hover {
+      border-color: rgba(196, 127, 23, .2); transform: translateY(-4px);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, .4);
+    }
     .avis-stars { color: var(--gold-star); font-size: .95rem; margin-bottom: 1rem; letter-spacing: 2px; }
     .avis-text {
       font-size: .925rem; color: var(--text); font-weight: 300; line-height: 1.7;
@@ -270,119 +352,136 @@
 
     /* ── Contact ── */
     .contact-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: var(--space-lg); align-items: start;
     }
     .contact-info h2 {
-      font-family: var(--font-heading); font-size: clamp(1.8rem, 3vw, 2.4rem);
-      font-weight: 600; margin-bottom: .75rem;
+      font-family: var(--font-heading); font-size: var(--fs-h2);
+      font-weight: 600; line-height: 1.1; margin-bottom: .75rem;
     }
-    .contact-info > p { color: var(--text-muted); font-weight: 300; margin-bottom: 2.5rem; }
+    .contact-info > p { color: var(--text-muted); font-weight: 300; margin-bottom: var(--space-lg); }
     .contact-detail {
-      display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.75rem;
+      display: flex; align-items: flex-start; gap: 1rem; margin-bottom: var(--space-md);
     }
     .contact-detail-icon {
       width: 44px; height: 44px; min-width: 44px;
-      border: 1px solid rgba(196,127,23,.2); border-radius: 50%;
+      border: 1px solid rgba(196, 127, 23, .2); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       color: var(--copper-light);
     }
     .contact-detail-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-    .contact-detail a { color: var(--copper-light); text-decoration: none; transition: color .3s; font-weight: 500; }
+    .contact-detail a { color: var(--copper-light); text-decoration: none; transition: color .3s var(--ease); font-weight: 500; position: relative; }
+    .contact-detail a::after {
+      content: ''; position: absolute; left: 0; bottom: -2px; width: 0; height: 1px;
+      background: var(--copper-light); transition: width .3s var(--ease);
+    }
     .contact-detail a:hover { color: var(--copper-pale); }
+    .contact-detail a:hover::after { width: 100%; }
     .contact-detail .label { font-size: .78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: .15rem; }
     .contact-detail .value { font-size: .95rem; }
 
-    .contact-form { background: var(--bg-card); border: 1px solid rgba(196,127,23,.08); padding: 2.5rem; }
-    .form-group { margin-bottom: 1.25rem; }
+    .contact-form { background: var(--bg-card); border: 1px solid rgba(196, 127, 23, .08); padding: var(--space-lg); border-radius: var(--radius); }
+    .form-group { margin-bottom: var(--space-sm); }
     .form-group label {
       display: block; font-size: .78rem; text-transform: uppercase;
       letter-spacing: .1em; color: var(--text-muted); margin-bottom: .5rem; font-weight: 500;
     }
     .form-group input, .form-group textarea {
-      width: 100%; padding: .85rem 1rem; background: var(--bg-dark);
-      border: 1px solid rgba(196,127,23,.12); color: var(--text);
-      font-family: var(--font-body); font-size: .9rem;
-      transition: border-color .3s, box-shadow .3s; outline: none;
+      width: 100%; padding: .9rem 1rem; background: var(--bg-dark);
+      border: 1px solid rgba(196, 127, 23, .12); color: var(--text);
+      font-family: var(--font-body); font-size: 1rem; border-radius: var(--radius);
+      transition: border-color .3s var(--ease), box-shadow .3s var(--ease); outline: none;
+      min-height: 48px;
     }
     .form-group input:focus, .form-group textarea:focus {
       border-color: var(--copper);
-      box-shadow: 0 0 15px rgba(196,127,23,.1);
+      box-shadow: 0 0 15px rgba(196, 127, 23, .1);
     }
     .form-group textarea { resize: vertical; min-height: 120px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: var(--space-sm); }
     .btn-submit {
-      width: 100%; padding: 1rem; margin-top: .5rem;
+      width: 100%; padding: 1rem; margin-top: .5rem; min-height: 52px;
       background: linear-gradient(135deg, var(--copper), var(--copper-light));
       color: var(--bg-dark); border: none; font-family: var(--font-body);
       font-size: .95rem; font-weight: 600; cursor: pointer; letter-spacing: .05em;
-      text-transform: uppercase; transition: all .35s;
+      text-transform: uppercase; border-radius: var(--radius);
+      transition: transform .3s var(--ease-spring), box-shadow .35s var(--ease);
     }
-    .btn-submit:hover {
-      box-shadow: 0 0 40px rgba(196,127,23,.3);
-      transform: translateY(-2px);
-    }
+    .btn-submit:hover { box-shadow: 0 6px 40px rgba(196, 127, 23, .32); transform: translateY(-2px); }
+    .btn-submit:active { transform: scale(.98); }
 
     /* ── Footer ── */
     .footer {
-      background: var(--bg-dark); border-top: 1px solid rgba(196,127,23,.08);
-      padding: 3rem 0 2rem;
+      background: var(--bg-dark); border-top: 1px solid rgba(196, 127, 23, .08);
+      padding: var(--space-lg) 0;
     }
     .footer-inner {
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
     }
     .footer-logo { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; }
     .footer-logo span { color: var(--copper-light); }
-    .footer-copy { font-size: .8rem; color: var(--text-muted); text-align: center; flex: 1; }
-    .footer-copy a { color: var(--text-muted); text-decoration: none; transition: color .3s; }
+    .footer-copy { font-size: .8rem; color: var(--text-muted); text-align: center; flex: 1; min-width: 220px; }
+    .footer-copy a { color: var(--text-muted); text-decoration: none; transition: color .3s var(--ease); }
     .footer-copy a:hover { color: var(--copper-light); }
     .footer-social { display: flex; gap: 1rem; }
     .footer-social a {
-      width: 38px; height: 38px; border: 1px solid rgba(196,127,23,.15);
+      width: 44px; height: 44px; border: 1px solid rgba(196, 127, 23, .15);
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      color: var(--text-muted); transition: all .3s; text-decoration: none;
+      color: var(--text-muted); transition: transform .3s var(--ease-spring), border-color .3s var(--ease), color .3s var(--ease); text-decoration: none;
     }
-    .footer-social a:hover { border-color: var(--copper); color: var(--copper-light); }
+    .footer-social a:hover { border-color: var(--copper); color: var(--copper-light); transform: translateY(-3px); }
     .footer-social a svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
-    /* ── Mobile ── */
-    @media (max-width: 1024px) {
-      .services-grid { grid-template-columns: repeat(2, 1fr); }
-      .avis-grid { grid-template-columns: repeat(2, 1fr); }
-      .avis-card:nth-child(5) { grid-column: 1 / -1; }
-    }
+    /* ── Mobile nav drawer ── */
     @media (max-width: 768px) {
       .nav-links {
-        position: fixed; top: 0; right: -100%; width: 75%; max-width: 320px; height: 100vh;
-        background: var(--bg-card); flex-direction: column; padding: 6rem 2.5rem 2rem;
-        gap: 1.75rem; transition: right .4s cubic-bezier(.23,1,.32,1);
-        border-left: 1px solid rgba(196,127,23,.1);
+        position: fixed; top: 0; right: -100%; width: 78%; max-width: 320px; height: 100vh;
+        height: 100dvh; background: rgba(20, 20, 20, .96);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        flex-direction: column; padding: 6rem 2.5rem 2rem;
+        gap: 1.25rem; transition: right .4s var(--ease);
+        border-left: 1px solid rgba(196, 127, 23, .12);
       }
       .nav-links.open { right: 0; }
-      .hamburger { display: flex; }
-      .services-grid { grid-template-columns: 1fr; }
-      .galerie-grid { grid-template-columns: repeat(2, 1fr); }
-      .avis-grid {
-        grid-template-columns: 1fr; overflow-x: auto; scroll-snap-type: x mandatory;
-        grid-auto-flow: column; grid-auto-columns: 85%;
-        -webkit-overflow-scrolling: touch; padding-bottom: 1rem;
-      }
-      .avis-card { scroll-snap-align: start; }
-      .avis-card:nth-child(5) { grid-column: auto; }
-      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .form-row { grid-template-columns: 1fr; }
-      .section-pad { padding: 4rem 0; }
+      .nav-links a { min-height: 48px; font-size: .95rem; }
+      .hamburger { display: flex; z-index: 1100; }
       .hero-ctas { flex-direction: column; align-items: center; }
-      .btn { width: 100%; max-width: 300px; justify-content: center; }
+      .hero-ctas .btn { width: 100%; max-width: 320px; }
       .footer-inner { flex-direction: column; text-align: center; }
+    }
+
+    /* ── Cursor / pointer-fine only ── */
+    @media (hover: none), (pointer: coarse) {
+      .cursor-dot { display: none; }
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+      .cursor-dot { display: none !important; }
+      .scroll-progress { transition: none; }
     }
   </style>
 </head>
 <body>
 
+  <a href="#hero" class="skip-link">Aller au contenu principal</a>
+
+  <!-- ═══════ Scroll progress + custom cursor ═══════ -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
   <!-- ═══════ NAV ═══════ -->
   <nav class="nav" id="nav" role="navigation" aria-label="Navigation principale">
     <div class="container">
-      <a href="#" class="nav-logo" aria-label="Duval Plomberie — Accueil"><span>Duval</span> Plomberie</a>
+      <a href="#hero" class="nav-logo" aria-label="Duval Plomberie — Accueil"><span>Duval</span> Plomberie</a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#hero">Accueil</a></li>
         <li><a href="#services">Services</a></li>
@@ -390,7 +489,7 @@
         <li><a href="#avis">Avis</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -406,7 +505,7 @@
         <div class="hero-ctas">
           <a href="#contact" class="btn btn-copper">Demander un Devis</a>
           <a href="tel:0561234567" class="btn btn-outline">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             05 61 23 45 67
           </a>
         </div>
@@ -428,42 +527,42 @@
         <div class="services-grid">
           <div class="service-card reveal">
             <div class="service-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="currentColor" fill="none"/><path d="M8 12h8M12 8v8" stroke="currentColor"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="currentColor" fill="none"/><path d="M8 12h8M12 8v8" stroke="currentColor"/></svg>
             </div>
             <h3>Plomberie générale</h3>
             <p>Installation, réparation et entretien de tous vos équipements de plomberie avec des matériaux de qualité.</p>
           </div>
           <div class="service-card reveal">
             <div class="service-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 22c-1-3-6-6-6-10a6 6 0 1 1 12 0c0 4-5 7-6 10z"/><circle cx="12" cy="12" r="2"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22c-1-3-6-6-6-10a6 6 0 1 1 12 0c0 4-5 7-6 10z"/><circle cx="12" cy="12" r="2"/></svg>
             </div>
             <h3>Chauffage &amp; chaudières</h3>
             <p>Installation et maintenance de chaudières gaz, pompes à chaleur et systèmes de chauffage central.</p>
           </div>
           <div class="service-card reveal">
             <div class="service-icon">
-              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
             </div>
             <h3>Salle de bain clé en main</h3>
             <p>Conception et réalisation complète de votre salle de bain, du plan jusqu'aux finitions soignées.</p>
           </div>
           <div class="service-card reveal">
             <div class="service-icon">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
             <h3>Dépannage urgent 24/7</h3>
             <p>Intervention rapide en moins d'une heure sur Toulouse et son agglomération, 7 jours sur 7.</p>
           </div>
           <div class="service-card reveal">
             <div class="service-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2v6M12 16v6M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M2 12h6M16 12h6M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v6M12 16v6M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M2 12h6M16 12h6M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24"/></svg>
             </div>
             <h3>Débouchage canalisations</h3>
             <p>Diagnostic caméra et débouchage professionnel de toutes canalisations bouchées ou obstruées.</p>
           </div>
           <div class="service-card reveal">
             <div class="service-icon">
-              <svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V8l7-5 7 5v12"/><rect x="9" y="12" width="6" height="8"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M5 20V8l7-5 7 5v12"/><rect x="9" y="12" width="6" height="8"/></svg>
             </div>
             <h3>Installation sanitaire</h3>
             <p>Pose de WC, lavabos, douches, baignoires et raccordements aux normes pour neuf et rénovation.</p>
@@ -518,13 +617,13 @@
           <div class="section-line"></div>
         </div>
         <div class="avis-stats reveal">
-          <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
           <strong>4.9/5</strong>
           <span>— 127 avis Google</span>
         </div>
         <div class="avis-grid">
           <div class="avis-card reveal">
-            <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="avis-stars" aria-label="Note : 5 sur 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="avis-text">&laquo; Intervention rapide et soignée. M. Duval est très professionnel, je recommande sans hésiter ! &raquo;</p>
             <div class="avis-author">
               <div>
@@ -533,12 +632,12 @@
               </div>
             </div>
             <div class="avis-google">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.44 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.09 14.97 0 12 0 7.7 0 3.99 2.47 2.18 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.44 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.09 14.97 0 12 0 7.7 0 3.99 2.47 2.18 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
               Google
             </div>
           </div>
           <div class="avis-card reveal">
-            <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="avis-stars" aria-label="Note : 5 sur 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="avis-text">&laquo; Excellente prestation pour la rénovation de notre salle de bain. Travail propre et dans les délais. &raquo;</p>
             <div class="avis-author">
               <div>
@@ -547,12 +646,12 @@
               </div>
             </div>
             <div class="avis-google">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.44 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.09 14.97 0 12 0 7.7 0 3.99 2.47 2.18 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.44 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.09 14.97 0 12 0 7.7 0 3.99 2.47 2.18 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
               Google
             </div>
           </div>
           <div class="avis-card reveal">
-            <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="avis-stars" aria-label="Note : 5 sur 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="avis-text">&laquo; Dépannage un dimanche soir, arrivé en 30 minutes. Prix honnête et travail impeccable. &raquo;</p>
             <div class="avis-author">
               <div>
@@ -561,12 +660,12 @@
               </div>
             </div>
             <div class="avis-google">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.44 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.09 14.97 0 12 0 7.7 0 3.99 2.47 2.18 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.44 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.09 14.97 0 12 0 7.7 0 3.99 2.47 2.18 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
               Google
             </div>
           </div>
           <div class="avis-card reveal">
-            <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="avis-stars" aria-label="Note : 5 sur 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="avis-text">&laquo; Très satisfait de l'installation de notre nouvelle chaudière. Conseils pertinents et pose soignée. &raquo;</p>
             <div class="avis-author">
               <div>
@@ -575,12 +674,12 @@
               </div>
             </div>
             <div class="avis-google">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.44 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.09 14.97 0 12 0 7.7 0 3.99 2.47 2.18 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.44 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.09 14.97 0 12 0 7.7 0 3.99 2.47 2.18 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
               Google
             </div>
           </div>
           <div class="avis-card reveal">
-            <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="avis-stars" aria-label="Note : 5 sur 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <p class="avis-text">&laquo; Plombier sérieux et ponctuel. A résolu un problème de fuite que d'autres n'avaient pas su trouver. &raquo;</p>
             <div class="avis-author">
               <div>
@@ -589,7 +688,7 @@
               </div>
             </div>
             <div class="avis-google">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.44 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.09 14.97 0 12 0 7.7 0 3.99 2.47 2.18 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.44 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 1.09 14.97 0 12 0 7.7 0 3.99 2.47 2.18 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
               Google
             </div>
           </div>
@@ -606,7 +705,7 @@
             <p>Un projet, une urgence ou une simple question ? Nous sommes à votre écoute.</p>
             <div class="contact-detail">
               <div class="contact-detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
               </div>
               <div>
                 <div class="label">Téléphone</div>
@@ -615,7 +714,7 @@
             </div>
             <div class="contact-detail">
               <div class="contact-detail-icon">
-                <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               </div>
               <div>
                 <div class="label">Email</div>
@@ -624,7 +723,7 @@
             </div>
             <div class="contact-detail">
               <div class="contact-detail-icon">
-                <svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
               </div>
               <div>
                 <div class="label">Adresse</div>
@@ -633,7 +732,7 @@
             </div>
             <div class="contact-detail">
               <div class="contact-detail-icon">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
               <div>
                 <div class="label">Horaires</div>
@@ -646,16 +745,16 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="nom">Nom</label>
-                  <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+                  <input type="text" id="nom" name="nom" placeholder="Votre nom" autocomplete="name" required>
                 </div>
                 <div class="form-group">
                   <label for="telephone">Téléphone</label>
-                  <input type="tel" id="telephone" name="telephone" placeholder="06 00 00 00 00" required>
+                  <input type="tel" id="telephone" name="telephone" placeholder="06 00 00 00 00" autocomplete="tel" required>
                 </div>
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="votre@email.fr">
+                <input type="email" id="email" name="email" placeholder="votre@email.fr" autocomplete="email">
               </div>
               <div class="form-group">
                 <label for="message">Message</label>
@@ -680,82 +779,104 @@
         </div>
         <div class="footer-social">
           <a href="#" aria-label="Facebook">
-            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           </a>
           <a href="#" aria-label="Instagram">
-            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
           </a>
           <a href="#" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
           </a>
         </div>
       </div>
     </div>
   </footer>
 
-  <script>
-    /* ── Scroll reveal ── */
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          const delay = Array.from(entry.target.parentElement.children)
-            .filter(c => c.classList.contains('reveal'))
-            .indexOf(entry.target);
-          entry.target.style.transitionDelay = (delay > 0 ? delay * .1 : 0) + 's';
+  <script defer>
+    (function () {
+      'use strict';
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ── Scroll reveal (staggered, once) ── */
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const siblings = Array.from(entry.target.parentElement.children).filter(c => c.classList.contains('reveal'));
+          const delay = siblings.indexOf(entry.target);
+          entry.target.style.transitionDelay = (delay > 0 ? delay * 0.09 : 0) + 's';
           entry.target.classList.add('visible');
           observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: .15, rootMargin: '0px 0px -40px 0px' });
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      /* ── Nav scrolled state + scroll progress bar ── */
+      const nav = document.getElementById('nav');
+      const progress = document.getElementById('scrollProgress');
+      const updateScroll = () => {
+        const y = window.scrollY;
+        nav.classList.toggle('scrolled', y > 60);
+        const docH = document.documentElement.scrollHeight - window.innerHeight;
+        progress.style.width = (docH > 0 ? (y / docH) * 100 : 0) + '%';
+      };
+      window.addEventListener('scroll', updateScroll, { passive: true });
+      updateScroll();
 
-    /* ── Nav scroll ── */
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
-    }, { passive: true });
+      /* ── Hamburger menu ── */
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      const setMenu = (open) => {
+        navLinks.classList.toggle('open', open);
+        hamburger.classList.toggle('active', open);
+        hamburger.setAttribute('aria-expanded', String(open));
+        hamburger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+      };
+      hamburger.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+      navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
-    /* ── Hamburger ── */
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
+      /* ── Active nav link on scroll ── */
+      const sections = document.querySelectorAll('section[id]');
+      const navAnchors = document.querySelectorAll('.nav-links a');
+      const activateNav = () => {
+        const scrollY = window.scrollY + 110;
+        sections.forEach(section => {
+          const top = section.offsetTop, height = section.offsetHeight, id = section.getAttribute('id');
+          if (scrollY >= top && scrollY < top + height) {
+            navAnchors.forEach(a => {
+              a.style.color = a.getAttribute('href') === '#' + id ? 'var(--copper-light)' : '';
+            });
+          }
+        });
+      };
+      window.addEventListener('scroll', activateNav, { passive: true });
 
-    hamburger.addEventListener('click', () => {
-      const open = navLinks.classList.toggle('open');
-      hamburger.classList.toggle('active');
-      hamburger.setAttribute('aria-expanded', open);
-      hamburger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
-    });
-
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        hamburger.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-      });
-    });
-
-    /* ── Active nav link on scroll ── */
-    const sections = document.querySelectorAll('section[id]');
-    const navAnchors = document.querySelectorAll('.nav-links a');
-
-    const activateNav = () => {
-      const scrollY = window.scrollY + 100;
-      sections.forEach(section => {
-        const top = section.offsetTop;
-        const height = section.offsetHeight;
-        const id = section.getAttribute('id');
-        if (scrollY >= top && scrollY < top + height) {
-          navAnchors.forEach(a => {
-            a.style.color = '';
-            if (a.getAttribute('href') === '#' + id) {
-              a.style.color = 'var(--copper-light)';
-            }
-          });
-        }
-      });
-    };
-    window.addEventListener('scroll', activateNav, { passive: true });
+      /* ── Custom cursor (desktop, fine pointer, motion allowed) ── */
+      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (finePointer && !reduceMotion) {
+        const dot = document.getElementById('cursorDot');
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        let dotX = mouseX, dotY = mouseY, active = false;
+        window.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX; mouseY = e.clientY;
+          if (!active) { active = true; dot.classList.add('is-active'); }
+        }, { passive: true });
+        document.addEventListener('mouseleave', () => { dot.classList.remove('is-active'); active = false; });
+        const interactive = 'a, button, input, textarea, .galerie-item, .service-card, .avis-card';
+        document.querySelectorAll(interactive).forEach(el => {
+          el.addEventListener('mouseenter', () => dot.classList.add('is-hover'));
+          el.addEventListener('mouseleave', () => dot.classList.remove('is-hover'));
+        });
+        const lerp = (a, b, n) => a + (b - a) * n;
+        const render = () => {
+          dotX = lerp(dotX, mouseX, 0.2);
+          dotY = lerp(dotY, mouseY, 0.2);
+          dot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
+          requestAnimationFrame(render);
+        };
+        requestAnimationFrame(render);
+      }
+    })();
   </script>
 </body>
 </html>

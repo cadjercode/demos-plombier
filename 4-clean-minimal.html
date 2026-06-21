@@ -12,6 +12,7 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
+  /* ── Palette (strict two-color discipline + gold stars) ── */
   --white: #ffffff;
   --off-white: #fafafa;
   --charcoal: #1d1d1f;
@@ -20,9 +21,24 @@
   --gray-light: #e8e8e8;
   --gray-mid: #86868b;
   --gold: #f5a623;
+
+  /* ── Typography ── */
   --font-heading: 'Sora', sans-serif;
   --font-body: 'Inter', sans-serif;
-  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* ── Fluid type scale ── */
+  --fs-hero: clamp(2.75rem, 7vw, 6rem);
+  --fs-section: clamp(1.875rem, 4vw, 3rem);
+  --fs-lead: clamp(1.0625rem, 1.6vw, 1.25rem);
+  --fs-body: clamp(0.9375rem, 1vw, 1rem);
+
+  /* ── Fluid spacing ── */
+  --space-section: clamp(4rem, 10vw, 9rem);
+  --space-gutter: clamp(1.25rem, 4vw, 1.5rem);
+
+  /* ── Motion ── */
+  --ease: cubic-bezier(.4, 0, .2, 1);
+
   --max-w: 1100px;
 }
 
@@ -36,28 +52,56 @@ body {
   line-height: 1.7;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 a { color: inherit; text-decoration: none; transition: color 0.4s var(--ease); }
 
 img { display: block; max-width: 100%; }
 
-.container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--space-gutter); }
+
+/* ── Accessibility ── */
+.skip-link {
+  position: absolute; top: -100px; left: 16px; z-index: 200;
+  background: var(--teal); color: var(--white);
+  padding: 12px 20px; border-radius: 8px;
+  font-size: 0.875rem; font-weight: 500;
+  transition: top 0.3s var(--ease);
+}
+.skip-link:focus { top: 16px; }
+
+:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Scroll progress bar ── */
+.progress-bar {
+  position: fixed; top: 0; left: 0; z-index: 110;
+  height: 2px; width: 0;
+  background: var(--teal);
+  will-change: width;
+}
 
 /* ── NAV ── */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.85);
   border-bottom: 1px solid transparent;
-  transition: border-color 0.4s var(--ease);
+  transition: border-color 0.4s var(--ease), background 0.4s var(--ease), backdrop-filter 0.4s var(--ease);
 }
-.nav.scrolled { border-bottom-color: var(--gray-light); }
+.nav.scrolled {
+  border-bottom-color: var(--gray-light);
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
 .nav-inner {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--space-gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -75,11 +119,13 @@ img { display: block; max-width: 100%; }
   font-weight: 400;
   color: var(--gray-mid);
   position: relative;
+  display: inline-flex; align-items: center;
+  min-height: 44px;
 }
 .nav-links a::after {
   content: '';
   position: absolute;
-  bottom: -4px; left: 0;
+  bottom: 10px; left: 0;
   width: 0; height: 1.5px;
   background: var(--teal);
   transition: width 0.4s var(--ease);
@@ -87,12 +133,15 @@ img { display: block; max-width: 100%; }
 .nav-links a:hover { color: var(--charcoal); }
 .nav-links a:hover::after { width: 100%; }
 
-.nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.nav-toggle {
+  display: none; background: none; border: none; cursor: pointer;
+  width: 44px; height: 44px; align-items: center; justify-content: center;
+}
 .nav-toggle span {
   display: block; width: 22px; height: 1.5px;
   background: var(--charcoal);
   margin: 5px 0;
-  transition: all 0.3s var(--ease);
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
 }
 
 /* ── HERO ── */
@@ -102,53 +151,61 @@ img { display: block; max-width: 100%; }
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 120px 24px 80px;
+  padding: clamp(7rem, 14vw, 9rem) var(--space-gutter) var(--space-section);
 }
-.hero-content { max-width: 800px; }
+.hero-content { max-width: 900px; }
 .hero h1 {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-size: var(--fs-hero);
   font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 1.1;
+  line-height: 0.98;
   color: var(--charcoal);
-  margin-bottom: 24px;
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
 }
 .hero-sub {
-  font-size: 1.125rem;
+  font-size: var(--fs-lead);
   font-weight: 300;
   color: var(--gray-mid);
-  margin-bottom: 48px;
+  margin-bottom: clamp(2.5rem, 5vw, 3rem);
   letter-spacing: 0.01em;
 }
 .btn-primary {
-  display: inline-block;
+  display: inline-flex; align-items: center; justify-content: center;
   font-family: var(--font-body);
   font-size: 0.9375rem;
   font-weight: 500;
   color: var(--white);
   background: var(--teal);
   border: none;
-  padding: 18px 48px;
+  min-height: 48px;
+  padding: 0 48px;
   border-radius: 50px;
   cursor: pointer;
-  transition: background 0.4s var(--ease), transform 0.4s var(--ease);
+  transition: background 0.4s var(--ease), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
   letter-spacing: 0.01em;
 }
-.btn-primary:hover { background: var(--teal-hover); transform: translateY(-1px); }
+.btn-primary:hover {
+  background: var(--teal-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(13,115,119,0.22);
+}
+.btn-primary:active { transform: scale(0.98); }
 .hero-phone {
-  display: block;
-  margin-top: 24px;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px;
+  margin-top: 16px;
   font-size: 0.875rem;
   color: var(--gray-mid);
   letter-spacing: 0.04em;
+  width: 100%;
 }
 .hero-phone:hover { color: var(--teal); }
 
 /* ── ABOUT STRIP ── */
 .about-strip {
   background: var(--off-white);
-  padding: 40px 24px;
+  padding: clamp(2rem, 5vw, 2.75rem) var(--space-gutter);
 }
 .about-strip-inner {
   max-width: var(--max-w);
@@ -157,12 +214,13 @@ img { display: block; max-width: 100%; }
   justify-content: center;
   align-items: center;
   gap: 0;
+  flex-wrap: wrap;
 }
 .about-item {
   text-align: center;
-  padding: 0 48px;
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
   font-family: var(--font-heading);
-  font-size: 0.9375rem;
+  font-size: clamp(0.875rem, 1.2vw, 0.9375rem);
   font-weight: 400;
   letter-spacing: 0.01em;
   color: var(--charcoal);
@@ -170,28 +228,39 @@ img { display: block; max-width: 100%; }
 .about-item + .about-item { border-left: 1px solid var(--gray-light); }
 
 /* ── SECTIONS COMMON ── */
-.section { padding: 120px 24px; }
+.section { padding: var(--space-section) var(--space-gutter); }
 .section-title {
   font-family: var(--font-heading);
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: var(--fs-section);
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
   text-align: center;
-  margin-bottom: 72px;
+  margin-bottom: clamp(3rem, 7vw, 4.5rem);
 }
 
 /* ── SERVICES ── */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 48px 40px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
 }
 .service-card {
-  padding: 32px 0;
-  border-top: 3px solid var(--teal);
-  transition: box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+  padding: 32px 0 8px;
+  border-top: 1px solid var(--gray-light);
+  position: relative;
+  transition: box-shadow 0.4s var(--ease);
 }
-.service-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); padding: 32px 24px; }
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0;
+  width: 36px; height: 2px;
+  background: var(--teal);
+  transition: width 0.4s var(--ease);
+}
+.service-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+.service-card:hover::before { width: 100%; }
 .service-card h3 {
   font-family: var(--font-heading);
   font-size: 1.125rem;
@@ -209,22 +278,24 @@ img { display: block; max-width: 100%; }
 .galerie { background: var(--white); }
 .galerie-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 6px;
 }
 .galerie-item {
-  aspect-ratio: 4/3;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  cursor: pointer;
+  border-radius: 4px;
+  transition: box-shadow 0.4s var(--ease);
 }
 .galerie-item img {
   width: 100%;
   height: 100%;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
-  transition: transform 0.6s var(--ease), box-shadow 0.4s var(--ease);
+  transition: transform 0.6s var(--ease);
 }
 .galerie-item:hover img { transform: scale(1.02); }
-.galerie-item:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+.galerie-item:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.12); }
 
 /* ── AVIS ── */
 .avis { background: var(--off-white); }
@@ -232,12 +303,12 @@ img { display: block; max-width: 100%; }
   text-align: center;
   font-size: 0.875rem;
   color: var(--gray-mid);
-  margin-bottom: 64px;
+  margin-bottom: clamp(3rem, 6vw, 4rem);
   letter-spacing: 0.02em;
 }
 .avis-list { max-width: 720px; margin: 0 auto; }
 .avis-item {
-  padding: 32px 0;
+  padding: clamp(1.75rem, 4vw, 2rem) 0;
   border-bottom: 1px solid var(--gray-light);
 }
 .avis-item:last-child { border-bottom: none; }
@@ -268,15 +339,28 @@ img { display: block; max-width: 100%; }
 .contact-links {
   display: flex;
   justify-content: center;
-  gap: 40px;
-  margin-bottom: 56px;
+  gap: clamp(1rem, 4vw, 2.5rem);
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  flex-wrap: wrap;
 }
 .contact-links a {
   font-size: 1rem;
   color: var(--teal);
   font-weight: 400;
+  position: relative;
+  min-height: 44px;
+  display: inline-flex; align-items: center;
+}
+.contact-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 8px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--teal-hover);
+  transition: width 0.4s var(--ease);
 }
 .contact-links a:hover { color: var(--teal-hover); }
+.contact-links a:hover::after { width: 100%; }
 .contact-form {
   max-width: 520px;
   margin: 0 auto;
@@ -289,9 +373,10 @@ img { display: block; max-width: 100%; }
 .form-field textarea {
   width: 100%;
   font-family: var(--font-body);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 300;
   padding: 16px 0;
+  min-height: 48px;
   border: none;
   border-bottom: 1px solid var(--gray-light);
   background: transparent;
@@ -306,7 +391,7 @@ img { display: block; max-width: 100%; }
 }
 .form-field input:focus,
 .form-field textarea:focus { border-bottom-color: var(--teal); }
-.form-field textarea { resize: vertical; min-height: 100px; }
+.form-field textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
 .contact-form .btn-primary {
   width: 100%;
   margin-top: 12px;
@@ -315,7 +400,7 @@ img { display: block; max-width: 100%; }
 /* ── FOOTER ── */
 .footer {
   border-top: 1px solid var(--gray-light);
-  padding: 32px 24px;
+  padding: clamp(2rem, 4vw, 2.5rem) var(--space-gutter);
   text-align: center;
   font-size: 0.8125rem;
   color: var(--gray-mid);
@@ -326,7 +411,7 @@ img { display: block; max-width: 100%; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 24px;
+  gap: clamp(1rem, 3vw, 1.5rem);
   flex-wrap: wrap;
 }
 .footer-logo {
@@ -336,22 +421,19 @@ img { display: block; max-width: 100%; }
   color: var(--charcoal);
 }
 
-/* ── FADE IN ── */
-.fade-in {
+/* ── SCROLL REVEAL ── */
+.reveal {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(28px);
   transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  will-change: opacity, transform;
 }
-.fade-in.visible {
+.reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 1024px) {
-  .services-grid { grid-template-columns: repeat(2, 1fr); gap: 36px 32px; }
-}
-
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .nav-links.open {
@@ -359,100 +441,108 @@ img { display: block; max-width: 100%; }
     flex-direction: column;
     position: absolute;
     top: 72px; left: 0; right: 0;
-    background: rgba(255,255,255,0.98);
+    background: rgba(255,255,255,0.97);
     backdrop-filter: blur(12px);
-    padding: 32px 24px;
-    gap: 24px;
+    -webkit-backdrop-filter: blur(12px);
+    padding: 24px var(--space-gutter) 32px;
+    gap: 8px;
     border-bottom: 1px solid var(--gray-light);
   }
-  .nav-toggle { display: block; }
+  .nav-links.open a { min-height: 48px; }
+  .nav-links.open a::after { bottom: 4px; }
+  .nav-toggle { display: inline-flex; }
   .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
   .nav-toggle.open span:nth-child(2) { opacity: 0; }
   .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
 
-  .hero { padding: 100px 24px 64px; min-height: 90vh; }
-  .hero h1 { font-size: clamp(2rem, 8vw, 3rem); }
-  .hero-sub { font-size: 1rem; margin-bottom: 36px; }
+  .hero { min-height: 88vh; }
 
   .about-strip-inner { flex-direction: column; gap: 16px; }
   .about-item { padding: 8px 0; }
   .about-item + .about-item { border-left: none; border-top: 1px solid var(--gray-light); padding-top: 16px; }
 
-  .section { padding: 80px 24px; }
-  .section-title { margin-bottom: 48px; }
+  .contact-links { flex-direction: column; gap: 8px; }
+}
 
-  .services-grid { grid-template-columns: 1fr; gap: 24px; }
-  .service-card:hover { padding: 32px 16px; }
-
-  .galerie-grid { grid-template-columns: repeat(2, 1fr); }
-
-  .contact-links { flex-direction: column; gap: 16px; }
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 </style>
 </head>
 <body>
 
+<a href="#main" class="skip-link">Aller au contenu</a>
+<div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
 <!-- NAV -->
-<nav class="nav" id="nav">
+<nav class="nav" id="nav" aria-label="Navigation principale">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">Duval Plomberie</a>
+    <a href="#" class="nav-logo" aria-label="Duval Plomberie, accueil">Duval Plomberie</a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#services">Expertises</a></li>
       <li><a href="#galerie">Galerie</a></li>
       <li><a href="#avis">Avis</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
+<main id="main">
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-content">
-    <h1 class="fade-in">Un plombier qui fait<br>la diff&eacute;rence.</h1>
-    <p class="hero-sub fade-in">Qualit&eacute;, ponctualit&eacute; et transparence depuis 2008 &agrave; Toulouse</p>
-    <a href="#contact" class="btn-primary fade-in">Prendre rendez-vous</a>
-    <a href="tel:+33561000000" class="hero-phone fade-in">05 61 00 00 00</a>
+    <h1 class="reveal">Un plombier qui fait<br>la diff&eacute;rence.</h1>
+    <p class="hero-sub reveal">Qualit&eacute;, ponctualit&eacute; et transparence depuis 2008 &agrave; Toulouse</p>
+    <a href="#contact" class="btn-primary reveal">Prendre rendez-vous</a>
+    <a href="tel:+33561234567" class="hero-phone reveal">05 61 23 45 67</a>
   </div>
 </section>
 
 <!-- ABOUT STRIP -->
 <div class="about-strip">
   <div class="about-strip-inner">
-    <div class="about-item fade-in">15 ans d'expertise</div>
-    <div class="about-item fade-in">Devis gratuit sous 24h</div>
-    <div class="about-item fade-in">Garantie d&eacute;cennale</div>
+    <div class="about-item reveal">15 ans d'expertise</div>
+    <div class="about-item reveal">Devis gratuit sous 24h</div>
+    <div class="about-item reveal">Garantie d&eacute;cennale</div>
   </div>
 </div>
 
 <!-- SERVICES -->
 <section class="section" id="services">
   <div class="container">
-    <h2 class="section-title fade-in">Nos expertises</h2>
+    <h2 class="section-title reveal">Nos expertises</h2>
     <div class="services-grid">
-      <div class="service-card fade-in">
+      <div class="service-card reveal">
         <h3>Plomberie</h3>
         <p>Installation et r&eacute;paration de canalisations, robinetterie et syst&egrave;mes d'eau pour votre confort quotidien.</p>
       </div>
-      <div class="service-card fade-in">
+      <div class="service-card reveal">
         <h3>Chauffage</h3>
         <p>Pose, entretien et d&eacute;pannage de chaudi&egrave;res gaz, pompes &agrave; chaleur et planchers chauffants.</p>
       </div>
-      <div class="service-card fade-in">
+      <div class="service-card reveal">
         <h3>Salle de bain</h3>
         <p>R&eacute;novation compl&egrave;te de votre salle de bain, de la conception &agrave; la r&eacute;alisation cl&eacute; en main.</p>
       </div>
-      <div class="service-card fade-in">
+      <div class="service-card reveal">
         <h3>Urgences</h3>
         <p>Intervention rapide 7j/7 pour fuites, d&eacute;g&acirc;ts des eaux et pannes de chauffage urgentes.</p>
       </div>
-      <div class="service-card fade-in">
+      <div class="service-card reveal">
         <h3>D&eacute;bouchage</h3>
         <p>D&eacute;bouchage professionnel de canalisations, &eacute;viers, toilettes et r&eacute;seaux d'&eacute;vacuation.</p>
       </div>
-      <div class="service-card fade-in">
+      <div class="service-card reveal">
         <h3>Sanitaires</h3>
         <p>Remplacement et installation de WC, lavabos, baignoires et &eacute;quipements sanitaires.</p>
       </div>
@@ -463,14 +553,14 @@ img { display: block; max-width: 100%; }
 <!-- GALERIE -->
 <section class="section galerie" id="galerie">
   <div class="container">
-    <h2 class="section-title fade-in">Avant. Apr&egrave;s.</h2>
+    <h2 class="section-title reveal">Avant. Apr&egrave;s.</h2>
     <div class="galerie-grid">
-      <div class="galerie-item fade-in"><img src="https://loremflickr.com/600/450/bathroom?lock=270" alt="R&eacute;alisation plomberie 1" loading="lazy" width="600" height="450"></div>
-      <div class="galerie-item fade-in"><img src="https://loremflickr.com/600/450/kitchen,sink?lock=271" alt="R&eacute;alisation plomberie 2" loading="lazy" width="600" height="450"></div>
-      <div class="galerie-item fade-in"><img src="https://loremflickr.com/600/450/shower?lock=272" alt="R&eacute;alisation plomberie 3" loading="lazy" width="600" height="450"></div>
-      <div class="galerie-item fade-in"><img src="https://loremflickr.com/600/450/radiator?lock=273" alt="R&eacute;alisation plomberie 4" loading="lazy" width="600" height="450"></div>
-      <div class="galerie-item fade-in"><img src="https://loremflickr.com/600/450/faucet?lock=274" alt="R&eacute;alisation plomberie 5" loading="lazy" width="600" height="450"></div>
-      <div class="galerie-item fade-in"><img src="https://loremflickr.com/600/450/bathtub?lock=275" alt="R&eacute;alisation plomberie 6" loading="lazy" width="600" height="450"></div>
+      <div class="galerie-item reveal"><img src="https://loremflickr.com/600/450/bathroom?lock=270" alt="R&eacute;novation de salle de bain r&eacute;alis&eacute;e par Duval Plomberie" loading="lazy" decoding="async" width="600" height="450"></div>
+      <div class="galerie-item reveal"><img src="https://loremflickr.com/600/450/kitchen,sink?lock=271" alt="Installation d'&eacute;vier de cuisine" loading="lazy" decoding="async" width="600" height="450"></div>
+      <div class="galerie-item reveal"><img src="https://loremflickr.com/600/450/shower?lock=272" alt="Pose de douche &agrave; l'italienne" loading="lazy" decoding="async" width="600" height="450"></div>
+      <div class="galerie-item reveal"><img src="https://loremflickr.com/600/450/radiator?lock=273" alt="Installation de radiateur et chauffage" loading="lazy" decoding="async" width="600" height="450"></div>
+      <div class="galerie-item reveal"><img src="https://loremflickr.com/600/450/faucet?lock=274" alt="Remplacement de robinetterie" loading="lazy" decoding="async" width="600" height="450"></div>
+      <div class="galerie-item reveal"><img src="https://loremflickr.com/600/450/bathtub?lock=275" alt="Installation de baignoire" loading="lazy" decoding="async" width="600" height="450"></div>
     </div>
   </div>
 </section>
@@ -478,31 +568,31 @@ img { display: block; max-width: 100%; }
 <!-- AVIS -->
 <section class="section avis" id="avis">
   <div class="container">
-    <h2 class="section-title fade-in">La parole &agrave; nos clients</h2>
-    <p class="avis-rating fade-in">4.9 sur 5 &mdash; 127 avis Google</p>
+    <h2 class="section-title reveal">La parole &agrave; nos clients</h2>
+    <p class="avis-rating reveal">4.9 sur 5 &mdash; 127 avis Google</p>
     <div class="avis-list">
-      <div class="avis-item fade-in">
-        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="avis-item reveal">
+        <div class="avis-stars" aria-label="5 sur 5 &eacute;toiles">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p class="avis-text">&laquo; Intervention rapide et soign&eacute;e. M. Duval est tr&egrave;s professionnel, je recommande sans h&eacute;siter ! &raquo;</p>
         <p class="avis-author"><strong>Marie L.</strong> &mdash; il y a 2 semaines</p>
       </div>
-      <div class="avis-item fade-in">
-        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="avis-item reveal">
+        <div class="avis-stars" aria-label="5 sur 5 &eacute;toiles">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p class="avis-text">&laquo; Excellente prestation pour la r&eacute;novation de notre salle de bain. Travail propre et dans les d&eacute;lais. &raquo;</p>
         <p class="avis-author"><strong>Thomas B.</strong> &mdash; il y a 1 mois</p>
       </div>
-      <div class="avis-item fade-in">
-        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="avis-item reveal">
+        <div class="avis-stars" aria-label="5 sur 5 &eacute;toiles">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p class="avis-text">&laquo; D&eacute;pannage un dimanche soir, arriv&eacute; en 30 minutes. Prix honn&ecirc;te et travail impeccable. &raquo;</p>
         <p class="avis-author"><strong>Sophie M.</strong> &mdash; il y a 1 mois</p>
       </div>
-      <div class="avis-item fade-in">
-        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="avis-item reveal">
+        <div class="avis-stars" aria-label="5 sur 5 &eacute;toiles">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p class="avis-text">&laquo; Tr&egrave;s satisfait de l'installation de notre nouvelle chaudi&egrave;re. Conseils pertinents et pose soign&eacute;e. &raquo;</p>
         <p class="avis-author"><strong>Jean-Pierre D.</strong> &mdash; il y a 2 mois</p>
       </div>
-      <div class="avis-item fade-in">
-        <div class="avis-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+      <div class="avis-item reveal">
+        <div class="avis-stars" aria-label="4 sur 5 &eacute;toiles">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
         <p class="avis-text">&laquo; Plombier s&eacute;rieux et ponctuel. A r&eacute;solu un probl&egrave;me de fuite que d'autres n'avaient pas su trouver. &raquo;</p>
         <p class="avis-author"><strong>Isabelle R.</strong> &mdash; il y a 3 mois</p>
       </div>
@@ -513,28 +603,34 @@ img { display: block; max-width: 100%; }
 <!-- CONTACT -->
 <section class="section contact" id="contact">
   <div class="container">
-    <h2 class="section-title fade-in">Parlons de votre projet</h2>
-    <div class="contact-links fade-in">
-      <a href="tel:+33561000000">05 61 00 00 00</a>
+    <h2 class="section-title reveal">Parlons de votre projet</h2>
+    <div class="contact-links reveal">
+      <a href="tel:+33561234567">05 61 23 45 67</a>
       <a href="mailto:contact@duval-plomberie.fr">contact@duval-plomberie.fr</a>
     </div>
-    <form class="contact-form fade-in" onsubmit="return false;">
+    <form class="contact-form reveal" onsubmit="return false;">
       <div class="form-field">
-        <input type="text" name="nom" placeholder="Nom" required>
+        <label class="sr-only" for="f-nom">Nom</label>
+        <input id="f-nom" type="text" name="nom" placeholder="Nom" autocomplete="name" required>
       </div>
       <div class="form-field">
-        <input type="email" name="email" placeholder="Email" required>
+        <label class="sr-only" for="f-email">Email</label>
+        <input id="f-email" type="email" name="email" placeholder="Email" autocomplete="email" required>
       </div>
       <div class="form-field">
-        <input type="tel" name="telephone" placeholder="T&eacute;l&eacute;phone">
+        <label class="sr-only" for="f-tel">T&eacute;l&eacute;phone</label>
+        <input id="f-tel" type="tel" name="telephone" placeholder="T&eacute;l&eacute;phone" autocomplete="tel">
       </div>
       <div class="form-field">
-        <textarea name="message" placeholder="D&eacute;crivez votre besoin..." rows="4" required></textarea>
+        <label class="sr-only" for="f-msg">Votre besoin</label>
+        <textarea id="f-msg" name="message" placeholder="D&eacute;crivez votre besoin..." rows="4" required></textarea>
       </div>
       <button type="submit" class="btn-primary">Envoyer</button>
     </form>
   </div>
 </section>
+
+</main>
 
 <!-- FOOTER -->
 <footer class="footer">
@@ -542,43 +638,84 @@ img { display: block; max-width: 100%; }
     <span class="footer-logo">Duval Plomberie</span>
     <span>&copy; 2026</span>
     <span>12 rue des Artisans, 31000 Toulouse</span>
+    <a href="tel:+33561234567">05 61 23 45 67</a>
   </div>
 </footer>
 
-<script>
-/* Nav scroll border */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 10);
-}, { passive: true });
+<style>
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+</style>
 
-/* Mobile menu */
-const toggle = document.getElementById('navToggle');
-const links = document.getElementById('navLinks');
-toggle.addEventListener('click', () => {
-  toggle.classList.toggle('open');
-  links.classList.toggle('open');
-});
-links.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => {
+<script defer>
+(function () {
+  'use strict';
+  var nav = document.getElementById('nav');
+  var bar = document.getElementById('progressBar');
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Nav border + scroll progress bar (single rAF-throttled handler) */
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var y = window.scrollY || window.pageYOffset;
+      nav.classList.toggle('scrolled', y > 10);
+      var docH = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (docH > 0 ? (y / docH) * 100 : 0) + '%';
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* Mobile menu */
+  function closeMenu() {
     toggle.classList.remove('open');
     links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Ouvrir le menu');
+  }
+  toggle.addEventListener('click', function () {
+    var open = toggle.classList.toggle('open');
+    links.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
   });
-});
+  links.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closeMenu);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMenu();
+  });
 
-/* Fade-in on scroll */
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
+  /* Scroll reveal — slow, staggered, once */
+  var revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function (el) { el.classList.add('visible'); });
+    return;
+  }
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var siblings = entry.target.parentElement
+        ? Array.prototype.slice.call(entry.target.parentElement.querySelectorAll(':scope > .reveal'))
+        : [entry.target];
+      var i = siblings.indexOf(entry.target);
+      setTimeout(function () {
         entry.target.classList.add('visible');
-      }, i * 80);
+      }, (i > 0 ? i : 0) * 90);
       observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(function (el) { observer.observe(el); });
+})();
 </script>
 </body>
 </html>
