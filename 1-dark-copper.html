@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Duval Plomberie — Plombier qualifié à Toulouse depuis 2008. Dépannage urgent 24/7, rénovation salle de bain, chauffage. Devis gratuit.">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="noindex, nofollow">
   <title>Duval Plomberie — Plombier Qualifié à Toulouse | Dépannage 24/7</title>
   <link rel="canonical" href="https://duval-plomberie.fr/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -238,6 +238,11 @@
     @keyframes scrollPulse {
       0%, 100% { opacity: .3; transform: scaleY(.6); }
       50% { opacity: 1; transform: scaleY(1); }
+    }
+    /* Masque l'indicateur « Découvrir » quand la hauteur est réduite
+       (sinon il chevauche les boutons du hero) ou sur mobile. */
+    @media (max-height: 820px), (max-width: 768px) {
+      .hero-scroll { display: none; }
     }
 
     /* ── Section headings ── */
@@ -718,7 +723,7 @@
               </div>
               <div>
                 <div class="label">Email</div>
-                <div class="value"><a href="mailto:duval.plomberie@gmail.com">duval.plomberie@gmail.com</a></div>
+                <div class="value"><a href="mailto:contact@duval-plomberie.fr">contact@duval-plomberie.fr</a></div>
               </div>
             </div>
             <div class="contact-detail">
