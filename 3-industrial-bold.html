@@ -636,6 +636,7 @@ ul { list-style: none; }
   position: relative;
   clip-path: polygon(0 0, 100% var(--clip-angle), 100% 100%, 0 100%);
   margin-top: -1px;
+  overflow-x: clip; /* les blocs .reveal-right (translateX 50px) élargissaient la page sur mobile */
 }
 .contact-grid {
   display: grid;
