@@ -1,146 +1,75 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Propositions de site — Plombier | Galerie de Maquettes</title>
+<title>Propositions — Duval Plomberie (démo)</title>
 <style>
-  :root{
-    --bg:#0f1115; --card:#181b22; --line:#262b35;
-    --txt:#e8eaed; --muted:#9aa3b2; --accent:#5b8cff; --accent2:#7af0c8; --gold:#ffce54;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{
-    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-    background:radial-gradient(1200px 600px at 70% -10%,#1a2030 0%,var(--bg) 55%);
-    color:var(--txt);min-height:100vh;line-height:1.6;
-  }
-  .wrap{max-width:1200px;margin:0 auto;padding:48px 24px 80px}
-  header{text-align:center;margin-bottom:40px}
-  .badge{
-    display:inline-block;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
-    color:var(--accent2);border:1px solid var(--line);border-radius:999px;
-    padding:6px 16px;margin-bottom:20px;background:#11151c;
-  }
-  h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;letter-spacing:-.02em;line-height:1.1}
-  h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .sub{color:var(--muted);max-width:680px;margin:16px auto 0;font-size:1.05rem}
-  .legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:26px auto 0;font-size:.85rem;color:var(--muted)}
-  .legend span{display:inline-flex;align-items:center;gap:7px;background:#11151c;border:1px solid var(--line);border-radius:999px;padding:5px 14px}
-  .secTitle{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:44px 0 18px;border-bottom:1px solid var(--line);padding-bottom:10px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:24px}
-  .card{
-    background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;
-    text-decoration:none;color:inherit;display:flex;flex-direction:column;position:relative;
-    transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
-  }
-  .card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 18px 40px rgba(0,0,0,.45)}
-  .ribbon{position:absolute;top:14px;right:14px;z-index:2;font-size:.68rem;font-weight:700;letter-spacing:.04em;
-    padding:5px 11px;border-radius:999px;background:var(--gold);color:#1a1300}
-  .ribbon.cyan{background:#00e5ff;color:#00222a}
-  .thumb{height:150px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .thumb .num{font-size:3.4rem;font-weight:900;opacity:.9;letter-spacing:-.04em}
-  .body{padding:20px 22px 24px}
-  .ctitle{font-size:1.25rem;font-weight:700;margin-bottom:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .tag{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
-  .desc{color:var(--muted);font-size:.92rem;margin-top:10px}
-  .open{margin-top:16px;font-size:.85rem;font-weight:600;color:var(--accent2);display:inline-flex;align-items:center;gap:6px}
-  .card:hover .open{gap:12px}
-  .open span{transition:all .25s ease}
-
-  /* Thumb themes */
-  .t1{background:linear-gradient(135deg,#0d0d0d,#241a0c)}.t1 .num{color:#d4a853}
-  .t2{background:linear-gradient(135deg,#0a2463,#1e3a5f)}.t2 .num{color:#48cae4}
-  .t3{background:linear-gradient(135deg,#2d2d2d,#404040)}.t3 .num{color:#ff6600}
-  .t4{background:linear-gradient(135deg,#ffffff,#eef2f1)}.t4 .num{color:#0d7377}
-  .t5{background:linear-gradient(135deg,#000,#0a0a0a)}.t5 .num{color:#00ff88;text-shadow:0 0 18px #00ff88}
-  .t6{background:linear-gradient(135deg,#1b2a4a,#243b6a)}.t6 .num{color:#fdf6e3}
-  .t3d{background:linear-gradient(135deg,#000,#001a14)}.t3d .num{color:#00e5ff;text-shadow:0 0 22px #00e5ff}
-
-  footer{margin-top:56px;text-align:center;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:28px}
-  .note{background:#11151c;border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:36px 0 0;color:var(--muted);font-size:.9rem}
-  .note b{color:var(--txt)}
+  :root { --bg: #f5f3ee; --ink: #1c1b18; --muted: #6b675e; --card: #ffffff; --line: #e2ded4; --accent: #b4532a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Georgia, "Times New Roman", serif; background: var(--bg); color: var(--ink); line-height: 1.5; }
+  header { padding: 2.5rem 1rem 1rem; max-width: 72rem; margin: 0 auto; }
+  header h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); margin: 0 0 .25rem; }
+  header p { margin: 0; color: var(--muted); }
+  .how { max-width: 72rem; margin: 0 auto 1.5rem; padding: 0 1rem; display: grid; gap: .5rem; grid-template-columns: 1fr; }
+  .how li { background: var(--card); border: 1px solid var(--line); padding: .75rem 1rem; list-style: none; font-size: .95rem; }
+  .grid { max-width: 72rem; margin: 0 auto; padding: 0 1rem 3rem; display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+  .card { background: var(--card); border: 1px solid var(--line); display: grid; grid-template-rows: auto 1fr auto; }
+  .preview { position: relative; height: 22rem; overflow: hidden; background: #ddd; border-bottom: 1px solid var(--line); }
+  .preview iframe { width: 200%; height: 200%; transform: scale(.5); transform-origin: 0 0; border: 0; pointer-events: none; }
+  .meta { padding: 1rem 1.25rem; }
+  .meta h2 { margin: 0 0 .25rem; font-size: 1.25rem; }
+  .meta .lettre { display: inline-block; background: var(--ink); color: #fff; font-family: system-ui, sans-serif; font-size: .8rem; padding: .1rem .5rem; margin-right: .5rem; }
+  .meta dl { margin: .5rem 0 0; font-size: .95rem; }
+  .meta dt { color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; margin-top: .5rem; }
+  .meta dd { margin: 0; }
+  .verdict { font-family: system-ui, sans-serif; font-size: .85rem; padding: .15rem .5rem; border: 1px solid var(--line); display: inline-block; }
+  .actions { padding: 0 1.25rem 1.25rem; }
+  .actions a { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; padding: .6rem 1rem; font-family: system-ui, sans-serif; }
+  .actions a:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 1rem; }
+  @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } .how { grid-template-columns: 1fr 1fr 1fr; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <span class="badge">Propositions de site · Plombier</span>
-    <h1>5 propositions<br><span>de site pour votre plombier</span></h1>
-    <p class="sub">Cinq concepts de design totalement différents, chacun en site mono-page complet. Tous incluent une galerie photo, des avis Google, un formulaire de contact et un bouton d'appel flottant sur mobile. Cliquez pour ouvrir chaque maquette.</p>
-    <div class="legend">
-      <span>📱 Bouton d'appel mobile</span>
-      <span>📝 Formulaire de devis</span>
-      <span>⭐ Avis Google</span>
-      <span>🖼️ Galerie photos</span>
-      <span>⚡ Responsive &amp; rapide</span>
+<header>
+  <h1>Propositions de page d'accueil — Duval Plomberie (démo)</h1>
+  <p>Même contenu, 2 directions. Ouvrez chaque proposition en plein écran, sur ordinateur et sur téléphone.</p>
+</header>
+
+<ul class="how">
+  <li><strong>1. Confiance</strong> — Est-ce que ça ressemble à une entreprise à qui vous confieriez votre chantier ?</li>
+  <li><strong>2. Appel</strong> — Trouvez-vous le numéro et le bouton en moins de 3 secondes ?</li>
+  <li><strong>3. Mobile</strong> — Sur téléphone, tout se lit sans zoomer ?</li>
+</ul>
+
+<section class="grid">
+  <article class="card">
+    <div class="preview"><iframe loading="lazy" src="./a/index.html" title="Aperçu Le tracé bleu"></iframe></div>
+    <div class="meta">
+      <h2><span class="lettre">a</span>Le tracé bleu</h2>
+      <dl>
+        <dt>Territoire</dt><dd>Swiss : éditorial, bleu profond, grille stricte</dd>
+        <dt>Ce qui la distingue</dt><dd>La photo plein cadre se resserre en bande-tuyau ; un trait bleu relie les 4 étapes « De l'appel à la fuite réparée » et finit sur le bouton d'appel.</dd>
+      </dl>
     </div>
-  </header>
+    <div class="actions"><a href="./a/index.html">Ouvrir la proposition a</a></div>
+  </article>
+  <article class="card">
+    <div class="preview"><iframe loading="lazy" src="./b/index.html" title="Aperçu L'atelier"></iframe></div>
+    <div class="meta">
+      <h2><span class="lettre">b</span>L'atelier</h2>
+      <dl>
+        <dt>Territoire</dt><dd>Minimal photographique : crème, un seul accent cuivre, boutons pilule</dd>
+        <dt>Ce qui la distingue</dt><dd>Photo plein cadre d'un raccord sous l'eau qui se contracte en bande arrondie au défilement ; les 4 étapes de l'urgence apparaissent une à une sur fond sombre et finissent sur un bouton d'appel cuivre.</dd>
+      </dl>
+    </div>
+    <div class="actions"><a href="./b/index.html">Ouvrir la proposition b</a></div>
+  </article>
+  <!-- Fin du bloc -->
+</section>
 
-  <div class="secTitle">Les 5 concepts</div>
-  <div class="grid">
-    <a class="card" href="1-dark-copper.html">
-      <div class="thumb t1"><div class="num">01</div></div>
-      <div class="body">
-        <div class="ctitle">Dark Copper</div>
-        <div class="tag">Luxe artisan · Cuivre &amp; or</div>
-        <p class="desc">Thème sombre élégant avec accents cuivrés. Casse les codes du métier — idéal si votre plombier vise le haut de gamme (rénovation, salle de bain luxe).</p>
-        <div class="open"><span>Ouvrir la maquette →</span></div>
-      </div>
-    </a>
-
-    <a class="card" href="2-aquaflow.html">
-      <div class="thumb t2"><div class="num">02</div></div>
-      <div class="body">
-        <div class="ctitle">AquaFlow</div>
-        <div class="tag">Frais &amp; fluide · Bleu eau</div>
-        <p class="desc">Design inspiré de l'eau : dégradés bleus, vagues animées entre les sections et bulles flottantes. Moderne et rassurant.</p>
-        <div class="open"><span>Ouvrir la maquette →</span></div>
-      </div>
-    </a>
-
-    <a class="card" href="3-industrial-bold.html">
-      <div class="thumb t3"><div class="num">03</div></div>
-      <div class="body">
-        <div class="ctitle">Industrial Bold</div>
-        <div class="tag">Brut &amp; puissant · Orange chantier</div>
-        <p class="desc">Typographie massive, gris acier et orange chantier. Compteurs animés et cartes 3D. Affirme « je suis un vrai pro du bâtiment ».</p>
-        <div class="open"><span>Ouvrir la maquette →</span></div>
-      </div>
-    </a>
-
-    <a class="card" href="4-clean-minimal.html">
-      <span class="ribbon">Efficace</span>
-      <div class="thumb t4"><div class="num">04</div></div>
-      <div class="body">
-        <div class="ctitle">Clean Minimal</div>
-        <div class="tag">Élégance épurée · Style Apple</div>
-        <p class="desc">Minimalisme pro : beaucoup de blanc, une couleur d'accent, le numéro saute aux yeux. Rapide et lisible — l'efficacité sobre.</p>
-        <div class="open"><span>Ouvrir la maquette →</span></div>
-      </div>
-    </a>
-
-    <a class="card" href="5-confiance-locale.html">
-      <span class="ribbon">★ Reco conversion</span>
-      <div class="thumb t6"><div class="num">05</div></div>
-      <div class="body">
-        <div class="ctitle">Confiance Locale</div>
-        <div class="tag">Proximité humaine · Marine &amp; crème</div>
-        <p class="desc">Chaleureux et rassurant : « votre plombier de quartier ». Zone d'intervention, avis bien mis en avant. Le plus efficace pour convertir un particulier en SEO local.</p>
-        <div class="open"><span>Ouvrir la maquette →</span></div>
-      </div>
-    </a>
-  </div>
-
-  <div class="note">
-    <b>À propos de ces maquettes —</b> Contenu de démonstration (entreprise fictive « Duval Plomberie » à Toulouse). Les photos sont temporaires, les avis Google et coordonnées sont fictifs. Tout sera remplacé par les vraies informations de votre plombier une fois un concept choisi.<br><br>
-    <b>Conseil —</b> pour un site de plombier, ce qui convertit, c'est la clarté et la rapidité (numéro visible, avis, zone). Les concepts <b>Confiance Locale</b> et <b>Clean Minimal</b> sont les plus indiqués.
-  </div>
-
-  <footer>
-    Gestion Sites — Galerie de propositions · Mono-page · Responsive · Bouton d'appel mobile · Avis &amp; formulaire
-  </footer>
-</div>
+<footer>Généré le 2026-10-16 — maquettes de travail, non indexées. Les photos marquées sont des exemples à remplacer.</footer>
 </body>
 </html>
